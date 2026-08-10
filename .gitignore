@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+backend/.venv/
+backend/venv/
+
+# Node
+node_modules/
+frontend/.next/
+frontend/out/
+
+# Env files - never commit these
+.env
+.env.local
+.env.*.local
+backend/.env
+frontend/.env.local
+
+# OS/editor junk
+.DS_Store
+.vscode/
