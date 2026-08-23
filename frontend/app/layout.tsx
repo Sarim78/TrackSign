@@ -1,12 +1,6 @@
 import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
-import { Inter } from "next/font/google";
 import "./globals.css";
-
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "TrackSign",
@@ -21,9 +15,9 @@ export default function RootLayout({
   const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
   const html = (
-    <html lang="en" className="scroll-smooth bg-[#FAF9F6]">
+    <html lang="en" className="scroll-smooth bg-[#0C0C0C]">
       <body
-        className={`${inter.className} bg-[#FAF9F6] text-stone-900 antialiased`}
+        className="bg-[#0C0C0C] text-[#EDEDED] antialiased [font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif]"
         suppressHydrationWarning
       >
         {children}

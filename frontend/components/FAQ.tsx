@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import ScrollReveal from "@/components/ScrollReveal";
 
 const faqs = [
   {
@@ -37,52 +36,38 @@ const faqs = [
 ];
 
 export default function FAQ() {
-  const [openItems, setOpenItems] = useState<number[]>([]);
-
-  function toggle(index: number) {
-    setOpenItems((current) =>
-      current.includes(index)
-        ? current.filter((item) => item !== index)
-        : [...current, index],
-    );
-  }
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <div className="mt-12 space-y-3">
+    <div className="border-b border-white/[0.06]">
       {faqs.map((faq, index) => {
-        const isOpen = openItems.includes(index);
+        const isOpen = openIndex === index;
 
         return (
-          <ScrollReveal key={faq.question} delay={index * 60}>
-            <div
-              className={`rounded-xl border border-stone-200 bg-transparent transition-all duration-200 hover:bg-white ${
-                isOpen ? "bg-white shadow-sm" : ""
-              }`}
+          <div key={faq.question} className="border-t border-white/[0.06]">
+            <button
+              type="button"
+              onClick={() => setOpenIndex(isOpen ? null : index)}
+              className="flex w-full cursor-pointer items-center justify-between py-5 text-left"
+              aria-expanded={isOpen}
             >
-              <button
-                type="button"
-                onClick={() => toggle(index)}
-                className="flex w-full cursor-pointer items-center justify-between px-6 py-4 text-left"
-                aria-expanded={isOpen}
+              <span className="pr-6 text-base font-medium text-[#EDEDED]">
+                {faq.question}
+              </span>
+              <span
+                className={`text-[#666] transition-transform duration-200 ${
+                  isOpen ? "rotate-90" : ""
+                }`}
               >
-                <span className="pr-6 text-base font-medium text-stone-800">
-                  {faq.question}
-                </span>
-                <span
-                  className={`text-stone-400 transition-transform duration-200 ${
-                    isOpen ? "rotate-180" : ""
-                  }`}
-                >
-                  ∨
-                </span>
-              </button>
-              {isOpen ? (
-                <p className="px-6 pb-4 pt-3 text-sm leading-relaxed text-stone-500">
-                  {faq.answer}
-                </p>
-              ) : null}
-            </div>
-          </ScrollReveal>
+                ›
+              </span>
+            </button>
+            {isOpen ? (
+              <p className="pb-1 pt-3 text-sm leading-relaxed text-[#999]">
+                {faq.answer}
+              </p>
+            ) : null}
+          </div>
         );
       })}
     </div>

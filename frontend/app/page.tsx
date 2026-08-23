@@ -1,491 +1,482 @@
 import FAQ from "@/components/FAQ";
 import Navbar from "@/components/Navbar";
-import ScrollReveal from "@/components/ScrollReveal";
-
-function SectionLabel({
-  children,
-  align = "left",
-}: {
-  children: string;
-  align?: "left" | "center";
-}) {
-  return (
-    <div className={align === "center" ? "flex flex-col items-center" : ""}>
-      <span className="mb-3 block h-0.5 w-6 bg-[#E8614D]" />
-      <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#E8614D]">
-        {children}
-      </p>
-    </div>
-  );
-}
-
-const coralButtonClass =
-  "rounded-full bg-[#E8614D] px-8 py-3.5 text-sm font-medium text-white shadow-[0_4px_14px_-3px_rgba(232,97,77,0.4)] transition-all duration-200 hover:-translate-y-[1px] hover:bg-[#D4503E] hover:shadow-[0_6px_20px_-3px_rgba(232,97,77,0.5)]";
 
 export default function HomePage() {
   return (
     <>
       <Navbar />
       <main>
-        <section className="px-6 pb-28 pt-24 md:pb-36 md:pt-32">
-          <div className="mx-auto max-w-3xl text-center">
-            <h1 className="animate-fade-in-up text-6xl font-bold tracking-tighter text-stone-900 [text-shadow:0_1px_2px_rgba(0,0,0,0.05)] md:text-7xl">
-              Review contracts{" "}
-              <br className="hidden md:block" />
-              <span className="text-[#E8614D]">before you sign</span>
-            </h1>
-            <p className="animate-fade-in-up mx-auto mt-6 max-w-lg text-lg leading-relaxed text-stone-400 delay-150">
-              TrackSign scans your freelance contracts with AI and flags risky,
-              unfair, or unusual terms — with plain-English explanations,
-              severity ratings, and fairer alternatives.
-            </p>
-            <div className="animate-fade-in-up mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row delay-300">
-              <a href="/sign-up" className={coralButtonClass}>
-                Start scanning free →
-              </a>
-              <a
-                href="#demo"
-                className="rounded-full border border-stone-300 bg-white px-8 py-3.5 text-sm font-medium text-stone-700 transition-all duration-200 hover:bg-stone-50"
-              >
-                View demo
-              </a>
-            </div>
-            <p className="animate-fade-in-up mt-4 text-sm text-stone-400 delay-300">
-              Free, no credit card required.
-            </p>
-          </div>
-
-          <div
-            id="demo"
-            className="animate-scale-in mx-auto mt-16 max-w-4xl scroll-mt-24"
-            style={{ animationDelay: "500ms" }}
-          >
-            <div className="group origin-center transition-all duration-500 md:-rotate-1 md:hover:scale-[1.01] md:hover:rotate-0">
-              <div className="overflow-hidden rounded-2xl border border-stone-200/80 bg-white shadow-[0_20px_60px_-10px_rgba(0,0,0,0.12)] transition-shadow duration-500 group-hover:shadow-[0_28px_70px_-12px_rgba(0,0,0,0.16)]">
-              <div className="flex items-center justify-between border-b border-stone-200 bg-stone-50 px-4 py-4 sm:px-6">
-                <div className="flex items-center gap-3">
-                  <span className="h-4 w-3 rounded-sm bg-stone-300" />
-                  <p className="text-sm font-medium text-stone-700">
-                    FreelanceContract_2026.pdf
-                  </p>
-                </div>
-                <p className="text-xs text-stone-400">Reviewed Aug 22, 2026</p>
-              </div>
-
-              <div className="flex flex-wrap gap-6 border-b border-stone-100 px-4 py-4 sm:px-6">
-                <div className="flex items-center gap-2 text-sm font-medium text-stone-800">
-                  <span className="inline-block h-2 w-2 rounded-full bg-red-600" />
-                  3 High
-                </div>
-                <div className="flex items-center gap-2 text-sm font-medium text-stone-800">
-                  <span className="inline-block h-2 w-2 rounded-full bg-amber-600" />
-                  2 Medium
-                </div>
-                <div className="flex items-center gap-2 text-sm font-medium text-stone-800">
-                  <span className="inline-block h-2 w-2 rounded-full bg-green-600" />
-                  1 Low
-                </div>
-              </div>
-
-              <div className="px-4 sm:px-6">
-                <div className="flex items-start gap-4 border-b border-stone-100 py-4">
-                  <span className="shrink-0 rounded-full bg-red-50 px-2.5 py-1 text-xs font-medium text-red-700">
-                    High
-                  </span>
-                  <div>
-                    <p className="font-medium text-stone-800">Payment terms</p>
-                    <p className="mt-1 text-sm text-stone-500">
-                      Net-90 payment with acceptance gate — client can delay
-                      indefinitely
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4 border-b border-stone-100 py-4">
-                  <span className="shrink-0 rounded-full bg-amber-50 px-2.5 py-1 text-xs font-medium text-amber-700">
-                    Medium
-                  </span>
-                  <div>
-                    <p className="font-medium text-stone-800">
-                      Scope and revisions
-                    </p>
-                    <p className="mt-1 text-sm text-stone-500">
-                      Unlimited revisions with no change-order process
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4 border-b border-stone-100 py-4">
-                  <span className="shrink-0 rounded-full bg-red-50 px-2.5 py-1 text-xs font-medium text-red-700">
-                    High
-                  </span>
-                  <div>
-                    <p className="font-medium text-stone-800">IP and ownership</p>
-                    <p className="mt-1 text-sm text-stone-500">
-                      All deliverables and pre-existing tools assigned to client
-                      on signing
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4 py-4">
-                  <span className="shrink-0 rounded-full bg-green-50 px-2.5 py-1 text-xs font-medium text-green-700">
-                    Low
-                  </span>
-                  <div>
-                    <p className="font-medium text-stone-800">Confidentiality</p>
-                    <p className="mt-1 text-sm text-stone-500">
-                      Standard mutual NDA — no unusual restrictions
-                    </p>
-                  </div>
-                </div>
-              </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <div className="mx-auto h-px w-16 bg-stone-200" />
-
-        <section id="features" className="scroll-mt-24 px-6 py-28 md:py-36">
-          <div className="mx-auto max-w-5xl rounded-3xl bg-white px-8 py-16 md:px-12">
-            <SectionLabel>Features</SectionLabel>
-            <h2 className="mt-3 text-3xl font-bold tracking-tight text-stone-900 md:text-4xl">
-              Built for the way freelancers work
-            </h2>
-            <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-x-10 md:gap-y-12">
-              <ScrollReveal delay={0}>
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#FDF2F0]">
-                  <svg
-                    width="32"
-                    height="32"
-                    viewBox="0 0 32 32"
-                    fill="none"
-                    stroke="#E8614D"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden
-                  >
-                    <path d="M18 5 10 17h6l-2 10 8-12h-6z" />
-                  </svg>
-                </div>
-                <h3 className="mt-4 text-lg font-semibold text-stone-800">
-                  Instant results
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-stone-500">
-                  Upload a contract and get your full report in under 60 seconds
-                </p>
-              </ScrollReveal>
-              <ScrollReveal delay={100}>
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#FDF2F0]">
-                  <svg
-                    width="32"
-                    height="32"
-                    viewBox="0 0 32 32"
-                    fill="none"
-                    stroke="#E8614D"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden
-                  >
-                    <path d="M7 24V16" />
-                    <path d="M16 24V10" />
-                    <path d="M25 24V19" />
-                    <path d="M5 24h22" />
-                  </svg>
-                </div>
-                <h3 className="mt-4 text-lg font-semibold text-stone-800">
-                  Severity scoring
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-stone-500">
-                  Every flag rated High, Medium, or Low so you know what to push
-                  back on first
-                </p>
-              </ScrollReveal>
-              <ScrollReveal delay={200}>
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#FDF2F0]">
-                  <svg
-                    width="32"
-                    height="32"
-                    viewBox="0 0 32 32"
-                    fill="none"
-                    stroke="#E8614D"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden
-                  >
-                    <path d="M16 7v14" />
-                    <path d="M9 22h14" />
-                    <path d="M16 7 6 14h6" />
-                    <path d="m16 7 10 7h-6" />
-                    <path d="M6 14c1.8 3 4.2 3 6 0" />
-                    <path d="M20 14c1.8 3 4.2 3 6 0" />
-                  </svg>
-                </div>
-                <h3 className="mt-4 text-lg font-semibold text-stone-800">
-                  Fairer alternatives
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-stone-500">
-                  Not just what&apos;s wrong — what the clause should say instead
-                </p>
-              </ScrollReveal>
-              <ScrollReveal delay={300}>
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#FDF2F0]">
-                  <svg
-                    width="32"
-                    height="32"
-                    viewBox="0 0 32 32"
-                    fill="none"
-                    stroke="#E8614D"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden
-                  >
-                    <circle cx="16" cy="18" r="8" />
-                    <path d="M16 18v-5" />
-                    <path d="m16 18 3.5 2" />
-                    <path d="m22 7 4 1-1 3.5" />
-                    <path d="m26 8-3 1.5" />
-                  </svg>
-                </div>
-                <h3 className="mt-4 text-lg font-semibold text-stone-800">
-                  Review history
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-stone-500">
-                  Every contract saved so you can compare terms across clients
-                </p>
-              </ScrollReveal>
-            </div>
-          </div>
-        </section>
-
-        <section className="px-6 py-28 md:py-36">
-          <div className="mx-auto grid max-w-5xl grid-cols-1 items-start gap-12 lg:grid-cols-2 lg:gap-16">
-            <div>
-              <SectionLabel>What it catches</SectionLabel>
-              <h2 className="mt-3 text-3xl font-bold tracking-tight text-stone-900 md:text-4xl">
-                The clauses that cost freelancers thousands
-              </h2>
-              <div className="mt-10 space-y-8">
-                <ScrollReveal delay={0}>
-                  <div className="border-l-2 border-[#E8614D]/30 pl-5">
-                    <h3 className="font-semibold text-stone-800">
-                      Payment terms
-                    </h3>
-                    <p className="mt-1 text-sm leading-relaxed text-stone-500">
-                      Net-90 windows, missing deposits, payment gated on vague
-                      acceptance criteria
-                    </p>
-                  </div>
-                </ScrollReveal>
-                <ScrollReveal delay={80}>
-                  <div className="border-l-2 border-[#E8614D]/30 pl-5">
-                    <h3 className="font-semibold text-stone-800">
-                      Scope and revisions
-                    </h3>
-                    <p className="mt-1 text-sm leading-relaxed text-stone-500">
-                      Unlimited revision clauses, vague deliverables, no
-                      change-order process
-                    </p>
-                  </div>
-                </ScrollReveal>
-                <ScrollReveal delay={160}>
-                  <div className="border-l-2 border-[#E8614D]/30 pl-5">
-                    <h3 className="font-semibold text-stone-800">
-                      IP and ownership
-                    </h3>
-                    <p className="mt-1 text-sm leading-relaxed text-stone-500">
-                      Pre-existing tools swept into assignment, IP transferred
-                      before you&apos;re paid
-                    </p>
-                  </div>
-                </ScrollReveal>
-                <ScrollReveal delay={240}>
-                  <div className="border-l-2 border-[#E8614D]/30 pl-5">
-                    <h3 className="font-semibold text-stone-800">
-                      Liability and indemnification
-                    </h3>
-                    <p className="mt-1 text-sm leading-relaxed text-stone-500">
-                      Uncapped liability, broad indemnity obligations, overbroad
-                      warranties
-                    </p>
-                  </div>
-                </ScrollReveal>
-                <ScrollReveal delay={320}>
-                  <div className="border-l-2 border-[#E8614D]/30 pl-5">
-                    <h3 className="font-semibold text-stone-800">Termination</h3>
-                    <p className="mt-1 text-sm leading-relaxed text-stone-500">
-                      Client can walk with no kill fee, no notice period,
-                      one-sided cancellation
-                    </p>
-                  </div>
-                </ScrollReveal>
-              </div>
-            </div>
-
-            <ScrollReveal>
-              <div className="relative rounded-xl border border-stone-200 bg-white p-6 shadow-[0_20px_60px_-10px_rgba(0,0,0,0.08)]">
-                <span className="absolute -top-1 -left-1 h-2 w-2 rounded-full bg-[#E8614D]" />
-                <span className="inline-block rounded-full bg-red-50 px-2.5 py-1 text-xs font-medium text-red-700">
-                  High
-                </span>
-                <h3 className="mt-3 text-lg font-semibold text-stone-800">
-                  Payment terms
-                </h3>
-                <div className="mt-5 space-y-4 text-sm leading-relaxed text-stone-500">
-                  <p>
-                    <span className="font-medium text-stone-800">
-                      What it says:
-                    </span>{" "}
-                    Payment is due within 90 days of project completion and
-                    client acceptance.
-                  </p>
-                  <p>
-                    <span className="font-medium text-stone-800">
-                      Why it matters:
-                    </span>{" "}
-                    Net-90 with an acceptance gate means the client can delay
-                    payment indefinitely by withholding approval. Most
-                    freelancers can&apos;t float three months of unpaid work.
-                  </p>
-                  <p>
-                    <span className="font-medium text-stone-800">
-                      Fairer version:
-                    </span>{" "}
-                    Payment due within 30 days of invoice. 50% deposit due before
-                    work begins.
-                  </p>
-                </div>
-              </div>
-            </ScrollReveal>
-          </div>
-        </section>
-
-        <div className="mx-auto h-px w-16 bg-stone-200" />
-
-        <section id="pricing" className="scroll-mt-24 px-6 py-28 md:py-36">
-          <div className="mx-auto max-w-3xl text-center">
-            <SectionLabel align="center">Pricing</SectionLabel>
-            <h2 className="mt-3 text-3xl font-bold tracking-tight text-stone-900 md:text-4xl">
-              One bad clause costs more than a year of TrackSign.
-            </h2>
-            <div className="mx-auto mt-14 grid grid-cols-1 gap-6 text-left md:grid-cols-2 md:gap-8">
-              <ScrollReveal delay={0}>
-                <div className="rounded-2xl border border-stone-200 bg-white p-8">
-                  <p className="text-lg font-bold text-stone-900">Free</p>
-                  <p className="mt-2 text-4xl font-bold tracking-tight text-stone-900">
-                    $0
-                  </p>
-                  <div className="mt-8 space-y-3 text-sm text-stone-600">
-                    <p>
-                      <span className="text-stone-400">✓</span> 1 contract review
-                    </p>
-                    <p>
-                      <span className="text-stone-400">✓</span> Severity ratings
-                    </p>
-                    <p>
-                      <span className="text-stone-400">✓</span> Summary flags
-                    </p>
-                    <p>
-                      <span className="text-stone-300">✗</span> Full explanations
-                    </p>
-                    <p>
-                      <span className="text-stone-300">✗</span> Saved history
-                    </p>
-                  </div>
-                  <a
-                    href="/sign-up"
-                    className="mt-6 block rounded-full border border-stone-300 px-6 py-2.5 text-center text-sm font-medium text-stone-600 transition-all duration-200 hover:bg-stone-50"
-                  >
-                    Get started
-                  </a>
-                </div>
-              </ScrollReveal>
-
-              <ScrollReveal delay={150}>
-                <div className="relative rounded-2xl border border-[#E8614D]/40 bg-white p-8 shadow-[0_0_20px_-5px_rgba(232,97,77,0.15)]">
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-[#E8614D] px-3 py-1 text-xs font-medium text-white">
-                    Popular
-                  </span>
-                  <p className="text-lg font-bold text-stone-900">Pro</p>
-                  <p className="mt-2 text-4xl font-bold tracking-tight text-stone-900">
-                    $39
-                    <span className="text-base font-normal text-stone-500">
-                      /mo
-                    </span>
-                  </p>
-                  <div className="mt-8 space-y-3 text-sm text-stone-600">
-                    <p>
-                      <span className="text-green-500">✓</span> Unlimited reviews
-                    </p>
-                    <p>
-                      <span className="text-green-500">✓</span> Severity ratings
-                    </p>
-                    <p>
-                      <span className="text-green-500">✓</span> Full explanations
-                    </p>
-                    <p>
-                      <span className="text-green-500">✓</span> Fairer version
-                      suggestions
-                    </p>
-                    <p>
-                      <span className="text-green-500">✓</span> Saved review
-                      history
-                    </p>
-                  </div>
-                  <a
-                    href="/sign-up"
-                    className={`mt-6 block text-center ${coralButtonClass} px-6 py-2.5`}
-                  >
-                    Start free trial
-                  </a>
-                </div>
-              </ScrollReveal>
-            </div>
-          </div>
-        </section>
-
-        <section className="px-6 py-28 md:py-36">
-          <div className="mx-auto max-w-3xl text-center">
-            <SectionLabel align="center">FAQ</SectionLabel>
-            <h2 className="mt-3 text-3xl font-bold tracking-tight text-stone-900 md:text-4xl">
-              Frequently asked questions
-            </h2>
-            <p className="mt-2 text-base text-stone-500">
-              Everything you need to know about TrackSign.
-            </p>
-          </div>
-          <div className="mx-auto max-w-3xl">
-            <FAQ />
-          </div>
-        </section>
-
-        <ScrollReveal>
-          <section className="px-6 py-28 text-center md:py-36">
-            <h2 className="mx-auto max-w-3xl text-3xl font-bold tracking-tight text-stone-900 md:text-4xl">
-              Stop signing contracts you haven&apos;t read carefully.
-            </h2>
-            <a href="/sign-up" className={`mt-8 inline-block ${coralButtonClass}`}>
-              Review your first contract free →
+        <section className="mx-auto max-w-5xl px-6 pb-12 pt-28 text-center md:pt-36">
+          <h1 className="text-5xl font-semibold leading-[1.05] tracking-tight text-[#EDEDED] md:text-7xl lg:text-8xl">
+            Review contracts
+            <br />
+            <span className="text-[#E8614D]">before you sign.</span>
+          </h1>
+          <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-[#999] md:text-base">
+            TrackSign scans your freelance contracts with AI and flags risky,
+            unfair, or unusual terms. Plain-English explanations, severity
+            ratings, and fairer alternatives.
+          </p>
+          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <a
+              href="/sign-up"
+              className="rounded-md bg-[#E8614D] px-5 py-2.5 text-sm font-medium text-white transition-all duration-200 hover:bg-[#D4503E]"
+            >
+              Start scanning free →
             </a>
-            <p className="mt-4 text-sm text-stone-400">
-              Free. No credit card. Takes under two minutes.
+            <a
+              href="#sample"
+              className="rounded-md border border-white/20 px-5 py-2.5 text-sm font-medium text-[#EDEDED] transition-all duration-200 hover:bg-white/5"
+            >
+              View sample report
+            </a>
+          </div>
+        </section>
+
+        <section className="mx-auto mb-8 mt-16 max-w-5xl px-6">
+          <div className="overflow-hidden rounded-xl border border-white/[0.08] bg-[#1A1A1A]">
+            <div className="relative flex h-8 items-center border-b border-white/[0.06] bg-[#111111] px-4">
+              <div className="flex gap-1.5">
+                <span className="h-2.5 w-2.5 rounded-full bg-[#FF5F57]" />
+                <span className="h-2.5 w-2.5 rounded-full bg-[#FEBC2E]" />
+                <span className="h-2.5 w-2.5 rounded-full bg-[#28C840]" />
+              </div>
+              <p className="absolute left-1/2 -translate-x-1/2 text-[11px] text-[#555]">
+                tracksign.com/dashboard
+              </p>
+            </div>
+
+            <div className="flex min-h-[400px]">
+              <aside className="hidden w-56 shrink-0 border-r border-white/[0.06] bg-[#111111] md:block">
+                <p className="mb-6 px-4 pt-4 text-xs font-semibold text-[#EDEDED]">
+                  TrackSign
+                </p>
+                <p className="mb-2 px-4 text-[10px] tracking-wider text-[#555]">
+                  THIS WEEK
+                </p>
+                <div className="bg-white/[0.04] px-4 py-2 text-xs text-[#999]">
+                  <span className="mr-2 inline-block h-1.5 w-1.5 rounded-full bg-[#E8614D]" />
+                  Client Contract Review
+                </div>
+                <div className="px-4 py-2 text-xs text-[#999]">
+                  <span className="mr-2 inline-block h-1.5 w-1.5 rounded-full bg-[#E8614D]" />
+                  NDA — Acme Corp
+                </div>
+                <div className="px-4 py-2 text-xs text-[#999]">
+                  <span className="mr-2 inline-block h-1.5 w-1.5 rounded-full bg-[#E8614D]" />
+                  SOW — Design Sprint
+                </div>
+                <p className="mb-2 mt-4 px-4 text-[10px] tracking-wider text-[#555]">
+                  LAST MONTH
+                </p>
+                <div className="px-4 py-2 text-xs text-[#999]">
+                  Freelance Agreement
+                </div>
+                <div className="px-4 py-2 text-xs text-[#999]">
+                  Subcontractor Terms
+                </div>
+              </aside>
+
+              <div className="min-w-0 flex-1 p-6">
+                <h2 className="mb-1 text-lg font-semibold text-[#EDEDED]">
+                  Client Contract Review
+                </h2>
+                <p className="mb-4 text-xs text-[#555]">Uploaded Aug 22, 2026</p>
+                <div className="mb-6 flex flex-wrap gap-4">
+                  <div className="rounded-lg border border-white/[0.06] bg-[#111111] px-4 py-3">
+                    <p className="text-[10px] text-[#555]">Flags</p>
+                    <p className="text-xl font-semibold text-[#EDEDED]">6</p>
+                  </div>
+                  <div className="rounded-lg border border-white/[0.06] bg-[#111111] px-4 py-3">
+                    <p className="text-[10px] text-[#555]">High risk</p>
+                    <p className="text-xl font-semibold text-[#EF4444]">3</p>
+                  </div>
+                  <div className="rounded-lg border border-white/[0.06] bg-[#111111] px-4 py-3">
+                    <p className="text-[10px] text-[#555]">Score</p>
+                    <p className="text-xl font-semibold text-[#F59E0B]">42/100</p>
+                  </div>
+                </div>
+                <div>
+                  <div className="flex items-start justify-between gap-4 border-t border-white/[0.06] py-3">
+                    <div>
+                      <p className="text-sm font-medium text-[#EDEDED]">
+                        Payment terms
+                      </p>
+                      <p className="text-xs text-[#666]">
+                        Net-90 with acceptance gate
+                      </p>
+                    </div>
+                    <p className="shrink-0 text-xs text-[#EF4444]">High</p>
+                  </div>
+                  <div className="flex items-start justify-between gap-4 border-t border-white/[0.06] py-3">
+                    <div>
+                      <p className="text-sm font-medium text-[#EDEDED]">Scope</p>
+                      <p className="text-xs text-[#666]">Unlimited revisions</p>
+                    </div>
+                    <p className="shrink-0 text-xs text-[#F59E0B]">Medium</p>
+                  </div>
+                  <div className="flex items-start justify-between gap-4 border-t border-white/[0.06] py-3">
+                    <div>
+                      <p className="text-sm font-medium text-[#EDEDED]">
+                        IP ownership
+                      </p>
+                      <p className="text-xs text-[#666]">
+                        Pre-existing tools assigned
+                      </p>
+                    </div>
+                    <p className="shrink-0 text-xs text-[#EF4444]">High</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="border-b border-t border-white/[0.06] py-16">
+          <p className="mb-8 text-center text-sm text-[#666]">
+            Trusted by freelancers and agencies worldwide.
+          </p>
+          {/* Replace with real client logos when available */}
+          <div className="flex flex-wrap items-center justify-center gap-12 px-6">
+            <p className="text-sm font-semibold tracking-wide text-[#444] md:text-base">
+              PixelCraft Studio
             </p>
-          </section>
-        </ScrollReveal>
+            <p className="text-sm font-semibold tracking-wide text-[#444] md:text-base">
+              Devbridge
+            </p>
+            <p className="text-sm font-semibold tracking-wide text-[#444] md:text-base">
+              Folio Agency
+            </p>
+            <p className="text-sm font-semibold tracking-wide text-[#444] md:text-base">
+              NorthStar Design
+            </p>
+            <p className="text-sm font-semibold tracking-wide text-[#444] md:text-base">
+              Stackline Digital
+            </p>
+          </div>
+        </section>
+
+        <section id="features" className="scroll-mt-24">
+          <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 px-6 py-24 md:grid-cols-2">
+            <div>
+              <h2 className="text-xl font-semibold leading-snug md:text-2xl">
+                <span className="text-[#E8614D]">Catch risky clauses</span>{" "}
+                <span className="text-[#EDEDED]">before they cost you</span>
+              </h2>
+              <p className="mt-4 text-sm leading-relaxed text-[#999]">
+                TrackSign reviews every clause against a checklist built for
+                freelance contracts. Payment terms, scope, IP, liability,
+                termination — flagged with severity ratings so you know what to
+                push back on.
+              </p>
+              <a
+                href="#sample"
+                className="mt-4 inline-block text-sm font-medium text-[#E8614D] transition-colors duration-200 hover:underline"
+              >
+                Learn about risk scanning →
+              </a>
+            </div>
+            <div className="rounded-xl border border-white/[0.08] bg-[#1A1A1A] p-5">
+              <div className="flex items-center justify-between border-b border-white/[0.06] py-2.5">
+                <p className="text-sm text-[#EDEDED]">Payment terms</p>
+                <p className="text-xs text-[#EF4444]">High</p>
+              </div>
+              <div className="flex items-center justify-between border-b border-white/[0.06] py-2.5">
+                <p className="text-sm text-[#EDEDED]">Scope and revisions</p>
+                <p className="text-xs text-[#F59E0B]">Medium</p>
+              </div>
+              <div className="flex items-center justify-between py-2.5">
+                <p className="text-sm text-[#EDEDED]">IP ownership</p>
+                <p className="text-xs text-[#EF4444]">High</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 px-6 py-24 md:grid-cols-2">
+            <div className="md:order-2">
+              <h2 className="text-xl font-semibold leading-snug md:text-2xl">
+                <span className="text-[#EDEDED]">Not just what&apos;s wrong —</span>{" "}
+                <span className="text-[#E8614D]">what&apos;s fairer.</span>
+              </h2>
+              <p className="mt-4 text-sm leading-relaxed text-[#999]">
+                Every flag includes a plain-English explanation and a fairer
+                alternative. Know exactly what to ask your client to change, or
+                what to bring to your lawyer.
+              </p>
+              <a
+                href="#sample"
+                className="mt-4 inline-block text-sm font-medium text-[#E8614D] transition-colors duration-200 hover:underline"
+              >
+                See a sample report →
+              </a>
+            </div>
+            <div
+              id="sample"
+              className="scroll-mt-24 rounded-xl border border-white/[0.08] bg-[#1A1A1A] p-5 md:order-1"
+            >
+              <p className="mb-3 text-sm font-semibold text-[#EDEDED]">
+                Payment terms
+              </p>
+              <p className="mb-1 text-xs text-[#666]">Current:</p>
+              <p className="mb-4 text-sm text-[#999]">
+                Payment due 90 days after completion and acceptance.
+              </p>
+              <p className="mb-1 text-xs text-[#E8614D]">Fairer version:</p>
+              <p className="text-sm text-[#EDEDED]">
+                Payment due within 30 days of invoice. 50% deposit before work
+                begins.
+              </p>
+            </div>
+          </div>
+
+          <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 px-6 py-24 md:grid-cols-2">
+            <div>
+              <h2 className="text-xl font-semibold leading-snug md:text-2xl">
+                <span className="text-[#E8614D]">Review history</span>{" "}
+                <span className="text-[#EDEDED]">track every contract</span>
+              </h2>
+              <p className="mt-4 text-sm leading-relaxed text-[#999]">
+                Every review is saved. Compare terms across clients, track which
+                contracts had the worst clauses, and build a record of what
+                you&apos;ve signed.
+              </p>
+              <a
+                href="#pricing"
+                className="mt-4 inline-block text-sm font-medium text-[#E8614D] transition-colors duration-200 hover:underline"
+              >
+                Learn about review history →
+              </a>
+            </div>
+            <div className="rounded-xl border border-white/[0.08] bg-[#1A1A1A] p-4">
+              <div className="flex items-start justify-between gap-4 border-b border-white/[0.06] py-3">
+                <div>
+                  <p className="text-sm text-[#EDEDED]">
+                    Client Contract — Acme Corp
+                  </p>
+                  <p className="text-xs text-[#666]">3 high · 2 medium</p>
+                </div>
+                <p className="shrink-0 text-xs text-[#555]">Aug 22</p>
+              </div>
+              <div className="flex items-start justify-between gap-4 border-b border-white/[0.06] py-3">
+                <div>
+                  <p className="text-sm text-[#EDEDED]">NDA — Folio Agency</p>
+                  <p className="text-xs text-[#666]">1 high · 0 medium</p>
+                </div>
+                <p className="shrink-0 text-xs text-[#555]">Aug 18</p>
+              </div>
+              <div className="flex items-start justify-between gap-4 py-3">
+                <div>
+                  <p className="text-sm text-[#EDEDED]">SOW — Design Sprint</p>
+                  <p className="text-xs text-[#666]">0 high · 3 medium</p>
+                </div>
+                <p className="shrink-0 text-xs text-[#555]">Aug 10</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="pricing" className="mx-auto max-w-4xl scroll-mt-24 px-6 py-24 text-center">
+          <h2 className="mb-3 text-2xl font-semibold text-[#EDEDED]">Pricing</h2>
+          <p className="mb-12 text-sm text-[#999]">
+            One bad clause costs more than a year of TrackSign.
+          </p>
+          <div className="grid grid-cols-1 gap-4 text-left md:grid-cols-2">
+            <div className="rounded-xl border border-white/[0.08] bg-[#1A1A1A] p-8">
+              <p className="text-lg font-semibold text-[#EDEDED]">Free</p>
+              <p className="mt-2 text-4xl font-semibold text-[#EDEDED]">$0</p>
+              <div className="my-6 border-t border-white/[0.08]" />
+              <p className="py-1.5 text-sm text-[#999]">1 contract review</p>
+              <p className="py-1.5 text-sm text-[#999]">Severity ratings</p>
+              <p className="py-1.5 text-sm text-[#999]">Summary flags</p>
+              <a
+                href="/sign-up"
+                className="mt-6 block w-full rounded-md border border-white/20 py-2.5 text-center text-sm font-medium text-[#EDEDED] transition-all duration-200 hover:bg-white/5"
+              >
+                Get started
+              </a>
+            </div>
+            <div className="rounded-xl border border-[#E8614D]/30 bg-[#1A1A1A] p-8">
+              <p className="text-lg font-semibold text-[#EDEDED]">Pro</p>
+              <p className="mt-2 text-4xl font-semibold text-[#EDEDED]">
+                $39
+                <span className="text-base font-normal text-[#666]">/mo</span>
+              </p>
+              <div className="my-6 border-t border-white/[0.08]" />
+              <p className="py-1.5 text-sm text-[#999]">Unlimited reviews</p>
+              <p className="py-1.5 text-sm text-[#999]">Severity ratings</p>
+              <p className="py-1.5 text-sm text-[#999]">Full explanations</p>
+              <p className="py-1.5 text-sm text-[#999]">Fairer alternatives</p>
+              <p className="py-1.5 text-sm text-[#999]">Saved history</p>
+              <a
+                href="/sign-up"
+                className="mt-6 block w-full rounded-md bg-[#E8614D] py-2.5 text-center text-sm font-medium text-white transition-all duration-200 hover:bg-[#D4503E]"
+              >
+                Start free trial
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <section id="faq" className="mx-auto max-w-3xl scroll-mt-24 px-6 py-24">
+          <h2 className="mb-8 text-2xl font-semibold text-[#EDEDED]">FAQ</h2>
+          <FAQ />
+        </section>
+
+        <section className="px-6 py-32 text-center">
+          <h2 className="text-5xl font-semibold tracking-tight text-[#EDEDED] md:text-7xl">
+            Try TrackSign.
+          </h2>
+          <a
+            href="/sign-up"
+            className="mt-8 inline-block rounded-md bg-[#E8614D] px-6 py-3 text-sm font-medium text-white transition-all duration-200 hover:bg-[#D4503E]"
+          >
+            Start scanning free →
+          </a>
+          <p className="mt-4 text-sm text-[#666]">Free. No credit card.</p>
+        </section>
       </main>
 
-      <footer className="border-t border-stone-200 px-6 py-8">
-        <div className="mx-auto max-w-3xl text-center">
-          <span className="mx-auto mb-6 block h-1.5 w-1.5 rounded-full bg-[#E8614D]" />
-          <p className="text-sm text-stone-400">
-            TrackSign flags terms worth reviewing with a qualified lawyer. It
-            does not provide legal advice.
-          </p>
-          <p className="mt-2 text-sm text-stone-400">
-            © 2026 TrackSign. All rights reserved.
-          </p>
+      <footer className="mt-20 border-t border-white/[0.06]">
+        <div className="mx-auto max-w-7xl px-6 py-16">
+          <div className="grid grid-cols-2 gap-8 md:grid-cols-5">
+            <div>
+              <p className="mb-4 text-sm font-medium text-[#EDEDED]">Product</p>
+              <div className="space-y-3">
+                <a
+                  href="#features"
+                  className="block text-sm text-[#666] transition-colors duration-200 hover:text-[#999]"
+                >
+                  Features
+                </a>
+                <a
+                  href="#pricing"
+                  className="block text-sm text-[#666] transition-colors duration-200 hover:text-[#999]"
+                >
+                  Pricing
+                </a>
+                <a
+                  href="#faq"
+                  className="block text-sm text-[#666] transition-colors duration-200 hover:text-[#999]"
+                >
+                  FAQ
+                </a>
+                <a
+                  href="#features"
+                  className="block text-sm text-[#666] transition-colors duration-200 hover:text-[#999]"
+                >
+                  Changelog
+                </a>
+              </div>
+            </div>
+            <div>
+              <p className="mb-4 text-sm font-medium text-[#EDEDED]">
+                Resources
+              </p>
+              <div className="space-y-3">
+                <a
+                  href="#features"
+                  className="block text-sm text-[#666] transition-colors duration-200 hover:text-[#999]"
+                >
+                  Documentation
+                </a>
+                <a
+                  href="#features"
+                  className="block text-sm text-[#666] transition-colors duration-200 hover:text-[#999]"
+                >
+                  Blog
+                </a>
+                <a
+                  href="#faq"
+                  className="block text-sm text-[#666] transition-colors duration-200 hover:text-[#999]"
+                >
+                  Support
+                </a>
+                <a
+                  href="#features"
+                  className="block text-sm text-[#666] transition-colors duration-200 hover:text-[#999]"
+                >
+                  Status
+                </a>
+              </div>
+            </div>
+            <div>
+              <p className="mb-4 text-sm font-medium text-[#EDEDED]">Company</p>
+              <div className="space-y-3">
+                <a
+                  href="#features"
+                  className="block text-sm text-[#666] transition-colors duration-200 hover:text-[#999]"
+                >
+                  About
+                </a>
+                <a
+                  href="#features"
+                  className="block text-sm text-[#666] transition-colors duration-200 hover:text-[#999]"
+                >
+                  Careers
+                </a>
+                <a
+                  href="#faq"
+                  className="block text-sm text-[#666] transition-colors duration-200 hover:text-[#999]"
+                >
+                  Contact
+                </a>
+              </div>
+            </div>
+            <div>
+              <p className="mb-4 text-sm font-medium text-[#EDEDED]">Legal</p>
+              <div className="space-y-3">
+                <a
+                  href="#faq"
+                  className="block text-sm text-[#666] transition-colors duration-200 hover:text-[#999]"
+                >
+                  Terms of service
+                </a>
+                <a
+                  href="#faq"
+                  className="block text-sm text-[#666] transition-colors duration-200 hover:text-[#999]"
+                >
+                  Privacy policy
+                </a>
+                <a
+                  href="#faq"
+                  className="block text-sm text-[#666] transition-colors duration-200 hover:text-[#999]"
+                >
+                  Not legal advice
+                </a>
+              </div>
+            </div>
+            <div>
+              <p className="mb-4 text-sm font-medium text-[#EDEDED]">Connect</p>
+              <div className="space-y-3">
+                <a
+                  href="https://x.com"
+                  className="block text-sm text-[#666] transition-colors duration-200 hover:text-[#999]"
+                >
+                  X (Twitter)
+                </a>
+                <a
+                  href="https://linkedin.com"
+                  className="block text-sm text-[#666] transition-colors duration-200 hover:text-[#999]"
+                >
+                  LinkedIn
+                </a>
+                <a
+                  href="https://github.com"
+                  className="block text-sm text-[#666] transition-colors duration-200 hover:text-[#999]"
+                >
+                  GitHub
+                </a>
+              </div>
+            </div>
+          </div>
+          <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/[0.06] pt-6 md:flex-row">
+            <p className="text-xs text-[#555]">
+              © 2026 TrackSign. All rights reserved.
+            </p>
+            <p className="text-xs text-[#555]">
+              TrackSign does not provide legal advice.
+            </p>
+          </div>
         </div>
       </footer>
     </>
