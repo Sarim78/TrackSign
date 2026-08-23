@@ -4,8 +4,13 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  background-color: #171412;
+}
+
 body {
   margin: 0;
+  background-color: #171412;
 }
 
 @keyframes fadeInUp {
@@ -38,9 +43,23 @@ body {
   animation: scaleIn 0.6s ease-out both;
 }
 
+@keyframes logoTicker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-logo-ticker {
+  animation: logoTicker 20s linear infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-in-up,
-  .animate-scale-in {
+  .animate-scale-in,
+  .animate-logo-ticker {
     animation: none;
   }
 }
