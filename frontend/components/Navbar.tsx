@@ -28,7 +28,7 @@ export default function Navbar() {
           </a>
           <a
             href="/sign-up"
-            className="rounded-full bg-[#E8614D] px-5 py-2 text-sm font-medium text-white transition-all duration-200 hover:bg-[#D4503E]"
+            className="rounded-full bg-[#E8614D] px-5 py-2 text-sm font-medium text-white shadow-[0_4px_14px_-3px_rgba(232,97,77,0.4)] transition-all duration-200 hover:-translate-y-[1px] hover:bg-[#D4503E] hover:shadow-[0_6px_20px_-3px_rgba(232,97,77,0.5)]"
           >
             Try it free
           </a>
