@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Inter } from "next/font/google";
 import "./globals.css";
+
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "TrackSign",
@@ -15,8 +21,13 @@ export default function RootLayout({
   const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
   const html = (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="en" className="scroll-smooth bg-[#FAF9F6]">
+      <body
+        className={`${inter.className} bg-[#FAF9F6] text-stone-900 antialiased`}
+        suppressHydrationWarning
+      >
+        {children}
+      </body>
     </html>
   );
 
