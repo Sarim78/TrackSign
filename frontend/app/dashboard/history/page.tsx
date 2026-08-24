@@ -40,6 +40,7 @@ export default function HistoryPage() {
         })}
       </div>
 
+      {/* TODO: Each row will be a <Link href={`/dashboard/${review.id}`}> wrapping the contract info */}
       <div className="rounded-xl p-12 text-center" style={cardStyle}>
         <p className="text-sm" style={{ color: "#999" }}>
           No reviews yet
@@ -54,6 +55,11 @@ export default function HistoryPage() {
         >
           Upload contract
         </Link>
+        <div>
+          <Link href="/dashboard/review-demo" className="mt-4 inline-block text-sm" style={{ color: "#E8614D" }}>
+            Or try the demo review →
+          </Link>
+        </div>
       </div>
     </div>
   );

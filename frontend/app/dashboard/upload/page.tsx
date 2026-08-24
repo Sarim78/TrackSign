@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 const cardStyle = {
@@ -15,11 +15,12 @@ function formatSize(bytes: number) {
 }
 
 export default function UploadPage() {
+  const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const [hovered, setHovered] = useState(false);
   const [dragging, setDragging] = useState(false);
   const [file, setFile] = useState<File | null>(null);
-  const [status, setStatus] = useState<"idle" | "processing" | "complete">("idle");
+  const [status, setStatus] = useState<"idle" | "processing">("idle");
   const timerRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -36,10 +37,12 @@ export default function UploadPage() {
   }
 
   function startReview() {
-    // TODO: Send file to backend API for review. Replace the fake timer with a real upload + poll.
+    // TODO: Replace with real redirect to /dashboard/{reviewId} after backend creates the review
     setStatus("processing");
     if (timerRef.current) window.clearTimeout(timerRef.current);
-    timerRef.current = window.setTimeout(() => setStatus("complete"), 3000);
+    timerRef.current = window.setTimeout(() => {
+      router.push("/dashboard/review-demo");
+    }, 3000);
   }
 
   const accentBorder = hovered || dragging;
@@ -93,6 +96,13 @@ export default function UploadPage() {
               onChange={(event) => takeFile(event.target.files?.[0])}
             />
           </div>
+          <p className="mt-3 text-xs" style={{ color: "#666" }}>
+            Currently supports PDF files. DOCX support coming soon.
+          </p>
+          <p className="mt-1 text-xs" style={{ color: "#666" }}>
+            <span className="mr-1.5 inline-block h-1.5 w-1.5 rounded-full" style={{ backgroundColor: "#22C55E" }} />
+            Encrypted and private.
+          </p>
 
           {file ? (
             <div className="mt-4 flex items-center justify-between rounded-xl p-5" style={cardStyle}>
@@ -127,24 +137,6 @@ export default function UploadPage() {
           <p className="mt-3 text-xs" style={{ color: "#666" }}>
             This usually takes under 60 seconds.
           </p>
-        </div>
-      ) : null}
-
-      {status === "complete" ? (
-        <div className="rounded-xl p-8 text-center" style={cardStyle}>
-          <p className="text-sm" style={{ color: "#EDEDED" }}>
-            Review complete
-          </p>
-          <p className="mt-2 text-xs" style={{ color: "#666" }}>
-            Your report will show up in review history once the backend is connected.
-          </p>
-          <Link
-            href="/dashboard/history"
-            className="mt-4 inline-block rounded-md px-5 py-2.5 text-sm text-white"
-            style={{ backgroundColor: "#E8614D" }}
-          >
-            View review history
-          </Link>
         </div>
       ) : null}
     </div>

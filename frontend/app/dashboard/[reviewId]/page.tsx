@@ -36,20 +36,15 @@ export default function ReviewReportPage() {
 
       <div className="rounded-xl p-12 text-center" style={cardStyle}>
         <p className="text-sm" style={{ color: "#999" }}>
-          Report not found
+          Review loading...
         </p>
         <p className="mt-2 text-xs" style={{ color: "#666" }}>
-          This review doesn&apos;t exist or is still processing.
+          Looking up your contract review.
         </p>
-        {/*
-          TODO: Fetch review data from backend API by reviewId and render findings.
-          When data exists, each finding should render as:
-          - severity badge (High / Medium / Low)
-          - category title
-          - What it says
-          - Why it matters
-          - Fairer version
-        */}
+        <Link href="/dashboard/review-demo" className="mt-4 inline-block text-sm" style={{ color: "#E8614D" }}>
+          View demo report →
+        </Link>
+        {/* TODO: Fetch review by params.reviewId from backend API. If not found, show 404. */}
       </div>
     </div>
   );
