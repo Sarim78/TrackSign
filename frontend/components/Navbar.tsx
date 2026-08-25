@@ -18,7 +18,7 @@ export default function Navbar() {
           <a href="/#faq" className="text-[13px] text-[#999] hover:text-[#EDEDED]">
             FAQ
           </a>
-          <a href="#" className="text-[13px] text-[#999] hover:text-[#EDEDED]">
+          <a href="/blog" className="text-[13px] text-[#999] hover:text-[#EDEDED]">
             Blog
           </a>
         </div>
