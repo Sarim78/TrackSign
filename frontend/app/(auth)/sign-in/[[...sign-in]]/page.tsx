@@ -1,3 +1,11 @@
+/**
+ * SignInPage — fake email/password sign-in that stores a local session.
+ *
+ * Route: /sign-in
+ * Dependencies: Navbar, useAuth
+ * TODO [BACKEND]: Replace fake auth with Clerk useUser()
+ */
+
 "use client";
 
 import Link from "next/link";
@@ -5,31 +13,41 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import { useAuth } from "@/lib/auth";
+import { isValidEmail, stripHtml } from "@/lib/sanitize";
 
-export default function SignInPage() {
+interface SignInErrors {
+  email?: string;
+  password?: string;
+}
+
+const SignInPage = () => {
   const router = useRouter();
   const { login } = useAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [errors, setErrors] = useState<SignInErrors>({});
 
-  function submit(event: React.FormEvent) {
+  // Validates credentials locally, then creates a prototype session.
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const next: typeof errors = {};
-    if (!email.trim()) next.email = "Email is required.";
+    const next: SignInErrors = {};
+    const trimmedEmail = stripHtml(email);
+    if (!trimmedEmail) next.email = "Email is required.";
+    else if (!isValidEmail(trimmedEmail)) next.email = "Enter a valid email.";
     if (!password) next.password = "Password is required.";
+    else if (password.length < 6) next.password = "Password must be at least 6 characters.";
     setErrors(next);
     if (Object.keys(next).length > 0) return;
-    login("User", email.trim());
+    login("User", trimmedEmail);
     router.push("/dashboard");
-  }
+  };
 
   return (
     <>
       <Navbar />
       <div className="flex min-h-[calc(100vh-48px)] items-center justify-center px-4 pt-12">
         <form
-          onSubmit={submit}
+          onSubmit={handleSubmit}
           className="w-full max-w-sm rounded-xl p-8"
           style={{ backgroundColor: "#1e1c18", border: "1px solid #2a2722" }}
         >
@@ -49,7 +67,11 @@ export default function SignInPage() {
             className="w-full rounded-md px-3 py-2.5 text-sm"
             style={{ backgroundColor: "#141210", border: "1px solid #2a2722", color: "#EDEDED" }}
           />
-          {errors.email ? <p className="mt-1 text-xs" style={{ color: "#EF4444" }}>{errors.email}</p> : null}
+          {errors.email ? (
+            <p className="mt-1 text-xs" role="alert" style={{ color: "#EF4444" }}>
+              {errors.email}
+            </p>
+          ) : null}
           <label htmlFor="password" className="mb-1.5 mt-4 block text-xs" style={{ color: "#999" }}>
             Password
           </label>
@@ -62,7 +84,11 @@ export default function SignInPage() {
             className="w-full rounded-md px-3 py-2.5 text-sm"
             style={{ backgroundColor: "#141210", border: "1px solid #2a2722", color: "#EDEDED" }}
           />
-          {errors.password ? <p className="mt-1 text-xs" style={{ color: "#EF4444" }}>{errors.password}</p> : null}
+          {errors.password ? (
+            <p className="mt-1 text-xs" role="alert" style={{ color: "#EF4444" }}>
+              {errors.password}
+            </p>
+          ) : null}
           <button
             type="submit"
             className="mt-6 w-full rounded-md py-2.5 text-sm font-medium text-white hover:opacity-90"
@@ -80,4 +106,6 @@ export default function SignInPage() {
       </div>
     </>
   );
-}
+};
+
+export default SignInPage;

@@ -1,3 +1,11 @@
+/**
+ * SettingsPage — account details, usage chart, simulated upgrade, and delete.
+ *
+ * Route: /dashboard/settings
+ * Dependencies: useAuth, review store
+ * TODO [BACKEND]: Replace simulated upgrade with Stripe checkout
+ */
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -9,10 +17,10 @@ const cardStyle = {
   border: "1px solid #2a2722",
 } as const;
 
-export default function SettingsPage() {
-  const { user, setPlan, logout } = useAuth();
-  const [upgraded, setUpgraded] = useState(false);
-  const [confirmDelete, setConfirmDelete] = useState(false);
+const SettingsPage = () => {
+  const { user, upgradePlan, logout } = useAuth();
+  const [upgraded, setUpgraded] = useState<boolean>(false);
+  const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
   const [reviews, setReviews] = useState<Review[]>([]);
 
   useEffect(() => {
@@ -22,16 +30,18 @@ export default function SettingsPage() {
   const weeks = reviewsByWeek(reviews);
   const maxCount = Math.max(1, ...weeks.map((week) => week.count));
 
-  function upgrade() {
-    setPlan("pro");
+  // TODO [BACKEND]: Replace simulated upgrade with Stripe checkout
+  const handleUpgrade = () => {
+    upgradePlan();
     setUpgraded(true);
     window.setTimeout(() => setUpgraded(false), 3000);
-  }
+  };
 
-  function deleteAccount() {
+  // Clears stored reviews and signs the user out.
+  const handleDeleteAccount = () => {
     clearReviews();
     logout();
-  }
+  };
 
   return (
     <div>
@@ -61,7 +71,7 @@ export default function SettingsPage() {
 
       <section className="mb-6 rounded-xl p-6" style={cardStyle}>
         <h3 className="mb-4 text-lg font-semibold">Review usage</h3>
-        {/* TODO: Replace with real usage data from backend */}
+        {/* TODO [BACKEND]: Replace with real usage data from backend */}
         {reviews.length === 0 ? (
           <p className="text-xs" style={{ color: "#666" }}>
             Upload your first contract to see usage stats.
@@ -106,7 +116,7 @@ export default function SettingsPage() {
         {user?.plan === "free" ? (
           <button
             type="button"
-            onClick={upgrade}
+            onClick={handleUpgrade}
             className="mt-4 rounded-md px-5 py-2.5 text-sm text-white"
             style={{ backgroundColor: "#E8614D" }}
           >
@@ -114,7 +124,7 @@ export default function SettingsPage() {
           </button>
         ) : null}
         {upgraded ? (
-          <p className="mt-3 text-sm" style={{ color: "#22C55E" }}>
+          <p className="mt-3 text-sm" role="alert" style={{ color: "#22C55E" }}>
             Upgraded to Pro!
           </p>
         ) : null}
@@ -136,7 +146,7 @@ export default function SettingsPage() {
             <div className="mt-3 flex gap-3">
               <button
                 type="button"
-                onClick={deleteAccount}
+                onClick={handleDeleteAccount}
                 className="rounded-md px-4 py-2 text-sm"
                 style={{ backgroundColor: "#EF4444", color: "#fff" }}
               >
@@ -165,4 +175,6 @@ export default function SettingsPage() {
       </section>
     </div>
   );
-}
+};
+
+export default SettingsPage;

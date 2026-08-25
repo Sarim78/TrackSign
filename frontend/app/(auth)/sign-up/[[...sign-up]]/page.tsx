@@ -1,3 +1,11 @@
+/**
+ * SignUpPage — fake registration that stores a local session.
+ *
+ * Route: /sign-up
+ * Dependencies: Navbar, useAuth
+ * TODO [BACKEND]: Replace fake auth with Clerk useUser()
+ */
+
 "use client";
 
 import Link from "next/link";
@@ -5,35 +13,45 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import { useAuth } from "@/lib/auth";
+import { isValidEmail, stripHtml } from "@/lib/sanitize";
 
-export default function SignUpPage() {
+interface SignUpErrors {
+  name?: string;
+  email?: string;
+  password?: string;
+}
+
+const SignUpPage = () => {
   const router = useRouter();
   const { login } = useAuth();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState<{ name?: string; email?: string; password?: string }>({});
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [errors, setErrors] = useState<SignUpErrors>({});
 
-  function submit(event: React.FormEvent) {
+  // Validates and sanitizes inputs, then creates a prototype session.
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const next: typeof errors = {};
-    if (!name.trim()) next.name = "Name is required.";
-    if (!email.trim()) next.email = "Email is required.";
-    else if (!email.includes("@")) next.email = "Enter a valid email.";
+    const next: SignUpErrors = {};
+    const trimmedName = stripHtml(name);
+    const trimmedEmail = stripHtml(email);
+    if (!trimmedName) next.name = "Name is required.";
+    if (!trimmedEmail) next.email = "Email is required.";
+    else if (!isValidEmail(trimmedEmail)) next.email = "Enter a valid email.";
     if (!password) next.password = "Password is required.";
     else if (password.length < 6) next.password = "Password must be at least 6 characters.";
     setErrors(next);
     if (Object.keys(next).length > 0) return;
-    login(name.trim(), email.trim());
+    login(trimmedName, trimmedEmail);
     router.push("/dashboard");
-  }
+  };
 
   return (
     <>
       <Navbar />
       <div className="flex min-h-[calc(100vh-48px)] items-center justify-center px-4 pt-12">
         <form
-          onSubmit={submit}
+          onSubmit={handleSubmit}
           className="w-full max-w-sm rounded-xl p-8"
           style={{ backgroundColor: "#1e1c18", border: "1px solid #2a2722" }}
         >
@@ -53,7 +71,11 @@ export default function SignUpPage() {
             className="w-full rounded-md px-3 py-2.5 text-sm"
             style={{ backgroundColor: "#141210", border: "1px solid #2a2722", color: "#EDEDED" }}
           />
-          {errors.name ? <p className="mt-1 text-xs" style={{ color: "#EF4444" }}>{errors.name}</p> : null}
+          {errors.name ? (
+            <p className="mt-1 text-xs" role="alert" style={{ color: "#EF4444" }}>
+              {errors.name}
+            </p>
+          ) : null}
           <label htmlFor="email" className="mb-1.5 mt-4 block text-xs" style={{ color: "#999" }}>
             Email
           </label>
@@ -66,7 +88,11 @@ export default function SignUpPage() {
             className="w-full rounded-md px-3 py-2.5 text-sm"
             style={{ backgroundColor: "#141210", border: "1px solid #2a2722", color: "#EDEDED" }}
           />
-          {errors.email ? <p className="mt-1 text-xs" style={{ color: "#EF4444" }}>{errors.email}</p> : null}
+          {errors.email ? (
+            <p className="mt-1 text-xs" role="alert" style={{ color: "#EF4444" }}>
+              {errors.email}
+            </p>
+          ) : null}
           <label htmlFor="password" className="mb-1.5 mt-4 block text-xs" style={{ color: "#999" }}>
             Password
           </label>
@@ -79,7 +105,11 @@ export default function SignUpPage() {
             className="w-full rounded-md px-3 py-2.5 text-sm"
             style={{ backgroundColor: "#141210", border: "1px solid #2a2722", color: "#EDEDED" }}
           />
-          {errors.password ? <p className="mt-1 text-xs" style={{ color: "#EF4444" }}>{errors.password}</p> : null}
+          {errors.password ? (
+            <p className="mt-1 text-xs" role="alert" style={{ color: "#EF4444" }}>
+              {errors.password}
+            </p>
+          ) : null}
           <button
             type="submit"
             className="mt-6 w-full rounded-md py-2.5 text-sm font-medium text-white hover:opacity-90"
@@ -97,4 +127,6 @@ export default function SignUpPage() {
       </div>
     </>
   );
-}
+};
+
+export default SignUpPage;

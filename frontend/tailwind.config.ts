@@ -1,3 +1,7 @@
+/**
+ * Tailwind config — content paths for the TrackSign frontend.
+ */
+
 import type { Config } from "tailwindcss";
 
 const config: Config = {

@@ -1,7 +1,14 @@
+/**
+ * ChangelogPage — public product update list.
+ *
+ * Route: /changelog
+ * Dependencies: Navbar, Footer
+ */
+
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 
-export default function ChangelogPage() {
+const ChangelogPage = () => {
   return (
     <>
       <Navbar />
@@ -10,7 +17,7 @@ export default function ChangelogPage() {
         <p className="text-sm leading-relaxed" style={{ color: "#999" }}>
           All notable updates and improvements to TrackSign.
         </p>
-        {/* TODO: Replace with real changelog entries */}
+        {/* TODO [BACKEND]: Replace with real changelog entries */}
         <h2 className="mt-8 mb-3 text-lg font-semibold text-[#EDEDED]">August 2026</h2>
         <p className="text-sm font-semibold text-[#EDEDED]">Launch</p>
         <p className="mt-1 text-sm" style={{ color: "#999" }}>
@@ -20,4 +27,6 @@ export default function ChangelogPage() {
       <Footer />
     </>
   );
-}
+};
+
+export default ChangelogPage;

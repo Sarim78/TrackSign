@@ -1,12 +1,19 @@
+/**
+ * PrivacyPage — privacy policy copy for TrackSign.
+ *
+ * Route: /privacy
+ * Dependencies: Navbar, Footer
+ */
+
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 
-export default function PrivacyPage() {
+const PrivacyPage = () => {
   return (
     <>
       <Navbar />
       <main className="mx-auto max-w-3xl px-6 pb-20 pt-28">
-        {/* TODO: Have a lawyer review */}
+        {/* TODO [BACKEND]: Have a lawyer review */}
         <p className="mb-4 text-xs" style={{ color: "#666" }}>
           Last updated: August 2026
         </p>
@@ -37,7 +44,7 @@ export default function PrivacyPage() {
         <h2 className="mt-8 mb-3 text-lg font-semibold text-[#EDEDED]">Contact</h2>
         <p className="text-sm leading-relaxed" style={{ color: "#999" }}>
           Questions about privacy? Email{" "}
-          <a href="mailto:privacy@tracksign.com" style={{ color: "#E8614D" }}>
+          <a href="mailto:privacy@tracksign.com" rel="noopener noreferrer" style={{ color: "#E8614D" }}>
             privacy@tracksign.com
           </a>
           .
@@ -46,4 +53,6 @@ export default function PrivacyPage() {
       <Footer />
     </>
   );
-}
+};
+
+export default PrivacyPage;

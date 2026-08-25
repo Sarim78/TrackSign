@@ -1,3 +1,10 @@
+/**
+ * HomePage — marketing landing page with hero, product mock, features, and FAQ.
+ *
+ * Route: /
+ * Dependencies: Navbar, Footer, FAQ, LogoTicker, useAuth
+ */
+
 "use client";
 
 import FAQ from "@/components/FAQ";
@@ -6,7 +13,11 @@ import LogoTicker from "@/components/LogoTicker";
 import Navbar from "@/components/Navbar";
 import { useAuth } from "@/lib/auth";
 
-function WindowChrome({ url }: { url: string }) {
+interface WindowChromeProps {
+  url: string;
+}
+
+const WindowChrome = ({ url }: WindowChromeProps) => {
   return (
     <div
       className="relative flex h-9 items-center px-4"
@@ -25,7 +36,7 @@ function WindowChrome({ url }: { url: string }) {
       </span>
     </div>
   );
-}
+};
 
 const cardStyle = {
   backgroundColor: "#1e1c18",
@@ -42,7 +53,7 @@ const mockRightStyle = {
   borderLeft: "1px solid #2a2722",
 } as const;
 
-export default function HomePage() {
+const HomePage = () => {
   const { isLoggedIn } = useAuth();
   const primaryHref = isLoggedIn ? "/dashboard" : "/sign-up";
   const primaryLabel = isLoggedIn ? "Go to dashboard →" : "Start scanning free →";
@@ -391,4 +402,6 @@ export default function HomePage() {
       <Footer />
     </>
   );
-}
+};
+
+export default HomePage;

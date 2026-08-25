@@ -1,7 +1,14 @@
+/**
+ * AboutPage — company story and product positioning.
+ *
+ * Route: /about
+ * Dependencies: Navbar, Footer
+ */
+
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 
-export default function AboutPage() {
+const AboutPage = () => {
   return (
     <>
       <Navbar />
@@ -20,4 +27,6 @@ export default function AboutPage() {
       <Footer />
     </>
   );
-}
+};
+
+export default AboutPage;

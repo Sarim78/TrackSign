@@ -1,3 +1,10 @@
+/**
+ * DemoReviewPage — static sample report using the finding pool.
+ *
+ * Route: /dashboard/review-demo
+ * Dependencies: ReviewReport, FINDING_POOL
+ */
+
 "use client";
 
 import ReviewReport from "@/components/ReviewReport";
@@ -25,7 +32,7 @@ const demoReview: Review = {
   },
 };
 
-export default function DemoReviewPage() {
+const DemoReviewPage = () => {
   return (
     <ReviewReport
       review={demoReview}
@@ -34,4 +41,6 @@ export default function DemoReviewPage() {
       backLabel="← Back to dashboard"
     />
   );
-}
+};
+
+export default DemoReviewPage;

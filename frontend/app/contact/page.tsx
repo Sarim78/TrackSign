@@ -1,9 +1,22 @@
+/**
+ * ContactPage — non-functional contact form and support email.
+ *
+ * Route: /contact
+ * Dependencies: Navbar, Footer
+ * TODO [BACKEND]: Wire up form submission to backend or email service
+ */
+
 "use client";
 
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 
-export default function ContactPage() {
+const ContactPage = () => {
+  // Placeholder submit until a backend endpoint exists.
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+  };
+
   return (
     <>
       <Navbar />
@@ -12,11 +25,11 @@ export default function ContactPage() {
         <p className="text-sm leading-relaxed" style={{ color: "#999" }}>
           Get in touch with the TrackSign team.
         </p>
-        {/* TODO: Wire up form submission to backend or email service */}
+        {/* TODO [BACKEND]: Wire up form submission to backend or email service */}
         <form
           className="mt-8 max-w-lg rounded-xl p-6"
           style={{ backgroundColor: "#1e1c18", border: "1px solid #2a2722" }}
-          onSubmit={(event) => event.preventDefault()}
+          onSubmit={handleSubmit}
         >
           <label htmlFor="name" className="mb-1.5 block text-xs" style={{ color: "#999" }}>
             Name
@@ -53,7 +66,7 @@ export default function ContactPage() {
           </button>
           <p className="mt-4 text-xs" style={{ color: "#666" }}>
             Or email us directly at{" "}
-            <a href="mailto:support@tracksign.com" style={{ color: "#E8614D" }}>
+            <a href="mailto:support@tracksign.com" rel="noopener noreferrer" style={{ color: "#E8614D" }}>
               support@tracksign.com
             </a>
           </p>
@@ -62,4 +75,6 @@ export default function ContactPage() {
       <Footer />
     </>
   );
-}
+};
+
+export default ContactPage;

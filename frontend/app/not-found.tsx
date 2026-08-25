@@ -1,8 +1,15 @@
+/**
+ * NotFound — 404 page for unmatched routes.
+ *
+ * Route: unmatched paths
+ * Dependencies: Navbar, Footer
+ */
+
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
 
-export default function NotFound() {
+const NotFound = () => {
   return (
     <>
       <Navbar />
@@ -25,4 +32,6 @@ export default function NotFound() {
       <Footer />
     </>
   );
-}
+};
+
+export default NotFound;

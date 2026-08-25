@@ -1,23 +1,31 @@
+/**
+ * Review store — localStorage persistence and finding pool for the prototype.
+ *
+ * Dependencies: browser localStorage
+ * TODO [BACKEND]: Replace localStorage with POST /api/reviews
+ */
+
 export type Severity = "high" | "medium" | "low";
 
-export type Finding = {
+export interface Finding {
   severity: Severity;
   category: string;
   clause: string;
   explanation: string;
   fairerVersion: string;
-};
+}
 
-export type Review = {
+export interface Review {
   id: string;
   filename: string;
   fileSize: string;
   date: string;
   findings: Finding[];
   flagCounts: { high: number; medium: number; low: number };
-};
+}
 
 const REVIEWS_KEY = "tracksign_reviews";
+const MAX_REVIEWS = 100;
 
 export const FINDING_POOL: Finding[] = [
   {
@@ -95,48 +103,55 @@ export const FINDING_POOL: Finding[] = [
   },
 ];
 
-function readAll(): Review[] {
+const readAll = (): Review[] => {
   if (typeof window === "undefined") return [];
   try {
     const raw = window.localStorage.getItem(REVIEWS_KEY);
     if (!raw) return [];
-    const parsed = JSON.parse(raw) as Review[];
-    return Array.isArray(parsed) ? parsed : [];
+    const parsed: unknown = JSON.parse(raw);
+    return Array.isArray(parsed) ? (parsed as Review[]) : [];
   } catch {
     return [];
   }
-}
+};
 
-function writeAll(reviews: Review[]) {
+const writeAll = (reviews: Review[]): void => {
   window.localStorage.setItem(REVIEWS_KEY, JSON.stringify(reviews));
-}
+};
 
-export function getReviews(): Review[] {
+export const getReviews = (): Review[] => {
   return readAll().sort((a, b) => (a.date < b.date ? 1 : -1));
-}
+};
 
-export function getReview(id: string): Review | null {
+export const getReview = (id: string): Review | null => {
   return readAll().find((review) => review.id === id) ?? null;
-}
+};
 
-export function saveReview(review: Review) {
+// Caps stored reviews so localStorage cannot grow without bound.
+export const saveReview = (review: Review): void => {
   const reviews = readAll().filter((item) => item.id !== review.id);
+  if (reviews.length >= MAX_REVIEWS) {
+    reviews.sort((a, b) => a.date.localeCompare(b.date));
+    reviews.shift();
+  }
   reviews.push(review);
   writeAll(reviews);
-}
+};
 
-export function clearReviews() {
+export const clearReviews = (): void => {
   if (typeof window === "undefined") return;
   window.localStorage.removeItem(REVIEWS_KEY);
-}
+};
 
-export function pickFindings(): Finding[] {
+// Picks 4-6 random findings for a simulated contract scan.
+export const pickFindings = (): Finding[] => {
   const shuffled = [...FINDING_POOL].sort(() => Math.random() - 0.5);
   const count = 4 + Math.floor(Math.random() * 3);
   return shuffled.slice(0, count);
-}
+};
 
-export function createReview(filename: string, fileSize: string): Review {
+// Builds a review from a filename, persists it, and returns it.
+export const createReview = (filename: string, fileSize: string): Review => {
   const findings = pickFindings();
   const review: Review = {
     id: crypto.randomUUID(),
@@ -152,33 +167,33 @@ export function createReview(filename: string, fileSize: string): Review {
   };
   saveReview(review);
   return review;
-}
+};
 
-export function formatFileSize(bytes: number) {
+export const formatFileSize = (bytes: number): string => {
   if (bytes < 1024) return `${bytes} B`;
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
   return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
-}
+};
 
-export function formatReviewDate(iso: string) {
+export const formatReviewDate = (iso: string): string => {
   return new Date(iso).toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
     year: "numeric",
   });
-}
+};
 
-export function riskScore(counts: { high: number; medium: number; low: number }) {
+export const riskScore = (counts: { high: number; medium: number; low: number }): number => {
   return Math.max(0, Math.min(100, 100 - (counts.high * 15 + counts.medium * 8 + counts.low * 2)));
-}
+};
 
-export function isCurrentMonth(iso: string) {
+export const isCurrentMonth = (iso: string): boolean => {
   const date = new Date(iso);
   const now = new Date();
   return date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear();
-}
+};
 
-export function reviewsByWeek(reviews: Review[]) {
+export const reviewsByWeek = (reviews: Review[]): { label: string; count: number }[] => {
   const now = new Date();
   return [3, 2, 1, 0].map((offset) => {
     const end = new Date(now);
@@ -191,4 +206,4 @@ export function reviewsByWeek(reviews: Review[]) {
     }).length;
     return { label: offset === 0 ? "This week" : `${offset}w ago`, count };
   });
-}
+};

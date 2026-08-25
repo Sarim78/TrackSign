@@ -1,7 +1,14 @@
+/**
+ * BlogPage — placeholder for product and freelance-contract posts.
+ *
+ * Route: /blog
+ * Dependencies: Navbar, Footer
+ */
+
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 
-export default function BlogPage() {
+const BlogPage = () => {
   return (
     <>
       <Navbar />
@@ -10,7 +17,7 @@ export default function BlogPage() {
         <p className="text-sm leading-relaxed" style={{ color: "#999" }}>
           Insights on freelance contracts, negotiation tips, and product updates.
         </p>
-        {/* TODO: Replace with real blog posts or integrate a CMS */}
+        {/* TODO [BACKEND]: Replace with real blog posts or integrate a CMS */}
         <div
           className="mt-8 rounded-xl p-12 text-center"
           style={{ backgroundColor: "#1e1c18", border: "1px solid #2a2722" }}
@@ -23,4 +30,6 @@ export default function BlogPage() {
       <Footer />
     </>
   );
-}
+};
+
+export default BlogPage;

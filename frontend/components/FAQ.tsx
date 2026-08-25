@@ -1,8 +1,19 @@
+/**
+ * FAQ — accordion of common product questions on the landing page.
+ *
+ * Route: /#faq
+ */
+
 "use client";
 
 import { useState } from "react";
 
-const faqs = [
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+const faqs: FaqItem[] = [
   {
     question: "What types of contracts does TrackSign review?",
     answer:
@@ -35,7 +46,7 @@ const faqs = [
   },
 ];
 
-export default function FAQ() {
+const FAQ = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
@@ -77,4 +88,6 @@ export default function FAQ() {
       })}
     </div>
   );
-}
+};
+
+export default FAQ;

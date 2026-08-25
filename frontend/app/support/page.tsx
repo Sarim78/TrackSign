@@ -1,7 +1,14 @@
+/**
+ * SupportPage — help contact details and FAQ link.
+ *
+ * Route: /support
+ * Dependencies: Navbar, Footer
+ */
+
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 
-export default function SupportPage() {
+const SupportPage = () => {
   return (
     <>
       <Navbar />
@@ -13,7 +20,7 @@ export default function SupportPage() {
         <h2 className="mt-8 mb-3 text-lg font-semibold text-[#EDEDED]">Email</h2>
         <p className="text-sm leading-relaxed" style={{ color: "#999" }}>
           Reach us at{" "}
-          <a href="mailto:support@tracksign.com" style={{ color: "#E8614D" }}>
+          <a href="mailto:support@tracksign.com" rel="noopener noreferrer" style={{ color: "#E8614D" }}>
             support@tracksign.com
           </a>{" "}
           for any questions or issues.
@@ -33,4 +40,6 @@ export default function SupportPage() {
       <Footer />
     </>
   );
-}
+};
+
+export default SupportPage;

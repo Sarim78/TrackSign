@@ -1,7 +1,14 @@
+/**
+ * StatusPage — placeholder operational status for TrackSign services.
+ *
+ * Route: /status
+ * Dependencies: Navbar, Footer
+ */
+
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 
-export default function StatusPage() {
+const StatusPage = () => {
   return (
     <>
       <Navbar />
@@ -10,7 +17,7 @@ export default function StatusPage() {
         <p className="mb-8 text-sm leading-relaxed" style={{ color: "#999" }}>
           Current operational status of TrackSign services.
         </p>
-        {/* TODO: Connect to real status monitoring */}
+        {/* TODO [BACKEND]: Connect to real status monitoring */}
         <div
           className="rounded-xl p-6"
           style={{ backgroundColor: "#1e1c18", border: "1px solid #2a2722" }}
@@ -41,4 +48,6 @@ export default function StatusPage() {
       <Footer />
     </>
   );
-}
+};
+
+export default StatusPage;

@@ -1,3 +1,11 @@
+/**
+ * DashboardPage — home overview with stats, quick actions, and recent reviews.
+ *
+ * Route: /dashboard
+ * Dependencies: useAuth, review store
+ * TODO [BACKEND]: Replace localStorage with GET /api/reviews
+ */
+
 "use client";
 
 import Link from "next/link";
@@ -5,22 +13,19 @@ import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { formatReviewDate, getReviews, isCurrentMonth, type Review } from "@/lib/reviews";
 
+interface ActionCardProps {
+  href: string;
+  title: string;
+  subtext: string;
+  showArrow?: boolean;
+}
+
 const cardStyle = {
   backgroundColor: "#1e1c18",
   border: "1px solid #2a2722",
 } as const;
 
-function ActionCard({
-  href,
-  title,
-  subtext,
-  showArrow,
-}: {
-  href: string;
-  title: string;
-  subtext: string;
-  showArrow?: boolean;
-}) {
+const ActionCard = ({ href, title, subtext, showArrow }: ActionCardProps) => {
   return (
     <Link href={href} className="card-hover group cursor-pointer rounded-xl p-6" style={cardStyle}>
       <div className="flex items-start justify-between gap-4">
@@ -38,9 +43,9 @@ function ActionCard({
       </div>
     </Link>
   );
-}
+};
 
-export default function DashboardPage() {
+const DashboardPage = () => {
   const { user } = useAuth();
   const [reviews, setReviews] = useState<Review[]>([]);
 
@@ -177,4 +182,6 @@ export default function DashboardPage() {
       </section>
     </div>
   );
-}
+};
+
+export default DashboardPage;

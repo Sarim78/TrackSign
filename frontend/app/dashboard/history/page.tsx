@@ -1,18 +1,28 @@
+/**
+ * HistoryPage — filterable list of saved contract reviews.
+ *
+ * Route: /dashboard/history
+ * Dependencies: review store
+ * TODO [BACKEND]: Replace localStorage with GET /api/reviews
+ */
+
 "use client";
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { formatReviewDate, getReviews, isCurrentMonth, type Review } from "@/lib/reviews";
 
-const filters = ["All", "High risk", "This month"] as const;
+type HistoryFilter = "All" | "High risk" | "This month";
+
+const filters: HistoryFilter[] = ["All", "High risk", "This month"];
 
 const cardStyle = {
   backgroundColor: "#1e1c18",
   border: "1px solid #2a2722",
 } as const;
 
-export default function HistoryPage() {
-  const [active, setActive] = useState<(typeof filters)[number]>("All");
+const HistoryPage = () => {
+  const [active, setActive] = useState<HistoryFilter>("All");
   const [reviews, setReviews] = useState<Review[]>([]);
 
   useEffect(() => {
@@ -40,6 +50,7 @@ export default function HistoryPage() {
               key={filter}
               type="button"
               onClick={() => setActive(filter)}
+              aria-pressed={selected}
               className="rounded-md px-3 py-1.5 text-xs"
               style={{
                 backgroundColor: selected ? "#1e1c18" : "transparent",
@@ -111,4 +122,6 @@ export default function HistoryPage() {
       )}
     </div>
   );
-}
+};
+
+export default HistoryPage;

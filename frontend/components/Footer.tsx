@@ -1,4 +1,8 @@
-export default function Footer() {
+/**
+ * Footer — site-wide marketing footer with product, legal, and social links.
+ */
+
+const Footer = () => {
   return (
     <footer className="mt-20 overflow-x-hidden" style={{ borderTop: "1px solid #2a2722" }}>
       <div className="mx-auto max-w-7xl px-4 py-16 md:px-6">
@@ -91,4 +95,6 @@ export default function Footer() {
       </div>
     </footer>
   );
-}
+};
+
+export default Footer;

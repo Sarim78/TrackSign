@@ -1,3 +1,11 @@
+/**
+ * UploadPage — PDF drop zone that runs a simulated scan and saves a review.
+ *
+ * Route: /dashboard/upload
+ * Dependencies: useAuth, review store
+ * TODO [BACKEND]: Replace localStorage with POST /api/reviews
+ */
+
 "use client";
 
 import Link from "next/link";
@@ -13,17 +21,17 @@ const cardStyle = {
 
 const STEPS = ["Uploading file...", "Extracting text...", "Analyzing clauses...", "Generating report..."];
 
-export default function UploadPage() {
+const UploadPage = () => {
   const router = useRouter();
   const { user, incrementReviewCount } = useAuth();
   const inputRef = useRef<HTMLInputElement>(null);
-  const [hovered, setHovered] = useState(false);
-  const [dragging, setDragging] = useState(false);
+  const [hovered, setHovered] = useState<boolean>(false);
+  const [dragging, setDragging] = useState<boolean>(false);
   const [file, setFile] = useState<File | null>(null);
-  const [error, setError] = useState("");
-  const [blocked, setBlocked] = useState(false);
+  const [error, setError] = useState<string>("");
+  const [blocked, setBlocked] = useState<boolean>(false);
   const [status, setStatus] = useState<"idle" | "processing">("idle");
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState<number>(0);
   const timers = useRef<number[]>([]);
 
   useEffect(() => {
@@ -32,12 +40,14 @@ export default function UploadPage() {
     };
   }, []);
 
-  function takeFile(next: File | undefined) {
+  // Accepts a PDF only when both the extension and MIME type match.
+  const takeFile = (next: File | undefined) => {
     if (!next) return;
     setError("");
     setBlocked(false);
-    const isPdf = next.type === "application/pdf" || next.name.toLowerCase().endsWith(".pdf");
-    if (!isPdf) {
+    const hasPdfExtension = next.name.toLowerCase().endsWith(".pdf");
+    const hasPdfMime = next.type === "application/pdf";
+    if (!hasPdfExtension || !hasPdfMime) {
       setFile(null);
       setError("Only PDF files are supported.");
       return;
@@ -49,11 +59,33 @@ export default function UploadPage() {
     }
     setFile(next);
     setStatus("idle");
-  }
+  };
 
-  function startReview() {
+  // Handles file drop on the upload zone — validates type and size.
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setDragging(false);
+    takeFile(event.dataTransfer.files[0]);
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    takeFile(event.target.files?.[0]);
+  };
+
+  const handleZoneKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      inputRef.current?.click();
+    }
+  };
+
+  // Checks if user is on free plan and has used their review.
+  const canUpload = user?.plan === "pro" || (user?.reviewCount ?? 0) < 1;
+
+  // Runs the fake scan, then saves the review and opens the report.
+  const handleStartReview = () => {
     if (!file || !user) return;
-    if (user.plan === "free" && user.reviewCount >= 1) {
+    if (!canUpload) {
       setBlocked(true);
       return;
     }
@@ -71,7 +103,7 @@ export default function UploadPage() {
         router.push(`/dashboard/${review.id}`);
       }, 5000),
     ];
-  }
+  };
 
   const accent = hovered || dragging;
 
@@ -85,6 +117,9 @@ export default function UploadPage() {
       {status === "idle" ? (
         <>
           <div
+            role="button"
+            tabIndex={0}
+            aria-label="Upload a PDF contract"
             className="cursor-pointer rounded-xl p-16 text-center"
             style={{
               backgroundColor: "#1e1c18",
@@ -92,6 +127,7 @@ export default function UploadPage() {
               boxShadow: dragging ? "0 0 20px -5px rgba(232,97,77,0.2)" : "none",
             }}
             onClick={() => inputRef.current?.click()}
+            onKeyDown={handleZoneKeyDown}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
             onDragOver={(event) => {
@@ -99,11 +135,7 @@ export default function UploadPage() {
               setDragging(true);
             }}
             onDragLeave={() => setDragging(false)}
-            onDrop={(event) => {
-              event.preventDefault();
-              setDragging(false);
-              takeFile(event.dataTransfer.files[0]);
-            }}
+            onDrop={handleDrop}
           >
             <div
               className="relative mx-auto h-12 w-10"
@@ -130,11 +162,12 @@ export default function UploadPage() {
               type="file"
               accept=".pdf,application/pdf"
               className="hidden"
-              onChange={(event) => takeFile(event.target.files?.[0])}
+              aria-label="Choose PDF file"
+              onChange={handleFileChange}
             />
           </div>
           {error ? (
-            <p className="mt-3 text-xs" style={{ color: "#EF4444" }}>
+            <p className="mt-3 text-xs" role="alert" style={{ color: "#EF4444" }}>
               {error}
             </p>
           ) : null}
@@ -156,7 +189,7 @@ export default function UploadPage() {
               </div>
               <button
                 type="button"
-                onClick={startReview}
+                onClick={handleStartReview}
                 className="shrink-0 rounded-md px-5 py-2.5 text-sm text-white"
                 style={{ backgroundColor: "#E8614D" }}
               >
@@ -166,7 +199,7 @@ export default function UploadPage() {
           ) : null}
 
           {blocked ? (
-            <div className="mt-4 rounded-xl p-6 text-center" style={cardStyle}>
+            <div className="mt-4 rounded-xl p-6 text-center" role="alert" style={cardStyle}>
               <p className="text-sm">You have used your free review. Upgrade to Pro for unlimited reviews.</p>
               <Link
                 href="/dashboard/settings"
@@ -215,4 +248,6 @@ export default function UploadPage() {
       ) : null}
     </div>
   );
-}
+};
+
+export default UploadPage;

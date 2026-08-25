@@ -1,15 +1,45 @@
+/**
+ * DashboardShell — authenticated chrome with sidebar, top bar, and route guard.
+ *
+ * Route: /dashboard/*
+ * Dependencies: useAuth, review store
+ * TODO [BACKEND]: Replace fake auth with Clerk useUser()
+ */
+
 "use client";
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { initials, useAuth } from "@/lib/auth";
 import { getReviews } from "@/lib/reviews";
 
-const mainNav = [{ href: "/dashboard", label: "Dashboard" }];
-const accountNav = [{ href: "/dashboard/settings", label: "Settings" }];
+interface NavItem {
+  href: string;
+  label: string;
+}
 
-function pageTitle(pathname: string) {
+interface NavLinkProps {
+  href: string;
+  label: string;
+  pathname: string;
+  badge?: string;
+  showNew?: boolean;
+  onClick: () => void;
+}
+
+interface SectionLabelProps {
+  children: string;
+}
+
+interface DashboardShellProps {
+  children: ReactNode;
+}
+
+const mainNav: NavItem[] = [{ href: "/dashboard", label: "Dashboard" }];
+const accountNav: NavItem[] = [{ href: "/dashboard/settings", label: "Settings" }];
+
+const pageTitle = (pathname: string): string => {
   if (pathname === "/dashboard") return "Dashboard";
   if (pathname.startsWith("/dashboard/upload")) return "Upload contract";
   if (pathname.startsWith("/dashboard/history")) return "Review history";
@@ -17,28 +47,14 @@ function pageTitle(pathname: string) {
   if (pathname.startsWith("/dashboard/review-demo")) return "Demo review";
   if (pathname.startsWith("/dashboard/")) return "Review";
   return "Dashboard";
-}
+};
 
-function isActive(pathname: string, href: string) {
+const isActive = (pathname: string, href: string): boolean => {
   if (href === "/dashboard") return pathname === "/dashboard";
   return pathname.startsWith(href);
-}
+};
 
-function NavLink({
-  href,
-  label,
-  pathname,
-  badge,
-  showNew,
-  onClick,
-}: {
-  href: string;
-  label: string;
-  pathname: string;
-  badge?: string;
-  showNew?: boolean;
-  onClick: () => void;
-}) {
+const NavLink = ({ href, label, pathname, badge, showNew, onClick }: NavLinkProps) => {
   const active = isActive(pathname, href);
 
   return (
@@ -70,25 +86,26 @@ function NavLink({
       ) : null}
     </Link>
   );
-}
+};
 
-function SectionLabel({ children }: { children: string }) {
+const SectionLabel = ({ children }: SectionLabelProps) => {
   return (
     <p className="mb-2 mt-6 px-5 text-[10px] tracking-wider" style={{ color: "#555" }}>
       {children}
     </p>
   );
-}
+};
 
-export default function DashboardShell({ children }: { children: React.ReactNode }) {
+const DashboardShell = ({ children }: DashboardShellProps) => {
   const pathname = usePathname();
   const router = useRouter();
   const { ready, isLoggedIn, user, logout } = useAuth();
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [reviewTotal, setReviewTotal] = useState(0);
-  const close = () => setMobileOpen(false);
+  const [mobileOpen, setMobileOpen] = useState<boolean>(false);
+  const [reviewTotal, setReviewTotal] = useState<number>(0);
+  const handleClose = () => setMobileOpen(false);
   const current = pageTitle(pathname);
 
+  // Sends unauthenticated visitors to sign-in after localStorage hydrates.
   useEffect(() => {
     if (!ready) return;
     if (!isLoggedIn) router.replace("/sign-in");
@@ -110,7 +127,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
           aria-label="Close menu"
           className="fixed inset-0 z-40 md:hidden"
           style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
-          onClick={close}
+          onClick={handleClose}
         />
       ) : null}
 
@@ -124,26 +141,26 @@ export default function DashboardShell({ children }: { children: React.ReactNode
           className="pointer-events-none absolute -left-10 -top-10 h-32 w-32 rounded-full"
           style={{ background: "radial-gradient(circle, rgba(232,97,77,0.06) 0%, transparent 70%)" }}
         />
-        <Link href="/dashboard" className="relative px-5 pt-5 text-sm font-semibold" onClick={close}>
+        <Link href="/dashboard" className="relative px-5 pt-5 text-sm font-semibold" onClick={handleClose}>
           TrackSign
         </Link>
         <nav className="relative flex flex-1 flex-col">
           <SectionLabel>MAIN</SectionLabel>
           {mainNav.map((item) => (
-            <NavLink key={item.href} {...item} pathname={pathname} onClick={close} />
+            <NavLink key={item.href} {...item} pathname={pathname} onClick={handleClose} />
           ))}
           <SectionLabel>CONTRACTS</SectionLabel>
-          <NavLink href="/dashboard/upload" label="Upload contract" pathname={pathname} showNew onClick={close} />
+          <NavLink href="/dashboard/upload" label="Upload contract" pathname={pathname} showNew onClick={handleClose} />
           <NavLink
             href="/dashboard/history"
             label="Review history"
             pathname={pathname}
             badge={String(reviewTotal)}
-            onClick={close}
+            onClick={handleClose}
           />
           <SectionLabel>ACCOUNT</SectionLabel>
           {accountNav.map((item) => (
-            <NavLink key={item.href} {...item} pathname={pathname} onClick={close} />
+            <NavLink key={item.href} {...item} pathname={pathname} onClick={handleClose} />
           ))}
         </nav>
         <div className="relative px-5 py-4" style={{ borderTop: "1px solid #2a2722" }}>
@@ -192,6 +209,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
           <button
             type="button"
             aria-label="Open menu"
+            aria-expanded={mobileOpen}
             className="flex h-8 w-8 flex-col items-center justify-center gap-1.5"
             onClick={() => setMobileOpen(true)}
           >
@@ -231,7 +249,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
           >
             Search contracts...
           </div>
-          {/* TODO: Wire up contract search */}
+          {/* TODO [BACKEND]: Wire up contract search */}
           <div className="flex items-center gap-3">
             <Link
               href="/dashboard/upload"
@@ -242,6 +260,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
             </Link>
             <Link
               href="/dashboard/settings"
+              aria-label="Account settings"
               className="flex h-7 w-7 items-center justify-center rounded-full text-[10px] font-medium text-white"
               style={{ backgroundColor: "#E8614D" }}
             >
@@ -254,4 +273,6 @@ export default function DashboardShell({ children }: { children: React.ReactNode
       </div>
     </div>
   );
-}
+};
+
+export default DashboardShell;

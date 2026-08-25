@@ -1,7 +1,14 @@
+/**
+ * CareersPage — hiring placeholder with LinkedIn link.
+ *
+ * Route: /careers
+ * Dependencies: Navbar, Footer
+ */
+
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 
-export default function CareersPage() {
+const CareersPage = () => {
   return (
     <>
       <Navbar />
@@ -31,4 +38,6 @@ export default function CareersPage() {
       <Footer />
     </>
   );
-}
+};
+
+export default CareersPage;

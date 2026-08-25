@@ -1,3 +1,9 @@
+/**
+ * ReviewReport — shared contract report UI with risk ring and expandable findings.
+ *
+ * Dependencies: review store types
+ */
+
 "use client";
 
 import Link from "next/link";
@@ -5,23 +11,34 @@ import { useMemo, useState } from "react";
 import type { Finding, Review, Severity } from "@/lib/reviews";
 import { riskScore } from "@/lib/reviews";
 
+interface ReviewReportProps {
+  review: Review;
+  dateLabel: string;
+  backHref: string;
+  backLabel: string;
+}
+
+interface RiskRingProps {
+  score: number;
+}
+
 const badgeStyle: Record<Severity, { backgroundColor: string; color: string; border: string }> = {
   high: { backgroundColor: "rgba(239,68,68,0.1)", color: "#EF4444", border: "3px solid #EF4444" },
   medium: { backgroundColor: "rgba(245,158,11,0.1)", color: "#F59E0B", border: "3px solid #F59E0B" },
   low: { backgroundColor: "rgba(34,197,94,0.1)", color: "#22C55E", border: "3px solid #22C55E" },
 };
 
-function label(severity: Severity) {
+const label = (severity: Severity): string => {
   return severity === "high" ? "High" : severity === "medium" ? "Medium" : "Low";
-}
+};
 
-function scoreColor(score: number) {
+const scoreColor = (score: number): string => {
   if (score > 70) return "#22C55E";
   if (score >= 40) return "#F59E0B";
   return "#EF4444";
-}
+};
 
-function RiskRing({ score }: { score: number }) {
+const RiskRing = ({ score }: RiskRingProps) => {
   const radius = 26;
   const circ = 2 * Math.PI * radius;
   const offset = circ - (score / 100) * circ;
@@ -29,7 +46,7 @@ function RiskRing({ score }: { score: number }) {
 
   return (
     <div className="relative h-16 w-16 shrink-0">
-      <svg viewBox="0 0 64 64" className="h-16 w-16 -rotate-90">
+      <svg viewBox="0 0 64 64" className="h-16 w-16 -rotate-90" aria-hidden="true">
         <circle cx="32" cy="32" r={radius} fill="none" stroke="#2a2722" strokeWidth="6" />
         <circle
           cx="32"
@@ -48,9 +65,9 @@ function RiskRing({ score }: { score: number }) {
       </span>
     </div>
   );
-}
+};
 
-function reportText(filename: string, findings: Finding[]) {
+const reportText = (filename: string, findings: Finding[]): string => {
   const lines = [`TrackSign Report - ${filename}`, ""];
   findings.forEach((finding) => {
     lines.push(`[${label(finding.severity)}] ${finding.category}`);
@@ -60,24 +77,15 @@ function reportText(filename: string, findings: Finding[]) {
     lines.push("");
   });
   return lines.join("\n");
-}
+};
 
-export default function ReviewReport({
-  review,
-  dateLabel,
-  backHref,
-  backLabel,
-}: {
-  review: Review;
-  dateLabel: string;
-  backHref: string;
-  backLabel: string;
-}) {
-  const [openIndex, setOpenIndex] = useState(0);
-  const [copied, setCopied] = useState(false);
+const ReviewReport = ({ review, dateLabel, backHref, backLabel }: ReviewReportProps) => {
+  const [openIndex, setOpenIndex] = useState<number>(0);
+  const [copied, setCopied] = useState<boolean>(false);
   const score = useMemo(() => riskScore(review.flagCounts), [review.flagCounts]);
 
-  async function copyReport() {
+  // Copies the full report text to the clipboard.
+  const handleCopyReport = async () => {
     try {
       await navigator.clipboard.writeText(reportText(review.filename, review.findings));
       setCopied(true);
@@ -85,7 +93,7 @@ export default function ReviewReport({
     } catch {
       setCopied(false);
     }
-  }
+  };
 
   return (
     <div>
@@ -130,7 +138,7 @@ export default function ReviewReport({
           </button>
           <button
             type="button"
-            onClick={copyReport}
+            onClick={handleCopyReport}
             className="rounded-md px-3 py-1.5 text-xs"
             style={{ border: "1px solid #2a2722", color: "#EDEDED" }}
           >
@@ -212,4 +220,6 @@ export default function ReviewReport({
       </p>
     </div>
   );
-}
+};
+
+export default ReviewReport;

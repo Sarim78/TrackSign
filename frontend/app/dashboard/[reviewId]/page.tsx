@@ -1,3 +1,11 @@
+/**
+ * ReviewReportPage — loads a saved review by ID and renders the report.
+ *
+ * Route: /dashboard/[reviewId]
+ * Dependencies: ReviewReport, review store
+ * TODO [BACKEND]: Replace localStorage with GET /api/reviews/:id
+ */
+
 "use client";
 
 import Link from "next/link";
@@ -6,7 +14,7 @@ import { useEffect, useState } from "react";
 import ReviewReport from "@/components/ReviewReport";
 import { formatReviewDate, getReview, type Review } from "@/lib/reviews";
 
-export default function ReviewReportPage() {
+const ReviewReportPage = () => {
   const params = useParams<{ reviewId: string }>();
   const [review, setReview] = useState<Review | null | undefined>(undefined);
 
@@ -46,4 +54,6 @@ export default function ReviewReportPage() {
       backLabel="← Back to history"
     />
   );
-}
+};
+
+export default ReviewReportPage;

@@ -4,6 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
+/**
+ * Global styles — base theme, focus outlines, and landing animations.
+ */
+
 html {
   background-color: #171412;
   scroll-behavior: smooth;

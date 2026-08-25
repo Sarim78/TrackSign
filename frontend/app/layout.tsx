@@ -1,4 +1,12 @@
+/**
+ * RootLayout — wraps every page with global styles, metadata, and auth.
+ *
+ * Route: all routes
+ * Dependencies: Providers (AuthProvider)
+ */
+
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import Providers from "@/components/Providers";
 import "./globals.css";
 
@@ -19,13 +27,14 @@ export const metadata: Metadata = {
     description:
       "Upload a contract and get a plain-English report flagging risky, unfair, or unusual terms. Severity ratings, explanations, and fairer alternatives.",
   },
+  referrer: "strict-origin-when-cross-origin",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+interface RootLayoutProps {
+  children: ReactNode;
+}
+
+const RootLayout = ({ children }: RootLayoutProps) => {
   return (
     <html lang="en" className="scroll-smooth">
       <body
@@ -37,4 +46,6 @@ export default function RootLayout({
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;

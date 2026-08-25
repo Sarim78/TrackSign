@@ -1,7 +1,20 @@
+/**
+ * Providers — client wrapper for app-wide React context.
+ *
+ * Dependencies: AuthProvider
+ */
+
 "use client";
 
 import { AuthProvider } from "@/lib/auth";
+import type { ReactNode } from "react";
 
-export default function Providers({ children }: { children: React.ReactNode }) {
-  return <AuthProvider>{children}</AuthProvider>;
+interface ProvidersProps {
+  children: ReactNode;
 }
+
+const Providers = ({ children }: ProvidersProps) => {
+  return <AuthProvider>{children}</AuthProvider>;
+};
+
+export default Providers;

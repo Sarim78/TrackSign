@@ -1,12 +1,19 @@
+/**
+ * DisclaimerPage — “not legal advice” disclosure for TrackSign reports.
+ *
+ * Route: /disclaimer
+ * Dependencies: Navbar, Footer
+ */
+
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 
-export default function DisclaimerPage() {
+const DisclaimerPage = () => {
   return (
     <>
       <Navbar />
       <main className="mx-auto max-w-3xl px-6 pb-20 pt-28">
-        {/* TODO: Have a lawyer review */}
+        {/* TODO [BACKEND]: Have a lawyer review */}
         <p className="mb-4 text-xs" style={{ color: "#666" }}>
           Last updated: August 2026
         </p>
@@ -30,4 +37,6 @@ export default function DisclaimerPage() {
       <Footer />
     </>
   );
-}
+};
+
+export default DisclaimerPage;

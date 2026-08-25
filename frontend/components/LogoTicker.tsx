@@ -1,6 +1,9 @@
+/**
+ * LogoTicker — scrolling “trusted by” names on the landing page.
+ */
+
 "use client";
 
-// Replace with real client logos when available
 const names = [
   "PixelCraft Studio",
   "Devbridge",
@@ -9,7 +12,7 @@ const names = [
   "Stackline Digital",
 ];
 
-export default function LogoTicker() {
+const LogoTicker = () => {
   return (
     <section
       className="mb-16 py-10 md:mb-20 md:py-12"
@@ -45,4 +48,6 @@ export default function LogoTicker() {
       </div>
     </section>
   );
-}
+};
+
+export default LogoTicker;

@@ -1,3 +1,9 @@
+/**
+ * Navbar — marketing site header with auth-aware CTAs and a mobile menu.
+ *
+ * Dependencies: useAuth
+ */
+
 "use client";
 
 import Link from "next/link";
@@ -5,27 +11,34 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { initials, useAuth } from "@/lib/auth";
 
-const centerLinks = [
+interface NavItem {
+  href: string;
+  label: string;
+  match: string | null;
+}
+
+const centerLinks: NavItem[] = [
   { href: "/#features", label: "Features", match: null },
   { href: "/#faq", label: "FAQ", match: null },
   { href: "/blog", label: "Blog", match: "/blog" },
   { href: "/docs", label: "Docs", match: "/docs" },
 ];
 
-function isActive(pathname: string, match: string | null) {
+// Marks a marketing link as current when the path matches its route.
+const isActive = (pathname: string, match: string | null): boolean => {
   if (!match) return false;
   return pathname === match || pathname.startsWith(`${match}/`);
-}
+};
 
-export default function Navbar() {
+const Navbar = () => {
   const pathname = usePathname();
   const { ready, isLoggedIn, user } = useAuth();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const [hovered, setHovered] = useState<string | null>(null);
 
-  function close() {
+  const handleClose = () => {
     setOpen(false);
-  }
+  };
 
   const loggedIn = ready && isLoggedIn && user;
 
@@ -74,6 +87,7 @@ export default function Navbar() {
               </Link>
               <Link
                 href="/dashboard/settings"
+                aria-label="Account settings"
                 className="hidden h-7 w-7 items-center justify-center rounded-full text-[10px] font-medium text-white md:flex"
                 style={{ backgroundColor: "#E8614D" }}
               >
@@ -125,7 +139,7 @@ export default function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              onClick={close}
+              onClick={handleClose}
               className="block py-2.5 text-sm transition-colors duration-150"
               style={{ color: "#999", borderBottom: "1px solid #2a2722" }}
             >
@@ -134,12 +148,12 @@ export default function Navbar() {
           ))}
           {loggedIn ? (
             <>
-              <Link href="/dashboard" onClick={close} className="mt-3 block py-2.5 text-sm" style={{ color: "#999" }}>
+              <Link href="/dashboard" onClick={handleClose} className="mt-3 block py-2.5 text-sm" style={{ color: "#999" }}>
                 Dashboard
               </Link>
               <Link
                 href="/dashboard/settings"
-                onClick={close}
+                onClick={handleClose}
                 className="mt-2 block rounded-md px-4 py-2 text-center text-[13px] font-medium text-white"
                 style={{ backgroundColor: "#E8614D" }}
               >
@@ -148,12 +162,12 @@ export default function Navbar() {
             </>
           ) : (
             <>
-              <Link href="/sign-in" onClick={close} className="mt-3 block py-2.5 text-sm" style={{ color: "#999" }}>
+              <Link href="/sign-in" onClick={handleClose} className="mt-3 block py-2.5 text-sm" style={{ color: "#999" }}>
                 Sign in
               </Link>
               <Link
                 href="/sign-up"
-                onClick={close}
+                onClick={handleClose}
                 className="mt-2 block rounded-md px-4 py-2 text-center text-[13px] font-medium text-white transition-all duration-150 hover:opacity-90"
                 style={{ backgroundColor: "#E8614D" }}
               >
@@ -165,4 +179,6 @@ export default function Navbar() {
       ) : null}
     </nav>
   );
-}
+};
+
+export default Navbar;
