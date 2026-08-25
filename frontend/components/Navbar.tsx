@@ -1,40 +1,137 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+
+const centerLinks = [
+  { href: "/#features", label: "Features", match: null },
+  { href: "/#faq", label: "FAQ", match: null },
+  { href: "/blog", label: "Blog", match: "/blog" },
+  { href: "/docs", label: "Docs", match: "/docs" },
+];
+
+function isActive(pathname: string, match: string | null) {
+  if (!match) return false;
+  return pathname === match || pathname.startsWith(`${match}/`);
+}
+
 export default function Navbar() {
+  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+  const [hovered, setHovered] = useState<string | null>(null);
+
+  function close() {
+    setOpen(false);
+  }
+
   return (
     <nav
       className="fixed top-0 z-50 w-full backdrop-blur-xl"
       style={{
-        backgroundColor: "rgba(23, 20, 18, 0.9)",
+        backgroundColor: "rgba(23, 20, 18, 0.85)",
         borderBottom: "1px solid #2a2722",
       }}
     >
-      <div className="mx-auto flex h-12 max-w-7xl items-center justify-between px-4 md:px-6">
-        <a href="/" className="text-sm font-semibold">
+      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-6">
+        <Link href="/" className="flex items-center text-[15px] font-semibold tracking-tight" style={{ color: "#EDEDED" }}>
           TrackSign
-        </a>
-        <div className="hidden items-center gap-6 md:flex">
-          <a href="/#features" className="text-[13px] text-[#999] hover:text-[#EDEDED]">
-            Features
-          </a>
-          <a href="/#faq" className="text-[13px] text-[#999] hover:text-[#EDEDED]">
-            FAQ
-          </a>
-          <a href="/blog" className="text-[13px] text-[#999] hover:text-[#EDEDED]">
-            Blog
-          </a>
+          <span
+            className="ml-1.5 inline-block h-1.5 w-1.5 rounded-full"
+            style={{ backgroundColor: "#E8614D" }}
+          />
+        </Link>
+
+        <div className="hidden items-center gap-1 md:flex">
+          {centerLinks.map((link) => {
+            const active = isActive(pathname, link.match);
+            const isHovered = hovered === link.href;
+
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="rounded-md px-3 py-1.5 text-[13px] transition-colors duration-150"
+                style={{
+                  color: active || isHovered ? "#EDEDED" : "#999",
+                  backgroundColor: active || isHovered ? "rgba(255,255,255,0.05)" : "transparent",
+                }}
+                onMouseEnter={() => setHovered(link.href)}
+                onMouseLeave={() => setHovered(null)}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
         </div>
-        <div className="flex items-center gap-3 md:gap-4">
-          <a href="/sign-in" className="text-[13px] text-[#999] hover:text-[#EDEDED]">
+
+        <div className="flex items-center gap-3">
+          <Link
+            href="/sign-in"
+            className="hidden text-[13px] transition-colors duration-150 hover:opacity-100 md:inline"
+            style={{ color: "#999" }}
+            onMouseEnter={(event) => {
+              event.currentTarget.style.color = "#EDEDED";
+            }}
+            onMouseLeave={(event) => {
+              event.currentTarget.style.color = "#999";
+            }}
+          >
             Sign in
-          </a>
-          <a
+          </Link>
+          <span className="hidden h-4 w-px md:block" style={{ backgroundColor: "#2a2722" }} />
+          <Link
             href="/sign-up"
-            className="rounded-md px-3 py-1.5 text-[13px] hover:opacity-90 md:px-3.5"
-            style={{ border: "1px solid #2a2722" }}
+            className="hidden rounded-md px-4 py-1.5 text-[13px] font-medium text-white transition-all duration-150 hover:opacity-90 md:inline-block"
+            style={{ backgroundColor: "#E8614D" }}
           >
             Get started
-          </a>
+          </Link>
+          <button
+            type="button"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            className="flex flex-col gap-[4px] md:hidden"
+            onClick={() => setOpen((value) => !value)}
+          >
+            <span className="block h-[1.5px] w-4" style={{ backgroundColor: "#EDEDED" }} />
+            <span className="block h-[1.5px] w-4" style={{ backgroundColor: "#EDEDED" }} />
+            <span className="block h-[1.5px] w-4" style={{ backgroundColor: "#EDEDED" }} />
+          </button>
         </div>
       </div>
+
+      {open ? (
+        <div className="px-6 py-4 md:hidden" style={{ backgroundColor: "#1e1c18", borderBottom: "1px solid #2a2722" }}>
+          {centerLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              onClick={close}
+              className="block py-2.5 text-sm transition-colors duration-150"
+              style={{ color: "#999", borderBottom: "1px solid #2a2722" }}
+            >
+              {link.label}
+            </Link>
+          ))}
+          <Link
+            href="/sign-in"
+            onClick={close}
+            className="mt-3 block py-2.5 text-sm transition-colors duration-150"
+            style={{ color: "#999" }}
+          >
+            Sign in
+          </Link>
+          <Link
+            href="/sign-up"
+            onClick={close}
+            className="mt-2 block rounded-md px-4 py-2 text-center text-[13px] font-medium text-white transition-all duration-150 hover:opacity-90"
+            style={{ backgroundColor: "#E8614D" }}
+          >
+            Get started
+          </Link>
+        </div>
+      ) : null}
     </nav>
   );
 }
