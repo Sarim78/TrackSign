@@ -6,11 +6,39 @@
 
 html {
   background-color: #171412;
+  scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
   background-color: #171412;
+}
+
+::selection {
+  background: rgba(232, 97, 77, 0.3);
+  color: #ededed;
+}
+
+*:focus-visible {
+  outline: 2px solid #e8614d;
+  outline-offset: 2px;
+}
+
+.card-hover {
+  transition: border-color 0.2s;
+}
+
+.card-hover:hover {
+  border-color: #3a3632 !important;
+}
+
+.quick-action-arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.group:hover .quick-action-arrow {
+  transform: translateX(4px);
 }
 
 @keyframes fadeInUp {

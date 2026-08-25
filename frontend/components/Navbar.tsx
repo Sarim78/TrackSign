@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { initials, useAuth } from "@/lib/auth";
 
 const centerLinks = [
   { href: "/#features", label: "Features", match: null },
@@ -18,12 +19,15 @@ function isActive(pathname: string, match: string | null) {
 
 export default function Navbar() {
   const pathname = usePathname();
+  const { ready, isLoggedIn, user } = useAuth();
   const [open, setOpen] = useState(false);
   const [hovered, setHovered] = useState<string | null>(null);
 
   function close() {
     setOpen(false);
   }
+
+  const loggedIn = ready && isLoggedIn && user;
 
   return (
     <nav
@@ -36,10 +40,7 @@ export default function Navbar() {
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-6">
         <Link href="/" className="flex items-center text-[15px] font-semibold tracking-tight" style={{ color: "#EDEDED" }}>
           TrackSign
-          <span
-            className="ml-1.5 inline-block h-1.5 w-1.5 rounded-full"
-            style={{ backgroundColor: "#E8614D" }}
-          />
+          <span className="ml-1.5 inline-block h-1.5 w-1.5 rounded-full" style={{ backgroundColor: "#E8614D" }} />
         </Link>
 
         <div className="hidden items-center gap-1 md:flex">
@@ -66,27 +67,44 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-3">
-          <Link
-            href="/sign-in"
-            className="hidden text-[13px] transition-colors duration-150 hover:opacity-100 md:inline"
-            style={{ color: "#999" }}
-            onMouseEnter={(event) => {
-              event.currentTarget.style.color = "#EDEDED";
-            }}
-            onMouseLeave={(event) => {
-              event.currentTarget.style.color = "#999";
-            }}
-          >
-            Sign in
-          </Link>
-          <span className="hidden h-4 w-px md:block" style={{ backgroundColor: "#2a2722" }} />
-          <Link
-            href="/sign-up"
-            className="hidden rounded-md px-4 py-1.5 text-[13px] font-medium text-white transition-all duration-150 hover:opacity-90 md:inline-block"
-            style={{ backgroundColor: "#E8614D" }}
-          >
-            Get started
-          </Link>
+          {loggedIn ? (
+            <>
+              <Link href="/dashboard" className="hidden text-[13px] md:inline" style={{ color: "#999" }}>
+                Dashboard
+              </Link>
+              <Link
+                href="/dashboard/settings"
+                className="hidden h-7 w-7 items-center justify-center rounded-full text-[10px] font-medium text-white md:flex"
+                style={{ backgroundColor: "#E8614D" }}
+              >
+                {initials(user.name)}
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link
+                href="/sign-in"
+                className="hidden text-[13px] transition-colors duration-150 md:inline"
+                style={{ color: "#999" }}
+                onMouseEnter={(event) => {
+                  event.currentTarget.style.color = "#EDEDED";
+                }}
+                onMouseLeave={(event) => {
+                  event.currentTarget.style.color = "#999";
+                }}
+              >
+                Sign in
+              </Link>
+              <span className="hidden h-4 w-px md:block" style={{ backgroundColor: "#2a2722" }} />
+              <Link
+                href="/sign-up"
+                className="hidden rounded-md px-4 py-1.5 text-[13px] font-medium text-white transition-all duration-150 hover:opacity-90 md:inline-block"
+                style={{ backgroundColor: "#E8614D" }}
+              >
+                Get started
+              </Link>
+            </>
+          )}
           <button
             type="button"
             aria-label={open ? "Close menu" : "Open menu"}
@@ -114,22 +132,35 @@ export default function Navbar() {
               {link.label}
             </Link>
           ))}
-          <Link
-            href="/sign-in"
-            onClick={close}
-            className="mt-3 block py-2.5 text-sm transition-colors duration-150"
-            style={{ color: "#999" }}
-          >
-            Sign in
-          </Link>
-          <Link
-            href="/sign-up"
-            onClick={close}
-            className="mt-2 block rounded-md px-4 py-2 text-center text-[13px] font-medium text-white transition-all duration-150 hover:opacity-90"
-            style={{ backgroundColor: "#E8614D" }}
-          >
-            Get started
-          </Link>
+          {loggedIn ? (
+            <>
+              <Link href="/dashboard" onClick={close} className="mt-3 block py-2.5 text-sm" style={{ color: "#999" }}>
+                Dashboard
+              </Link>
+              <Link
+                href="/dashboard/settings"
+                onClick={close}
+                className="mt-2 block rounded-md px-4 py-2 text-center text-[13px] font-medium text-white"
+                style={{ backgroundColor: "#E8614D" }}
+              >
+                Settings
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link href="/sign-in" onClick={close} className="mt-3 block py-2.5 text-sm" style={{ color: "#999" }}>
+                Sign in
+              </Link>
+              <Link
+                href="/sign-up"
+                onClick={close}
+                className="mt-2 block rounded-md px-4 py-2 text-center text-[13px] font-medium text-white transition-all duration-150 hover:opacity-90"
+                style={{ backgroundColor: "#E8614D" }}
+              >
+                Get started
+              </Link>
+            </>
+          )}
         </div>
       ) : null}
     </nav>

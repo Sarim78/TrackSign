@@ -1,7 +1,10 @@
+"use client";
+
 import FAQ from "@/components/FAQ";
 import Footer from "@/components/Footer";
 import LogoTicker from "@/components/LogoTicker";
 import Navbar from "@/components/Navbar";
+import { useAuth } from "@/lib/auth";
 
 function WindowChrome({ url }: { url: string }) {
   return (
@@ -40,6 +43,10 @@ const mockRightStyle = {
 } as const;
 
 export default function HomePage() {
+  const { isLoggedIn } = useAuth();
+  const primaryHref = isLoggedIn ? "/dashboard" : "/sign-up";
+  const primaryLabel = isLoggedIn ? "Go to dashboard →" : "Start scanning free →";
+
   return (
     <>
       <Navbar />
@@ -60,14 +67,14 @@ export default function HomePage() {
           </p>
           <div className="animate-fade-in-up mx-auto mt-8 flex w-full max-w-sm flex-col items-center justify-center gap-3 delay-300 sm:max-w-none sm:flex-row">
             <a
-              href="/sign-up"
+              href={primaryHref}
               className="w-full rounded-md px-5 py-2.5 text-center text-sm font-medium text-white hover:opacity-90 sm:w-auto"
               style={{ backgroundColor: "#E8614D" }}
             >
-              Start scanning free →
+              {primaryLabel}
             </a>
             <a
-              href="#sample"
+              href="/dashboard/review-demo"
               className="w-full rounded-md px-5 py-2.5 text-center text-sm font-medium hover:opacity-90 sm:w-auto"
               style={{ border: "1px solid #2a2722" }}
             >
@@ -183,7 +190,7 @@ export default function HomePage() {
                     termination. Flagged with severity ratings so you know what to
                     push back on.
                   </p>
-                  <a href="#" className="mt-4 inline-block text-sm font-medium" style={{ color: "#E8614D" }}>
+                  <a href="/docs" className="mt-4 inline-block text-sm font-medium" style={{ color: "#E8614D" }}>
                     Learn about risk scanning →
                   </a>
                 </div>
@@ -230,7 +237,7 @@ export default function HomePage() {
                   <p className="mt-4 text-sm leading-relaxed" style={{ color: "#999" }}>
                     Every flag includes a plain-English explanation and a fairer alternative. Know exactly what to ask your client to change, or what to bring to your lawyer.
                   </p>
-                  <a href="#" className="mt-4 inline-block text-sm font-medium" style={{ color: "#E8614D" }}>
+                  <a href="/dashboard/review-demo" className="mt-4 inline-block text-sm font-medium" style={{ color: "#E8614D" }}>
                     See a sample report →
                   </a>
                 </div>
@@ -267,7 +274,7 @@ export default function HomePage() {
                   <p className="mt-4 text-sm leading-relaxed" style={{ color: "#999" }}>
                     Every review is saved. Compare terms across clients, track which contracts had the worst clauses, and build a record of what you&apos;ve signed.
                   </p>
-                  <a href="#" className="mt-4 inline-block text-sm font-medium" style={{ color: "#E8614D" }}>
+                  <a href="/dashboard/history" className="mt-4 inline-block text-sm font-medium" style={{ color: "#E8614D" }}>
                     Learn about review history →
                   </a>
                 </div>
@@ -324,7 +331,7 @@ export default function HomePage() {
                   <p className="mt-4 text-sm leading-relaxed" style={{ color: "#999" }}>
                     TrackSign uses a structured risk checklist built for freelance and agency contracts. Every clause is checked against real patterns, not a generic AI guess. The checklist covers payment, scope, IP, liability, termination, and more.
                   </p>
-                  <a href="#" className="mt-4 inline-block text-sm font-medium" style={{ color: "#E8614D" }}>
+                  <a href="/docs" className="mt-4 inline-block text-sm font-medium" style={{ color: "#E8614D" }}>
                     See the full checklist →
                   </a>
                 </div>
@@ -372,11 +379,11 @@ export default function HomePage() {
         <section className="mt-24 px-4 py-24 text-center md:px-6 md:py-32">
           <h2 className="text-3xl font-semibold tracking-tight md:text-5xl lg:text-7xl">Try TrackSign.</h2>
           <a
-            href="/sign-up"
+            href={primaryHref}
             className="mt-8 inline-block w-full max-w-sm rounded-md px-6 py-3 text-sm font-medium text-white hover:opacity-90 sm:w-auto sm:max-w-none"
             style={{ backgroundColor: "#E8614D" }}
           >
-            Start scanning free →
+            {primaryLabel}
           </a>
         </section>
       </main>

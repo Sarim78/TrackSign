@@ -1,9 +1,24 @@
 import type { Metadata } from "next";
+import Providers from "@/components/Providers";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "TrackSign",
-  description: "AI contract review for freelancers",
+  title: "TrackSign - AI Contract Review for Freelancers",
+  description:
+    "Upload a contract and get a plain-English report flagging risky, unfair, or unusual terms. Severity ratings, explanations, and fairer alternatives.",
+  openGraph: {
+    title: "TrackSign - AI Contract Review for Freelancers",
+    description:
+      "Upload a contract and get a plain-English report flagging risky, unfair, or unusual terms. Severity ratings, explanations, and fairer alternatives.",
+    type: "website",
+    url: "https://tracksign.com",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "TrackSign - AI Contract Review for Freelancers",
+    description:
+      "Upload a contract and get a plain-English report flagging risky, unfair, or unusual terms. Severity ratings, explanations, and fairer alternatives.",
+  },
 };
 
 export default function RootLayout({
@@ -18,7 +33,7 @@ export default function RootLayout({
         suppressHydrationWarning
         style={{ backgroundColor: "#171412", color: "#EDEDED" }}
       >
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

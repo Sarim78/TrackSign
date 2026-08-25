@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { formatReviewDate, getReviews, isCurrentMonth, type Review } from "@/lib/reviews";
 
 const filters = ["All", "High risk", "This month"] as const;
 
@@ -12,6 +13,17 @@ const cardStyle = {
 
 export default function HistoryPage() {
   const [active, setActive] = useState<(typeof filters)[number]>("All");
+  const [reviews, setReviews] = useState<Review[]>([]);
+
+  useEffect(() => {
+    setReviews(getReviews());
+  }, []);
+
+  const visible = useMemo(() => {
+    if (active === "High risk") return reviews.filter((review) => review.flagCounts.high > 0);
+    if (active === "This month") return reviews.filter((review) => isCurrentMonth(review.date));
+    return reviews;
+  }, [active, reviews]);
 
   return (
     <div>
@@ -40,27 +52,63 @@ export default function HistoryPage() {
         })}
       </div>
 
-      {/* TODO: Each row will be a <Link href={`/dashboard/${review.id}`}> wrapping the contract info */}
-      <div className="rounded-xl p-12 text-center" style={cardStyle}>
-        <p className="text-sm" style={{ color: "#999" }}>
-          No reviews yet
-        </p>
-        <p className="mt-2 text-xs" style={{ color: "#666" }}>
-          Upload your first contract to get started
-        </p>
-        <Link
-          href="/dashboard/upload"
-          className="mt-4 inline-block rounded-md px-5 py-2.5 text-sm text-white"
-          style={{ backgroundColor: "#E8614D" }}
-        >
-          Upload contract
-        </Link>
-        <div>
-          <Link href="/dashboard/review-demo" className="mt-4 inline-block text-sm" style={{ color: "#E8614D" }}>
-            Or try the demo review →
+      {visible.length === 0 ? (
+        <div className="rounded-xl p-12 text-center" style={cardStyle}>
+          <p className="text-sm" style={{ color: "#999" }}>
+            No reviews yet
+          </p>
+          <p className="mt-2 text-xs" style={{ color: "#666" }}>
+            Upload your first contract to get started
+          </p>
+          <Link
+            href="/dashboard/upload"
+            className="mt-4 inline-block rounded-md px-5 py-2.5 text-sm text-white"
+            style={{ backgroundColor: "#E8614D" }}
+          >
+            Upload contract
           </Link>
+          <div>
+            <Link href="/dashboard/review-demo" className="mt-4 inline-block text-sm" style={{ color: "#E8614D" }}>
+              Or try the demo review →
+            </Link>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div>
+          {visible.map((review) => (
+            <Link
+              key={review.id}
+              href={`/dashboard/${review.id}`}
+              className="mb-3 flex cursor-pointer items-center justify-between rounded-xl p-5 transition-all"
+              style={{ backgroundColor: "#1e1c18", border: "1px solid #2a2722" }}
+              onMouseEnter={(event) => {
+                event.currentTarget.style.borderColor = "rgba(232,97,77,0.3)";
+              }}
+              onMouseLeave={(event) => {
+                event.currentTarget.style.borderColor = "#2a2722";
+              }}
+            >
+              <div className="min-w-0">
+                <p className="truncate text-sm font-semibold">{review.filename}</p>
+                <p className="mt-1 text-xs" style={{ color: "#666" }}>
+                  {formatReviewDate(review.date)}
+                </p>
+              </div>
+              <div className="ml-4 flex shrink-0 gap-3">
+                <span className="text-xs" style={{ color: "#EF4444" }}>
+                  {review.flagCounts.high} high
+                </span>
+                <span className="text-xs" style={{ color: "#F59E0B" }}>
+                  {review.flagCounts.medium} medium
+                </span>
+                <span className="text-xs" style={{ color: "#22C55E" }}>
+                  {review.flagCounts.low} low
+                </span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
