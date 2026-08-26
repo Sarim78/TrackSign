@@ -1,0 +1,54 @@
+<UserControl x:Class="TrackSign.Views.ReportView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Top" Margin="32,24,32,0">
+            <Button DockPanel.Dock="Left" Content="Back" Style="{StaticResource GhostButton}"
+                    Command="{Binding GoBackCommand}" Margin="0,0,12,0"/>
+            <Button DockPanel.Dock="Right" Content="Copy report" Style="{StaticResource GhostButton}"
+                    Command="{Binding CopyReportCommand}"/>
+            <StackPanel>
+                <TextBlock Text="{Binding Report.Filename, FallbackValue='Review report'}" Style="{StaticResource PageTitle}"/>
+                <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                    <TextBlock Text="Risk score " Style="{StaticResource MutedText}"/>
+                    <TextBlock Text="{Binding RiskScore}" FontWeight="SemiBold"/>
+                    <TextBlock Text="  ·  " Foreground="{StaticResource TextMutedBrush}"/>
+                    <TextBlock Text="{Binding Report.ContractType}" Style="{StaticResource MutedText}"/>
+                </StackPanel>
+            </StackPanel>
+        </DockPanel>
+
+        <TextBlock DockPanel.Dock="Top" Text="{Binding ErrorMessage}"
+                   Foreground="{StaticResource HighSeverityBrush}" Margin="32,12,32,0"/>
+
+        <ScrollViewer Padding="32">
+            <StackPanel>
+                <UniformGrid Columns="3" Margin="0,0,0,20">
+                    <Border Style="{StaticResource CardBorder}" Margin="0,0,8,0">
+                        <StackPanel>
+                            <TextBlock Text="High" Foreground="{StaticResource HighSeverityBrush}" FontSize="12"/>
+                            <TextBlock Text="{Binding Report.FlagCounts.High}" FontSize="24" FontWeight="SemiBold"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Style="{StaticResource CardBorder}" Margin="8,0">
+                        <StackPanel>
+                            <TextBlock Text="Medium" Foreground="{StaticResource MediumSeverityBrush}" FontSize="12"/>
+                            <TextBlock Text="{Binding Report.FlagCounts.Medium}" FontSize="24" FontWeight="SemiBold"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Style="{StaticResource CardBorder}" Margin="8,0,0,0">
+                        <StackPanel>
+                            <TextBlock Text="Low" Foreground="{StaticResource LowSeverityBrush}" FontSize="12"/>
+                            <TextBlock Text="{Binding Report.FlagCounts.Low}" FontSize="24" FontWeight="SemiBold"/>
+                        </StackPanel>
+                    </Border>
+                </UniformGrid>
+
+                <ItemsControl ItemsSource="{Binding Report.Findings}"/>
+
+                <TextBlock Text="This report does not constitute legal advice."
+                           Style="{StaticResource MutedText}" FontSize="12" Margin="0,16,0,0"/>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+</UserControl>

@@ -53,3 +53,5 @@ frontend/coverage/
 # Desktop app (for later)
 desktop/dist/
 desktop/out/
+desktop/**/bin/
+desktop/**/obj/

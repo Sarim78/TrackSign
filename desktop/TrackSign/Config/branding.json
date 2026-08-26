@@ -1,0 +1,13 @@
+{
+  "companyName": "TrackSign",
+  "appTitle": "TrackSign Enterprise",
+  "primaryColor": "#E8614D",
+  "secondaryColor": "#1e1c18",
+  "backgroundColor": "#171412",
+  "textColor": "#EDEDED",
+  "textSecondaryColor": "#999999",
+  "borderColor": "#2a2722",
+  "logoPath": "Assets/logo.png",
+  "supportEmail": "support@tracksign.com",
+  "supportUrl": "https://tracksign.com/support"
+}
