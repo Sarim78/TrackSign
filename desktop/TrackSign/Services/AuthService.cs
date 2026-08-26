@@ -16,7 +16,8 @@ public class AuthService : IAuthService
     private AuthConfig _config = new();
     private AuthenticationResult? _authResult;
 
-    public bool IsAuthenticated => _authResult != null;
+    public bool IsAuthenticated => CurrentUser != null;
+    public bool DevMode => _config.DevMode;
     public User? CurrentUser { get; private set; }
     public string? AccessToken => _authResult?.AccessToken;
 
@@ -55,6 +56,18 @@ public class AuthService : IAuthService
 
     public async Task<bool> LoginAsync()
     {
+        if (_config.DevMode)
+        {
+            CurrentUser = new User
+            {
+                Id = "dev-user-001",
+                Email = "dev@tracksign.com",
+                Name = "Demo User",
+                Plan = "enterprise"
+            };
+            return true;
+        }
+
         if (_msalClient == null)
         {
             return false;

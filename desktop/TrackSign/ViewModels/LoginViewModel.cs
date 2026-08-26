@@ -14,6 +14,7 @@ public partial class LoginViewModel : BaseViewModel
 
     public string CompanyName => _branding.Config.CompanyName;
     public string AppTitle => _branding.Config.AppTitle;
+    public bool DevMode => _auth.DevMode;
     public string LogoPath
     {
         get
