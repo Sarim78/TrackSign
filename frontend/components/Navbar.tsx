@@ -50,13 +50,12 @@ const Navbar = () => {
         borderBottom: "1px solid #2a2722",
       }}
     >
-      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-6">
-        <Link href="/" className="flex items-center text-[15px] font-semibold tracking-tight" style={{ color: "#EDEDED" }}>
+      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 xl:px-6">
+        <Link href="/" className="whitespace-nowrap text-[15px] font-semibold tracking-tight" style={{ color: "#EDEDED" }}>
           TrackSign
-          <span className="ml-1.5 inline-block h-1.5 w-1.5 rounded-full" style={{ backgroundColor: "#E8614D" }} />
         </Link>
 
-        <div className="hidden items-center gap-1 md:flex">
+        <div className="hidden items-center gap-4 md:flex xl:gap-8">
           {centerLinks.map((link) => {
             const active = isActive(pathname, link.match);
             const isHovered = hovered === link.href;
@@ -65,7 +64,7 @@ const Navbar = () => {
               <Link
                 key={link.href}
                 href={link.href}
-                className="rounded-md px-3 py-1.5 text-[13px] transition-colors duration-150"
+                className="whitespace-nowrap rounded-md px-3 py-1.5 text-[13px] transition-colors duration-150"
                 style={{
                   color: active || isHovered ? "#EDEDED" : "#999",
                   backgroundColor: active || isHovered ? "rgba(255,255,255,0.05)" : "transparent",
@@ -82,7 +81,7 @@ const Navbar = () => {
         <div className="flex items-center gap-3">
           {loggedIn ? (
             <>
-              <Link href="/dashboard" className="hidden text-[13px] md:inline" style={{ color: "#999" }}>
+              <Link href="/dashboard" className="hidden whitespace-nowrap text-[13px] md:inline" style={{ color: "#999" }}>
                 Dashboard
               </Link>
               <Link
@@ -98,7 +97,7 @@ const Navbar = () => {
             <>
               <Link
                 href="/sign-in"
-                className="hidden text-[13px] transition-colors duration-150 md:inline"
+                className="hidden whitespace-nowrap text-[13px] transition-colors duration-150 md:inline"
                 style={{ color: "#999" }}
                 onMouseEnter={(event) => {
                   event.currentTarget.style.color = "#EDEDED";
@@ -112,7 +111,7 @@ const Navbar = () => {
               <span className="hidden h-4 w-px md:block" style={{ backgroundColor: "#2a2722" }} />
               <Link
                 href="/sign-up"
-                className="hidden rounded-md px-4 py-1.5 text-[13px] font-medium text-white transition-all duration-150 hover:opacity-90 md:inline-block"
+                className="hidden whitespace-nowrap rounded-md px-3 py-1.5 text-[13px] font-medium text-white transition-all duration-150 hover:opacity-90 md:inline-block xl:px-4"
                 style={{ backgroundColor: "#E8614D" }}
               >
                 Get started

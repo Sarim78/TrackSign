@@ -85,7 +85,7 @@ body {
 }
 
 .animate-logo-ticker {
-  animation: logoTicker 20s linear infinite;
+  animation: logoTicker 30s linear infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {

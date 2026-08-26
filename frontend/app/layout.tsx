@@ -11,7 +11,7 @@ import Providers from "@/components/Providers";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "TrackSign - AI Contract Review",
+  title: "TrackSign",
   description:
     "Upload a contract and get a plain-English report flagging risky, unfair, or unusual terms. Severity ratings, explanations, and fairer alternatives.",
   openGraph: {

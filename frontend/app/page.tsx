@@ -85,7 +85,7 @@ const HomePage = () => {
               {primaryLabel}
             </a>
             <a
-              href="/dashboard/review-demo"
+              href="/sample-report"
               className="w-full rounded-md px-5 py-2.5 text-center text-sm font-medium hover:opacity-90 sm:w-auto"
               style={{ border: "1px solid #2a2722" }}
             >

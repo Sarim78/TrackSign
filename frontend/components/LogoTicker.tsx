@@ -25,12 +25,20 @@ const LogoTicker = () => {
       <p className="mb-5 text-center text-xs" style={{ color: "#666" }}>
         Trusted by businesses and professionals worldwide.
       </p>
-      <div className="overflow-hidden">
+      <div className="relative overflow-hidden">
+        <div
+          className="pointer-events-none absolute bottom-0 left-0 top-0 z-10 w-24"
+          style={{ background: "linear-gradient(to right, #171412 0%, transparent 100%)" }}
+        />
+        <div
+          className="pointer-events-none absolute bottom-0 right-0 top-0 z-10 w-24"
+          style={{ background: "linear-gradient(to left, #171412 0%, transparent 100%)" }}
+        />
         <div className="flex w-max animate-logo-ticker">
           {[0, 1].map((copy) => (
             <div
               key={copy}
-              className="flex shrink-0 items-center gap-8 pr-8 md:gap-10 md:pr-10"
+              className="flex shrink-0 items-center gap-16 pr-16 md:gap-24 md:pr-24"
               aria-hidden={copy === 1}
             >
               {names.map((name) => (
