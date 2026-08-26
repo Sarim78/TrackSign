@@ -1,5 +1,5 @@
 /**
- * BlogPage — placeholder for product and freelance-contract posts.
+ * BlogPage — placeholder for product and contract-review posts.
  *
  * Route: /blog
  * Dependencies: Navbar, Footer
@@ -15,7 +15,7 @@ const BlogPage = () => {
       <main className="mx-auto max-w-3xl px-6 pb-20 pt-28">
         <h1 className="mb-4 text-3xl font-semibold">Blog</h1>
         <p className="text-sm leading-relaxed" style={{ color: "#999" }}>
-          Insights on freelance contracts, negotiation tips, and product updates.
+          Insights on contracts, negotiation tips, and product updates.
         </p>
         {/* TODO [BACKEND]: Replace with real blog posts or integrate a CMS */}
         <div

@@ -3,7 +3,8 @@
  *
  * Route: /dashboard/upload
  * Dependencies: useAuth, review store
- * TODO [BACKEND]: Replace localStorage with POST /api/reviews
+ * TODO [BACKEND]: Replace localStorage with POST /api/contracts/upload
+ * TODO [BACKEND]: Send contract_type to POST /api/contracts/upload
  */
 
 "use client";
@@ -13,6 +14,24 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { createReview, formatFileSize } from "@/lib/reviews";
+
+interface ContractTypeOption {
+  value: string;
+  label: string;
+}
+
+const CONTRACT_TYPES: ContractTypeOption[] = [
+  { value: "auto-detect", label: "Auto-detect (recommended)" },
+  { value: "Service agreement", label: "Service agreement" },
+  { value: "Vendor / supplier contract", label: "Vendor / supplier contract" },
+  { value: "Non-disclosure agreement (NDA)", label: "Non-disclosure agreement (NDA)" },
+  { value: "Lease / rental agreement", label: "Lease / rental agreement" },
+  { value: "Employment contract", label: "Employment contract" },
+  { value: "Statement of work (SOW)", label: "Statement of work (SOW)" },
+  { value: "Partnership agreement", label: "Partnership agreement" },
+  { value: "Licensing agreement", label: "Licensing agreement" },
+  { value: "Other", label: "Other" },
+];
 
 const cardStyle = {
   backgroundColor: "#1e1c18",
@@ -32,6 +51,7 @@ const UploadPage = () => {
   const [blocked, setBlocked] = useState<boolean>(false);
   const [status, setStatus] = useState<"idle" | "processing">("idle");
   const [step, setStep] = useState<number>(0);
+  const [contractType, setContractType] = useState<string>("auto-detect");
   const timers = useRef<number[]>([]);
 
   useEffect(() => {
@@ -98,6 +118,7 @@ const UploadPage = () => {
       window.setTimeout(() => setStep(2), 2000),
       window.setTimeout(() => setStep(3), 4000),
       window.setTimeout(() => {
+        // TODO [BACKEND]: Replace createReview with uploadContract(file, contractType)
         const review = createReview(file.name, formatFileSize(file.size));
         incrementReviewCount();
         router.push(`/dashboard/${review.id}`);
@@ -116,6 +137,24 @@ const UploadPage = () => {
 
       {status === "idle" ? (
         <>
+          <div className="mb-6">
+            <label htmlFor="contract-type" className="mb-2 block text-sm" style={{ color: "#999" }}>
+              What type of contract is this?
+            </label>
+            <select
+              id="contract-type"
+              value={contractType}
+              onChange={(event) => setContractType(event.target.value)}
+              className="w-full max-w-md rounded-md px-3 py-2.5 text-sm"
+              style={{ backgroundColor: "#141210", border: "1px solid #2a2722", color: "#EDEDED" }}
+            >
+              {CONTRACT_TYPES.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
           <div
             role="button"
             tabIndex={0}

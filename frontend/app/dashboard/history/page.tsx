@@ -3,7 +3,7 @@
  *
  * Route: /dashboard/history
  * Dependencies: review store
- * TODO [BACKEND]: Replace localStorage with GET /api/reviews
+ * TODO [BACKEND]: Replace localStorage with GET /api/contracts/reviews
  */
 
 "use client";
@@ -26,6 +26,7 @@ const HistoryPage = () => {
   const [reviews, setReviews] = useState<Review[]>([]);
 
   useEffect(() => {
+    // TODO [BACKEND]: Replace getReviews() with fetchReviews() from @/lib/api
     setReviews(getReviews());
   }, []);
 

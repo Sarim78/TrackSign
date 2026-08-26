@@ -20,7 +20,7 @@ const DocsPage = () => {
         {/* TODO [BACKEND]: Expand with full documentation */}
         <h2 className="mt-8 mb-3 text-lg font-semibold text-[#EDEDED]">Getting started</h2>
         <p className="text-sm leading-relaxed" style={{ color: "#999" }}>
-          Upload a PDF contract and TrackSign scans every clause against a risk checklist built for freelance and agency contracts. You get a plain-English report with severity ratings and fairer alternatives.
+          Upload a PDF contract and TrackSign scans every clause against a risk checklist matched to your contract type. You get a plain-English report with severity ratings and fairer alternatives.
         </p>
         <h2 className="mt-8 mb-3 text-lg font-semibold text-[#EDEDED]">Supported formats</h2>
         <p className="text-sm leading-relaxed" style={{ color: "#999" }}>

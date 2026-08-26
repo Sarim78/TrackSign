@@ -1,0 +1,39 @@
+{
+  "name": "Service Agreement",
+  "version": "1.0",
+  "description": "Risk checklist for client service agreements, consulting contracts, and SOWs.",
+  "categories": [
+    {
+      "name": "Payment terms",
+      "description": "Flag payment windows longer than 30 days, no deposit requirement, payment gated on vague acceptance, no late fees, or payment tied to conditions the provider cannot control."
+    },
+    {
+      "name": "Scope and revisions",
+      "description": "Flag vague scope, unlimited revisions, no change-order process, or deliverables without measurable acceptance criteria."
+    },
+    {
+      "name": "IP and ownership",
+      "description": "Flag assignment of pre-existing tools, IP transfer before full payment, no portfolio rights, or overly broad IP assignment beyond the project scope."
+    },
+    {
+      "name": "Liability and indemnification",
+      "description": "Flag uncapped liability, broad indemnification covering the client's negligence, overbroad warranties, or liability disproportionate to fees."
+    },
+    {
+      "name": "Termination",
+      "description": "Flag no kill fee, short notice periods, asymmetric cancellation rights, or no provision for payment on work completed before termination."
+    },
+    {
+      "name": "Non-compete and exclusivity",
+      "description": "Flag non-compete or exclusivity clauses that prevent working with other clients in the same industry."
+    },
+    {
+      "name": "Confidentiality",
+      "description": "Flag one-sided confidentiality, excessively long periods, or overly broad definitions of confidential information."
+    },
+    {
+      "name": "Work-for-hire",
+      "description": "Flag work-for-hire designations that strip all reuse rights for code, designs, or templates used across clients."
+    }
+  ]
+}

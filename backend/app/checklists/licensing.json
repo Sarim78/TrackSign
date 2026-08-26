@@ -1,0 +1,27 @@
+{
+  "name": "Licensing Agreement",
+  "version": "1.0",
+  "description": "Risk checklist for IP licensing and royalty agreements.",
+  "categories": [
+    {
+      "name": "License grant",
+      "description": "Flag overly broad license grants, missing territory or field-of-use limits, or exclusive licenses with no performance obligations."
+    },
+    {
+      "name": "Royalties and payment",
+      "description": "Flag vague royalty bases, missing audit rights, or payment terms that delay reporting beyond a reasonable period."
+    },
+    {
+      "name": "IP ownership and improvements",
+      "description": "Flag assignment of improvements to the other party, missing moral rights language, or unclear ownership of derivative works."
+    },
+    {
+      "name": "Term and termination",
+      "description": "Flag perpetual licenses without a termination path, short cure periods, or survival of restrictions after termination."
+    },
+    {
+      "name": "Warranties and infringement",
+      "description": "Flag missing infringement indemnification, overbroad warranties, or no process for third-party IP claims."
+    }
+  ]
+}

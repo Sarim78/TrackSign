@@ -1,0 +1,31 @@
+{
+  "name": "Vendor and Supplier Contract",
+  "version": "1.0",
+  "description": "Risk checklist for vendor agreements, supplier contracts, and purchase orders.",
+  "categories": [
+    {
+      "name": "Pricing and payment",
+      "description": "Flag pricing that can be changed unilaterally, lack of price protection clauses, or payment terms that are significantly unfavorable."
+    },
+    {
+      "name": "Delivery and performance",
+      "description": "Flag vague delivery timelines, no penalties for late delivery, or performance metrics that are undefined or unmeasurable."
+    },
+    {
+      "name": "Warranty and defects",
+      "description": "Flag limited or no warranty on goods/services, short warranty periods, or warranty that excludes common defect types."
+    },
+    {
+      "name": "Liability and indemnification",
+      "description": "Flag uncapped liability for the buyer, broad indemnification favoring the vendor, or limitation of liability that falls below the contract value."
+    },
+    {
+      "name": "Termination and supply continuity",
+      "description": "Flag vendor ability to terminate without notice, no transition assistance, or minimum purchase commitments that survive termination."
+    },
+    {
+      "name": "Data and compliance",
+      "description": "Flag vendor access to sensitive data without adequate protection, lack of compliance certifications, or no audit rights."
+    }
+  ]
+}

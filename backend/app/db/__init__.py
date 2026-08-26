@@ -1,1 +1,1 @@
-# Database engine, sessions, and models.
+"""SQLAlchemy models and database session helpers."""

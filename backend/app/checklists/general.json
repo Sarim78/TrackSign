@@ -1,0 +1,51 @@
+{
+  "name": "General Contract Review",
+  "version": "1.0",
+  "description": "Comprehensive risk checklist for any business contract.",
+  "categories": [
+    {
+      "name": "Payment and compensation",
+      "description": "Flag payment windows longer than 30 days, missing deposits or upfront payment, no late fees or interest on overdue payments, payment gated on vague acceptance criteria, or payment tied to conditions the payee cannot control."
+    },
+    {
+      "name": "Scope and deliverables",
+      "description": "Flag vague or undefined scope, no change-order process, unlimited revision or rework clauses, deliverables without measurable acceptance criteria, or scope that can be unilaterally expanded."
+    },
+    {
+      "name": "Intellectual property",
+      "description": "Flag overly broad IP assignment, transfer of pre-existing IP or tools, IP transfer before full payment, no license-back provisions, no portfolio or reference rights, or work-for-hire designations that strip all reuse rights."
+    },
+    {
+      "name": "Liability and indemnification",
+      "description": "Flag uncapped liability, indemnification clauses covering the other party's negligence, overbroad warranty obligations, personal liability exposure, or liability disproportionate to the contract value."
+    },
+    {
+      "name": "Termination",
+      "description": "Flag one-sided termination rights, no kill fee or cancellation fee on early termination, short notice periods, asymmetric cancellation where only one party can terminate freely, or termination clauses that don't address work in progress."
+    },
+    {
+      "name": "Non-compete and exclusivity",
+      "description": "Flag non-compete clauses longer than 6 months or broader than direct competitors, exclusivity clauses that prevent working with others, or restrictions that survive unreasonably long after the contract ends."
+    },
+    {
+      "name": "Confidentiality",
+      "description": "Flag one-sided confidentiality obligations, excessively long confidentiality periods (over 3 years), overly broad definitions of confidential information, or NDA terms that prevent discussing the business relationship at all."
+    },
+    {
+      "name": "Auto-renewal and term",
+      "description": "Flag automatic renewal without clear opt-out notice periods, evergreen clauses, or renewal terms that lock in conditions the other party cannot renegotiate."
+    },
+    {
+      "name": "Governing law and disputes",
+      "description": "Flag mandatory arbitration in a distant or inconvenient jurisdiction, waiver of jury trial or class action rights, governing law in a jurisdiction unfavorable to one party, or dispute resolution mechanisms that are prohibitively expensive."
+    },
+    {
+      "name": "Data and privacy",
+      "description": "Flag broad data collection or usage rights, lack of data protection obligations, no data breach notification requirements, or terms that allow sharing data with third parties without consent."
+    },
+    {
+      "name": "Insurance and warranties",
+      "description": "Flag requirements for disproportionate insurance coverage, overbroad representations and warranties, or warranty periods that extend unreasonably beyond delivery."
+    }
+  ]
+}

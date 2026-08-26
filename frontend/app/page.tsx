@@ -72,9 +72,9 @@ const HomePage = () => {
             className="animate-fade-in-up mx-auto mt-5 max-w-sm text-sm leading-relaxed delay-150 md:max-w-xl md:text-base"
             style={{ color: "#999" }}
           >
-            TrackSign scans your freelance contracts with AI and flags risky,
-            unfair, or unusual terms. Plain-English explanations, severity
-            ratings, and fairer alternatives.
+            TrackSign scans your contracts with AI and flags risky, unfair, or
+            unusual terms. Plain-English explanations, severity ratings, and
+            fairer alternatives.
           </p>
           <div className="animate-fade-in-up mx-auto mt-8 flex w-full max-w-sm flex-col items-center justify-center gap-3 delay-300 sm:max-w-none sm:flex-row">
             <a
@@ -136,7 +136,7 @@ const HomePage = () => {
                 <p className="mb-2 mt-4 px-4 text-[10px] tracking-wider" style={{ color: "#555" }}>
                   LAST MONTH
                 </p>
-                <div className="px-4 py-2 text-xs text-[#999]">Freelance Agreement</div>
+                <div className="px-4 py-2 text-xs text-[#999]">Vendor Agreement</div>
                 <div className="px-4 py-2 text-xs text-[#999]">Subcontractor Terms</div>
               </aside>
               <div className="min-w-0 flex-1 p-4 md:p-6">
@@ -196,10 +196,10 @@ const HomePage = () => {
                     <span style={{ color: "#E8614D" }}>before they cost you</span>
                   </h2>
                   <p className="mt-4 text-sm leading-relaxed" style={{ color: "#999" }}>
-                    TrackSign reviews every clause against a checklist built for
-                    freelance contracts. Payment terms, scope, IP, liability, and
-                    termination. Flagged with severity ratings so you know what to
-                    push back on.
+                    TrackSign reviews every clause against a structured risk
+                    checklist tailored to your contract type. Payment terms, scope,
+                    IP, liability, and termination. Flagged with severity ratings
+                    so you know what to push back on.
                   </p>
                   <a href="/docs" className="mt-4 inline-block text-sm font-medium" style={{ color: "#E8614D" }}>
                     Learn about risk scanning →
@@ -210,7 +210,7 @@ const HomePage = () => {
                   <div className="flex items-center gap-3 px-4 py-3 md:px-5" style={{ borderBottom: "1px solid #2a2722" }}>
                     <span className="h-3 w-3 shrink-0 rounded-full border-2 border-t-transparent" style={{ borderColor: "#E8614D", borderTopColor: "transparent" }} />
                     <p className="truncate text-xs text-[#999]">Scanning contract...</p>
-                    <p className="ml-auto hidden truncate text-xs sm:block" style={{ color: "#666" }}>FreelanceContract.pdf</p>
+                    <p className="ml-auto hidden truncate text-xs sm:block" style={{ color: "#666" }}>ServiceAgreement.pdf</p>
                   </div>
                   <div className="px-4 py-4 md:px-5" style={{ borderBottom: "1px solid #2a2722" }}>
                     <p className="text-[10px] uppercase tracking-wider" style={{ color: "#666" }}>Clauses analyzed</p>
@@ -265,7 +265,7 @@ const HomePage = () => {
                     </p>
                     <p className="text-[11px] uppercase tracking-wider" style={{ color: "#666" }}>Why it matters:</p>
                     <p className="mb-5 mt-1 text-xs text-[#999] md:text-sm">
-                      Net-90 with an acceptance gate means the client can delay payment indefinitely by withholding approval. Most freelancers can&apos;t float three months of unpaid work.
+                      Net-90 with an acceptance gate means the client can delay payment indefinitely by withholding approval. Most businesses can&apos;t float three months of unpaid work.
                     </p>
                     <p className="text-[11px] uppercase tracking-wider" style={{ color: "#E8614D" }}>Fairer version:</p>
                     <p className="mt-1 text-xs md:text-sm">
@@ -337,10 +337,10 @@ const HomePage = () => {
                 <div className="order-1 flex flex-col justify-center p-5 md:order-2 md:p-8 lg:p-12">
                   <h2 className="text-xl font-semibold md:text-2xl">
                     Every contract type.{" "}
-                    <span style={{ color: "#E8614D" }}>One checklist.</span>
+                    <span style={{ color: "#E8614D" }}>One platform.</span>
                   </h2>
                   <p className="mt-4 text-sm leading-relaxed" style={{ color: "#999" }}>
-                    TrackSign uses a structured risk checklist built for freelance and agency contracts. Every clause is checked against real patterns, not a generic AI guess. The checklist covers payment, scope, IP, liability, termination, and more.
+                    TrackSign supports service agreements, vendor contracts, NDAs, leases, employment contracts, and more. Each contract type is matched to a specialized risk checklist so the analysis stays relevant.
                   </p>
                   <a href="/docs" className="mt-4 inline-block text-sm font-medium" style={{ color: "#E8614D" }}>
                     See the full checklist →
@@ -350,7 +350,7 @@ const HomePage = () => {
                   <WindowChrome url="tracksign.com/settings/checklist" />
                   <div className="flex items-center justify-between gap-2 px-4 py-3 md:px-5" style={{ borderBottom: "1px solid #2a2722" }}>
                     <p className="text-xs font-medium md:text-sm">Risk checklist</p>
-                    <p className="shrink-0 text-[10px] md:text-xs" style={{ color: "#E8614D" }}>Freelancer and Agency</p>
+                    <p className="shrink-0 text-[10px] md:text-xs" style={{ color: "#E8614D" }}>All contract types</p>
                   </div>
                   <div className="px-4 py-2 md:px-5">
                     {[

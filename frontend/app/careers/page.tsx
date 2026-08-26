@@ -15,7 +15,7 @@ const CareersPage = () => {
       <main className="mx-auto max-w-3xl px-6 pb-20 pt-28">
         <h1 className="mb-4 text-3xl font-semibold">Careers</h1>
         <p className="text-sm leading-relaxed" style={{ color: "#999" }}>
-          We are a small team building tools for freelancers.
+          We are a small team building tools for businesses and professionals.
         </p>
         <div
           className="mt-8 rounded-xl p-12 text-center"

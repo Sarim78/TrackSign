@@ -17,7 +17,7 @@ const faqs: FaqItem[] = [
   {
     question: "What types of contracts does TrackSign review?",
     answer:
-      "Any freelance or agency contract. Client service agreements, statements of work, NDAs, master service agreements, and subcontractor agreements. If it's a PDF with legal terms, TrackSign can review it.",
+      "Any business contract. Client service agreements, vendor contracts, NDAs, leases, statements of work, employment agreements, supplier contracts, licensing deals, partnership agreements, and more. If it is a PDF with legal terms, TrackSign can review it.",
   },
   {
     question: "Is this legal advice?",
@@ -27,7 +27,7 @@ const faqs: FaqItem[] = [
   {
     question: "How accurate is the AI analysis?",
     answer:
-      "TrackSign uses a structured risk checklist specific to freelance contracts, so the AI is guided to look for specific patterns rather than guessing. That said, always have a lawyer review anything you're unsure about.",
+      "TrackSign uses structured risk checklists specific to each contract type, so the AI is guided to look for specific patterns rather than guessing. That said, always have a lawyer review anything you are unsure about.",
   },
   {
     question: "Is my contract stored on your servers?",

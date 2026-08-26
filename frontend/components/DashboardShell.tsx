@@ -112,6 +112,7 @@ const DashboardShell = ({ children }: DashboardShellProps) => {
   }, [ready, isLoggedIn, router]);
 
   useEffect(() => {
+    // TODO [BACKEND]: Replace getReviews() with fetchReviews() from @/lib/api
     setReviewTotal(getReviews().length);
   }, [pathname]);
 

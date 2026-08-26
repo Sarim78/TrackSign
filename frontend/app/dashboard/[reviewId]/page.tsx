@@ -3,7 +3,7 @@
  *
  * Route: /dashboard/[reviewId]
  * Dependencies: ReviewReport, review store
- * TODO [BACKEND]: Replace localStorage with GET /api/reviews/:id
+ * TODO [BACKEND]: Replace localStorage with GET /api/contracts/reviews/:id
  */
 
 "use client";
@@ -19,6 +19,7 @@ const ReviewReportPage = () => {
   const [review, setReview] = useState<Review | null | undefined>(undefined);
 
   useEffect(() => {
+    // TODO [BACKEND]: Replace getReview() with fetchReview(params.reviewId) from @/lib/api
     setReview(getReview(params.reviewId));
   }, [params.reviewId]);
 

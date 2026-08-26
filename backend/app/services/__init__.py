@@ -1,1 +1,1 @@
-# Domain services (extraction, AI review).
+"""PDF extraction and AI review services."""

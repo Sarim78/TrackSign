@@ -1,0 +1,27 @@
+{
+  "name": "Partnership Agreement",
+  "version": "1.0",
+  "description": "Risk checklist for partnership and joint venture agreements.",
+  "categories": [
+    {
+      "name": "Ownership and profit sharing",
+      "description": "Flag vague ownership percentages, profit sharing that can be changed unilaterally, or missing capital contribution terms."
+    },
+    {
+      "name": "Decision making and control",
+      "description": "Flag one-sided control rights, missing voting thresholds, or no deadlock resolution process."
+    },
+    {
+      "name": "Duties and non-compete",
+      "description": "Flag overly broad non-compete or exclusivity among partners, or missing fiduciary duty language."
+    },
+    {
+      "name": "Withdrawal and dissolution",
+      "description": "Flag no buyout mechanism, punitive withdrawal terms, or dissolution rules that strand one party with liability."
+    },
+    {
+      "name": "Liability and indemnification",
+      "description": "Flag unlimited personal liability, missing insurance requirements, or indemnification that covers a partner's own misconduct."
+    }
+  ]
+}

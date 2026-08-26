@@ -2,7 +2,7 @@
  * Review store — localStorage persistence and finding pool for the prototype.
  *
  * Dependencies: browser localStorage
- * TODO [BACKEND]: Replace localStorage with POST /api/reviews
+ * TODO [BACKEND]: Replace localStorage with POST /api/contracts/upload
  */
 
 export type Severity = "high" | "medium" | "low";
@@ -82,7 +82,7 @@ export const FINDING_POOL: Finding[] = [
     severity: "high",
     category: "Non-compete",
     clause: "Contractor agrees not to work with competing businesses for 24 months.",
-    explanation: "A 24-month non-compete is extremely broad for freelance work.",
+    explanation: "A 24-month non-compete is extremely broad for most business relationships.",
     fairerVersion:
       "Non-compete limited to direct competitors, 6 months maximum, within the same geographic market.",
   },

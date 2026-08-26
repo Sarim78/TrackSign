@@ -11,11 +11,11 @@ import Providers from "@/components/Providers";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "TrackSign - AI Contract Review for Freelancers",
+  title: "TrackSign - AI Contract Review",
   description:
     "Upload a contract and get a plain-English report flagging risky, unfair, or unusual terms. Severity ratings, explanations, and fairer alternatives.",
   openGraph: {
-    title: "TrackSign - AI Contract Review for Freelancers",
+    title: "TrackSign - AI Contract Review",
     description:
       "Upload a contract and get a plain-English report flagging risky, unfair, or unusual terms. Severity ratings, explanations, and fairer alternatives.",
     type: "website",
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "TrackSign - AI Contract Review for Freelancers",
+    title: "TrackSign - AI Contract Review",
     description:
       "Upload a contract and get a plain-English report flagging risky, unfair, or unusual terms. Severity ratings, explanations, and fairer alternatives.",
   },

@@ -1,1 +1,1 @@
-# TrackSign FastAPI application package.
+"""TrackSign API application package."""

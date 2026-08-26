@@ -3,7 +3,8 @@
  *
  * Route: /dashboard/settings
  * Dependencies: useAuth, review store
- * TODO [BACKEND]: Replace simulated upgrade with Stripe checkout
+ * TODO [BACKEND]: Replace simulated upgrade with createCheckoutSession()
+ * TODO [BACKEND]: Replace localStorage usage with fetchUserStats() and deleteAccount()
  */
 
 "use client";
@@ -24,20 +25,21 @@ const SettingsPage = () => {
   const [reviews, setReviews] = useState<Review[]>([]);
 
   useEffect(() => {
+    // TODO [BACKEND]: Replace getReviews() with fetchReviews() from @/lib/api
     setReviews(getReviews());
   }, []);
 
   const weeks = reviewsByWeek(reviews);
   const maxCount = Math.max(1, ...weeks.map((week) => week.count));
 
-  // TODO [BACKEND]: Replace simulated upgrade with Stripe checkout
+  // TODO [BACKEND]: Replace simulated upgrade with createCheckoutSession() from @/lib/api
   const handleUpgrade = () => {
     upgradePlan();
     setUpgraded(true);
     window.setTimeout(() => setUpgraded(false), 3000);
   };
 
-  // Clears stored reviews and signs the user out.
+  // TODO [BACKEND]: Replace with deleteAccount() from @/lib/api, then logout
   const handleDeleteAccount = () => {
     clearReviews();
     logout();

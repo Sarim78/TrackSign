@@ -1,1 +1,1 @@
-# Core config and security helpers.
+"""Core configuration, settings, and auth helpers."""

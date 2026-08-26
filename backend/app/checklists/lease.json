@@ -1,0 +1,31 @@
+{
+  "name": "Lease Agreement",
+  "version": "1.0",
+  "description": "Risk checklist for commercial and residential leases.",
+  "categories": [
+    {
+      "name": "Rent and payment",
+      "description": "Flag rent escalation clauses without caps, late payment penalties that exceed legal limits, or additional fees (CAM, maintenance) that are undefined or uncapped."
+    },
+    {
+      "name": "Term and renewal",
+      "description": "Flag auto-renewal without adequate notice periods, early termination penalties that are disproportionate, or lock-in periods with no break clause."
+    },
+    {
+      "name": "Maintenance and repairs",
+      "description": "Flag tenant responsibility for structural repairs, ambiguous maintenance obligations, or lack of landlord obligation to maintain habitability."
+    },
+    {
+      "name": "Security deposit",
+      "description": "Flag deposits exceeding legal limits, vague conditions for deposit return, or deductions allowed for normal wear and tear."
+    },
+    {
+      "name": "Use restrictions",
+      "description": "Flag overly restrictive use clauses that limit business operations, or exclusive use provisions that could be violated by the landlord leasing to competitors."
+    },
+    {
+      "name": "Liability and insurance",
+      "description": "Flag requirements for disproportionate insurance, tenant assumption of all liability including structural issues, or waiver of landlord liability for negligence."
+    }
+  ]
+}

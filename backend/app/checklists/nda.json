@@ -1,0 +1,31 @@
+{
+  "name": "Non-Disclosure Agreement",
+  "version": "1.0",
+  "description": "Risk checklist for NDAs and confidentiality agreements.",
+  "categories": [
+    {
+      "name": "Definition of confidential information",
+      "description": "Flag overly broad definitions that include publicly available information, or definitions so vague that nearly any information qualifies as confidential."
+    },
+    {
+      "name": "Obligations and restrictions",
+      "description": "Flag one-sided obligations where only one party is bound, restrictions on discussing the existence of the relationship, or obligations that survive indefinitely."
+    },
+    {
+      "name": "Duration",
+      "description": "Flag confidentiality periods longer than 3 years for general business information (trade secrets may warrant longer), or indefinite terms with no expiration."
+    },
+    {
+      "name": "Exceptions and carve-outs",
+      "description": "Flag missing standard exceptions for independently developed information, legally compelled disclosure, or information that becomes public through no fault of the receiving party."
+    },
+    {
+      "name": "Return or destruction of information",
+      "description": "Flag requirements to return or destroy all copies with no exception for legally required retention, or no provision for what happens to information at termination."
+    },
+    {
+      "name": "Remedies and damages",
+      "description": "Flag liquidated damages clauses with disproportionate penalty amounts, or provisions allowing injunctive relief without proving actual harm."
+    }
+  ]
+}

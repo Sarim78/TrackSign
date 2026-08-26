@@ -1,1 +1,1 @@
-# FastAPI routers.
+"""HTTP routers for users, contracts, and billing."""

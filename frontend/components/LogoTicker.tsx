@@ -23,7 +23,7 @@ const LogoTicker = () => {
       }}
     >
       <p className="mb-5 text-center text-xs" style={{ color: "#666" }}>
-        Trusted by freelancers and agencies worldwide.
+        Trusted by businesses and professionals worldwide.
       </p>
       <div className="overflow-hidden">
         <div className="flex w-max animate-logo-ticker">

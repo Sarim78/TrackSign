@@ -1,0 +1,31 @@
+{
+  "name": "Employment Contract",
+  "version": "1.0",
+  "description": "Risk checklist for employment agreements.",
+  "categories": [
+    {
+      "name": "Compensation and benefits",
+      "description": "Flag vague compensation terms, missing bonus or commission structures, clawback provisions on earned compensation, or benefits that can be unilaterally modified."
+    },
+    {
+      "name": "Termination and severance",
+      "description": "Flag at-will provisions with no severance, short notice periods, termination for cause definitions that are overly broad, or missing severance terms."
+    },
+    {
+      "name": "Non-compete and non-solicit",
+      "description": "Flag non-compete clauses longer than 12 months or covering broad geographies, non-solicitation of customers or employees for unreasonable periods."
+    },
+    {
+      "name": "Intellectual property assignment",
+      "description": "Flag assignment of all inventions including those made outside work hours and unrelated to the business, or failure to carve out prior inventions."
+    },
+    {
+      "name": "Confidentiality",
+      "description": "Flag overly broad confidentiality that prevents discussing working conditions, or confidentiality that survives indefinitely after employment ends."
+    },
+    {
+      "name": "Duties and role",
+      "description": "Flag vague role descriptions that allow the employer to unilaterally change duties, or 'other duties as assigned' clauses with no limitation."
+    }
+  ]
+}

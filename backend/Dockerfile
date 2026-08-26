@@ -1,6 +1,12 @@
-# TODO: Production Dockerfile for the FastAPI backend
-# - Base image (e.g. python:3.12-slim)
-# - Install dependencies from requirements.txt
-# - Copy the app package
-# - Expose the API port
-# - Run uvicorn app.main:app
+FROM python:3.12-slim
+
+WORKDIR /app
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY app ./app
+
+EXPOSE 8000
+
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
