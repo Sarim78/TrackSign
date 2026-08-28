@@ -41,7 +41,7 @@ public partial class ReportViewModel : BaseViewModel
             TotalFlags = Report.FlagCounts.High + Report.FlagCounts.Medium + Report.FlagCounts.Low;
             RiskTone = RiskScore >= 70 ? "low" : RiskScore >= 40 ? "medium" : "high";
 
-            const double circumference = 175.93;
+            const double circumference = 232.48;
             var dash = RiskScore / 100.0 * circumference;
             RiskDashArray = [dash, circumference];
 
@@ -81,6 +81,35 @@ public partial class ReportViewModel : BaseViewModel
         }
 
         System.Windows.Clipboard.SetText(BuildReportText());
+    }
+
+    [RelayCommand]
+    private void PrintReport()
+    {
+        if (Report == null)
+        {
+            return;
+        }
+
+        var dialog = new System.Windows.Controls.PrintDialog();
+        if (dialog.ShowDialog() != true)
+        {
+            return;
+        }
+
+        var doc = new System.Windows.Documents.FlowDocument(new System.Windows.Documents.Paragraph(new System.Windows.Documents.Run(BuildReportText())))
+        {
+            FontFamily = new System.Windows.Media.FontFamily("Segoe UI"),
+            FontSize = 12,
+            PageWidth = dialog.PrintableAreaWidth
+        };
+        dialog.PrintDocument(((System.Windows.Documents.IDocumentPaginatorSource)doc).DocumentPaginator, "TrackSign report");
+    }
+
+    [RelayCommand]
+    private void ExportPdf()
+    {
+        DownloadReport();
     }
 
     [RelayCommand]

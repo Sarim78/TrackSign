@@ -141,6 +141,41 @@
             </StackPanel>
         </Border>
 
+        <Border Style="{StaticResource Card}" Margin="0,0,0,16">
+            <StackPanel>
+                <TextBlock Text="Notifications" Style="{StaticResource SectionHeading}"/>
+                <Grid Height="40">
+                    <TextBlock Text="Email summary after each review" FontSize="13" VerticalAlignment="Center"/>
+                    <CheckBox Style="{StaticResource DarkToggle}" HorizontalAlignment="Right"
+                              IsChecked="{Binding EmailAfterReview, Mode=TwoWay}"/>
+                </Grid>
+                <Border Height="1" Background="{StaticResource BorderLight}"/>
+                <Grid Height="40">
+                    <TextBlock Text="Weekly digest of all reviews" FontSize="13" VerticalAlignment="Center"/>
+                    <CheckBox Style="{StaticResource DarkToggle}" HorizontalAlignment="Right"
+                              IsChecked="{Binding WeeklyDigest, Mode=TwoWay}"/>
+                </Grid>
+                <Border Height="1" Background="{StaticResource BorderLight}"/>
+                <Grid Height="40">
+                    <TextBlock Text="Alert on high-risk findings" FontSize="13" VerticalAlignment="Center"/>
+                    <CheckBox Style="{StaticResource DarkToggle}" HorizontalAlignment="Right"
+                              IsChecked="{Binding AlertHighRisk, Mode=TwoWay}"/>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <Border Style="{StaticResource Card}" Margin="0,0,0,16">
+            <StackPanel>
+                <TextBlock Text="Data and privacy" Style="{StaticResource SectionHeading}"/>
+                <Button Content="Export all data" Style="{StaticResource SecondaryButton}" HorizontalAlignment="Left"
+                        Command="{Binding ExportAllDataCommand}"/>
+                <Button Content="Request data deletion" Style="{StaticResource GhostButton}" HorizontalAlignment="Left"
+                        Foreground="{StaticResource TextSecondary}" Margin="0,8,0,8"
+                        Command="{Binding RequestDeletionCommand}"/>
+                <TextBlock Text="Your data is stored securely and encrypted at rest." FontSize="11" Foreground="{StaticResource TextMuted}"/>
+            </StackPanel>
+        </Border>
+
         <Border Style="{StaticResource Card}" BorderBrush="{StaticResource SeverityHigh}">
             <StackPanel>
                 <TextBlock Text="Danger zone" FontSize="16" FontWeight="SemiBold"

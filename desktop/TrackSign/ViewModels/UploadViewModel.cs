@@ -23,7 +23,7 @@ public partial class UploadViewModel : BaseViewModel
             OnPropertyChanged(nameof(HasSelectedFile));
             OnPropertyChanged(nameof(SelectedFileSize));
             OnPropertyChanged(nameof(ShowDropZone));
-            OnPropertyChanged(nameof(ShowFileCard));
+            OnPropertyChanged(nameof(ShowSelectedState));
             ReviewContractCommand.NotifyCanExecuteChanged();
         }
     }
@@ -35,8 +35,8 @@ public partial class UploadViewModel : BaseViewModel
             ? 0
             : new FileInfo(_selectedFilePath).Length;
 
-    public bool ShowDropZone => !IsScanning && !HasSelectedFile;
-    public bool ShowFileCard => HasSelectedFile && !IsScanning;
+    public bool ShowDropZone => !HasSelectedFile;
+    public bool ShowSelectedState => HasSelectedFile;
 
     private string _contractType = "Auto-detect (recommended)";
     public string ContractType
@@ -60,7 +60,7 @@ public partial class UploadViewModel : BaseViewModel
         {
             SetProperty(ref _isScanning, value);
             OnPropertyChanged(nameof(ShowDropZone));
-            OnPropertyChanged(nameof(ShowFileCard));
+            OnPropertyChanged(nameof(ShowSelectedState));
             ReviewContractCommand.NotifyCanExecuteChanged();
         }
     }
@@ -92,6 +92,18 @@ public partial class UploadViewModel : BaseViewModel
         "Partnership agreement",
         "Licensing agreement",
         "Other"
+    ];
+
+    public List<string> ChecklistItems { get; } =
+    [
+        "Payment and compensation",
+        "Scope and deliverables",
+        "Intellectual property",
+        "Liability and indemnification",
+        "Termination",
+        "Non-compete and exclusivity",
+        "Confidentiality",
+        "And 4 more..."
     ];
 
     /// <summary>Raised when a review is complete, passes the review ID.</summary>

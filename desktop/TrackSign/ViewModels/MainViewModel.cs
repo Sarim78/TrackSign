@@ -2,10 +2,11 @@ namespace TrackSign.ViewModels;
 
 using System.IO;
 using CommunityToolkit.Mvvm.Input;
+using TrackSign.Models;
 using TrackSign.Services;
 
 /// <summary>
-/// Main window logic. Controls sidebar navigation and active view.
+/// Main window logic. Controls sidebar navigation, ribbon, and active view.
 /// </summary>
 public partial class MainViewModel : BaseViewModel
 {
@@ -25,6 +26,7 @@ public partial class MainViewModel : BaseViewModel
             OnPropertyChanged(nameof(IsDashboardActive));
             OnPropertyChanged(nameof(IsUploadActive));
             OnPropertyChanged(nameof(IsHistoryActive));
+            OnPropertyChanged(nameof(IsAnalyticsActive));
             OnPropertyChanged(nameof(IsSettingsActive));
             OnPropertyChanged(nameof(IsReportActive));
         }
@@ -35,6 +37,7 @@ public partial class MainViewModel : BaseViewModel
         "Upload" => "Upload contract",
         "Report" => "Report",
         "History" => "Review history",
+        "Analytics" => "Analytics",
         "Settings" => "Settings",
         _ => "Dashboard"
     };
@@ -42,6 +45,7 @@ public partial class MainViewModel : BaseViewModel
     public bool IsDashboardActive => ActiveView is "Dashboard";
     public bool IsUploadActive => ActiveView is "Upload";
     public bool IsHistoryActive => ActiveView is "History";
+    public bool IsAnalyticsActive => ActiveView is "Analytics";
     public bool IsSettingsActive => ActiveView is "Settings";
     public bool IsReportActive => ActiveView is "Report";
 
@@ -75,17 +79,21 @@ public partial class MainViewModel : BaseViewModel
         }
     }
 
-    public bool HasDistinctCompany =>
-        !string.Equals(CompanyName, AppTitle, StringComparison.OrdinalIgnoreCase);
-
     public bool HasLogo => File.Exists(LogoPath);
 
     private int _reviewCount;
     public int ReviewCount
     {
         get => _reviewCount;
-        private set => SetProperty(ref _reviewCount, value);
+        private set
+        {
+            SetProperty(ref _reviewCount, value);
+            OnPropertyChanged(nameof(ReviewCountLabel));
+        }
     }
+
+    public string ReviewCountLabel => $"{ReviewCount} reviews";
+
     public string LogoPath
     {
         get
@@ -96,10 +104,30 @@ public partial class MainViewModel : BaseViewModel
         }
     }
 
+    private bool _isSidebarCollapsed;
+    public bool IsSidebarCollapsed
+    {
+        get => _isSidebarCollapsed;
+        set
+        {
+            SetProperty(ref _isSidebarCollapsed, value);
+            OnPropertyChanged(nameof(CollapseGlyph));
+        }
+    }
+
+    public string CollapseGlyph => IsSidebarCollapsed ? "\uE76C" : "\uE76B";
+
+    public List<ReviewRow> RecentSidebarReviews { get; private set; } = [];
+    public bool HasRecentSidebar => RecentSidebarReviews.Count > 0;
+
+    public string ConnectionLabel => "Connected to TrackSign API";
+    public string ChecklistVersion => "General v1.0";
+
     public DashboardViewModel Dashboard { get; }
     public UploadViewModel Upload { get; }
     public ReportViewModel Report => _report;
     public HistoryViewModel History { get; }
+    public AnalyticsViewModel Analytics { get; }
     public SettingsViewModel Settings { get; }
 
     public object CurrentContent { get; private set; }
@@ -114,6 +142,7 @@ public partial class MainViewModel : BaseViewModel
         UploadViewModel upload,
         ReportViewModel report,
         HistoryViewModel history,
+        AnalyticsViewModel analytics,
         SettingsViewModel settings)
     {
         _auth = auth;
@@ -123,6 +152,7 @@ public partial class MainViewModel : BaseViewModel
         Upload = upload;
         _report = report;
         History = history;
+        Analytics = analytics;
         Settings = settings;
         CurrentContent = Dashboard;
 
@@ -138,6 +168,34 @@ public partial class MainViewModel : BaseViewModel
     }
 
     [RelayCommand]
+    private void ToggleSidebar()
+    {
+        IsSidebarCollapsed = !IsSidebarCollapsed;
+    }
+
+    [RelayCommand]
+    private void OpenPdf()
+    {
+        _nav.NavigateTo("Upload");
+        Upload.BrowseFileCommand.Execute(null);
+    }
+
+    [RelayCommand]
+    private async Task RefreshAsync()
+    {
+        await OnNavigationRequestedAsync(ActiveView, null);
+    }
+
+    [RelayCommand]
+    private void GoBackIfReport()
+    {
+        if (IsReportActive)
+        {
+            _nav.GoBack();
+        }
+    }
+
+    [RelayCommand]
     private async Task LogoutAsync()
     {
         _nav.NavigationRequested -= OnNavigationRequested;
@@ -148,12 +206,18 @@ public partial class MainViewModel : BaseViewModel
 
     private async void OnNavigationRequested(string viewName, object? parameter)
     {
+        await OnNavigationRequestedAsync(viewName, parameter);
+    }
+
+    private async Task OnNavigationRequestedAsync(string viewName, object? parameter)
+    {
         ActiveView = viewName;
         CurrentContent = viewName switch
         {
             "Upload" => Upload,
             "Report" => Report,
             "History" => History,
+            "Analytics" => Analytics,
             "Settings" => Settings,
             _ => Dashboard
         };
@@ -163,11 +227,19 @@ public partial class MainViewModel : BaseViewModel
         {
             await Dashboard.LoadDataAsync();
             ReviewCount = Dashboard.TotalReviews;
+            RecentSidebarReviews = Dashboard.RecentRows.Take(3).ToList();
+            OnPropertyChanged(nameof(RecentSidebarReviews));
+            OnPropertyChanged(nameof(HasRecentSidebar));
         }
         else if (viewName == "History")
         {
             await History.LoadHistoryAsync();
             ReviewCount = History.AllReviews.Count;
+        }
+        else if (viewName == "Analytics")
+        {
+            await Analytics.LoadDataAsync();
+            ReviewCount = Analytics.TotalReviews;
         }
         else if (viewName == "Report" && parameter is string reviewId && !string.IsNullOrWhiteSpace(reviewId))
         {

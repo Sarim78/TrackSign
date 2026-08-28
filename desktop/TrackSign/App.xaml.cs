@@ -32,12 +32,14 @@ public partial class App : Application
             return new ApiClient(factory.CreateClient("TrackSignApi"));
         });
 
+        services.AddSingleton<IWindowSettingsService, WindowSettingsService>();
         services.AddTransient<LoginViewModel>();
         services.AddTransient<MainViewModel>();
         services.AddTransient<DashboardViewModel>();
         services.AddTransient<UploadViewModel>();
         services.AddTransient<ReportViewModel>();
         services.AddTransient<HistoryViewModel>();
+        services.AddTransient<AnalyticsViewModel>();
         services.AddTransient<SettingsViewModel>();
 
         _serviceProvider = services.BuildServiceProvider();

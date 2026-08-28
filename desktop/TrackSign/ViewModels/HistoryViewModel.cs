@@ -1,5 +1,6 @@
 namespace TrackSign.ViewModels;
 
+using System.IO;
 using CommunityToolkit.Mvvm.Input;
 using TrackSign.Models;
 using TrackSign.Services;
@@ -14,7 +15,7 @@ public partial class HistoryViewModel : BaseViewModel
     private readonly INavigationService _nav;
 
     public List<Review> AllReviews { get; private set; } = [];
-    public List<Review> PagedReviews { get; private set; } = [];
+    public List<ReviewRow> PagedRows { get; private set; } = [];
 
     private string _activeFilter = "All";
     public string ActiveFilter
@@ -50,9 +51,22 @@ public partial class HistoryViewModel : BaseViewModel
         set => SetProperty(ref _currentPage, value);
     }
 
-    public string ShowingText { get; private set; } = "";
+    public string ShowingText { get; private set; } = "Showing 0 of 0 reviews";
     public bool HasReviews => AllReviews.Count > 0;
-    public bool HasPagedReviews => PagedReviews.Count > 0;
+    public bool HasPagedReviews => PagedRows.Count > 0;
+    public string ReviewCountLabel => $"{AllReviews.Count} reviews";
+    public List<string> SortOptions { get; } = ["Newest first", "Oldest first"];
+
+    private string _sortMode = "Newest first";
+    public string SortMode
+    {
+        get => _sortMode;
+        set
+        {
+            SetProperty(ref _sortMode, value);
+            ApplyFilter();
+        }
+    }
     public bool CanGoPrevious => CurrentPage > 1;
     public bool CanGoNext => CurrentPage < _totalPages;
     public bool ShowPagination => _filteredCount > PageSize;
@@ -82,6 +96,7 @@ public partial class HistoryViewModel : BaseViewModel
             ApplyFilter();
             OnPropertyChanged(nameof(AllReviews));
             OnPropertyChanged(nameof(HasReviews));
+            OnPropertyChanged(nameof(ReviewCountLabel));
         }
         catch (Exception)
         {
@@ -110,6 +125,15 @@ public partial class HistoryViewModel : BaseViewModel
         }
 
         var filtered = query.ToList();
+        if (_sortMode == "Oldest first")
+        {
+            filtered = filtered.OrderBy(r => r.CreatedAt).ToList();
+        }
+        else
+        {
+            filtered = filtered.OrderByDescending(r => r.CreatedAt).ToList();
+        }
+
         _filteredCount = filtered.Count;
         _totalPages = Math.Max(1, (int)Math.Ceiling(_filteredCount / (double)PageSize));
         if (CurrentPage > _totalPages)
@@ -118,20 +142,20 @@ public partial class HistoryViewModel : BaseViewModel
         }
 
         var startIndex = (CurrentPage - 1) * PageSize;
-        PagedReviews = filtered.Skip(startIndex).Take(PageSize).ToList();
+        PagedRows = filtered.Skip(startIndex).Take(PageSize).Select(r => new ReviewRow(r)).ToList();
 
         if (_filteredCount == 0)
         {
-            ShowingText = HasReviews ? "No matching contracts" : "";
+            ShowingText = "Showing 0 of 0 reviews";
         }
         else
         {
             var start = startIndex + 1;
-            var end = startIndex + PagedReviews.Count;
+            var end = startIndex + PagedRows.Count;
             ShowingText = $"Showing {start}-{end} of {_filteredCount}";
         }
 
-        OnPropertyChanged(nameof(PagedReviews));
+        OnPropertyChanged(nameof(PagedRows));
         OnPropertyChanged(nameof(HasPagedReviews));
         OnPropertyChanged(nameof(ShowingText));
         OnPropertyChanged(nameof(CanGoPrevious));
@@ -179,5 +203,22 @@ public partial class HistoryViewModel : BaseViewModel
     private void StartUpload()
     {
         _nav.NavigateTo("Upload");
+    }
+
+    [RelayCommand]
+    private void ExportAll()
+    {
+        var dialog = new Microsoft.Win32.SaveFileDialog
+        {
+            Filter = "JSON files (*.json)|*.json",
+            FileName = "tracksign-reviews.json",
+            Title = "Export all reviews"
+        };
+
+        if (dialog.ShowDialog() == true)
+        {
+            var json = System.Text.Json.JsonSerializer.Serialize(AllReviews, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(dialog.FileName, json);
+        }
     }
 }

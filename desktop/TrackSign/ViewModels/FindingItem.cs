@@ -15,6 +15,14 @@ public partial class FindingItem : ObservableObject
     public string SeverityLabel => Finding.Severity.ToUpperInvariant();
     public string Category => Finding.Category;
     public string Clause => Finding.Clause;
+    public string ClausePreview
+    {
+        get
+        {
+            var text = Finding.Clause.Replace('\n', ' ').Trim();
+            return text.Length > 90 ? text[..90] + "..." : text;
+        }
+    }
     public string Explanation => Finding.Explanation;
     public string FairerVersion => Finding.FairerVersion;
 

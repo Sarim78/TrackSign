@@ -40,6 +40,10 @@ public partial class SettingsViewModel : BaseViewModel
     public string ChecklistVersion => "General v1.0";
     public string ApiBaseUrl { get; }
 
+    public bool EmailAfterReview { get; set; } = true;
+    public bool WeeklyDigest { get; set; }
+    public bool AlertHighRisk { get; set; } = true;
+
     public SettingsViewModel(IAuthService auth, IBrandingService branding)
     {
         _auth = auth;
@@ -57,6 +61,35 @@ public partial class SettingsViewModel : BaseViewModel
     private void OpenDocs()
     {
         OpenUrl(SupportUrl);
+    }
+
+    [RelayCommand]
+    private void ExportAllData()
+    {
+        var dialog = new Microsoft.Win32.SaveFileDialog
+        {
+            Filter = "JSON files (*.json)|*.json",
+            FileName = "tracksign-export.json",
+            Title = "Export all data"
+        };
+
+        if (dialog.ShowDialog() == true)
+        {
+            var payload = new
+            {
+                UserName,
+                UserEmail,
+                Plan,
+                ExportedAt = DateTime.UtcNow.ToString("o")
+            };
+            File.WriteAllText(dialog.FileName, JsonSerializer.Serialize(payload, new JsonSerializerOptions { WriteIndented = true }));
+        }
+    }
+
+    [RelayCommand]
+    private void RequestDeletion()
+    {
+        OpenUrl($"mailto:{SupportEmail}?subject=Data%20deletion%20request");
     }
 
     private static void OpenUrl(string url)

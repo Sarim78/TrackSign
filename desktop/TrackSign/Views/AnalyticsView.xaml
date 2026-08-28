@@ -1,0 +1,132 @@
+<UserControl x:Class="TrackSign.Views.AnalyticsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <StackPanel>
+        <TextBlock Text="Analytics" Style="{StaticResource PageTitle}"/>
+        <TextBlock Text="Trends across your contract reviews." Style="{StaticResource PageSubtitle}"/>
+
+        <UniformGrid Columns="4" Margin="0,0,0,16">
+            <Border Style="{StaticResource StatCard}" Margin="0,0,8,0">
+                <StackPanel>
+                    <TextBlock Text="TOTAL REVIEWS" FontSize="10" Foreground="{StaticResource TextMuted}"/>
+                    <TextBlock Text="{Binding TotalReviews}" FontSize="28" FontWeight="SemiBold" Margin="0,8,0,4"/>
+                    <TextBlock Text="{Binding TotalTrend}" FontSize="10" Foreground="{StaticResource TextMuted}"/>
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource StatCard}" Margin="4,0">
+                <StackPanel>
+                    <TextBlock Text="HIGH RISK RATE" FontSize="10" Foreground="{StaticResource TextMuted}"/>
+                    <TextBlock Text="{Binding HighRiskRate}" FontSize="28" FontWeight="SemiBold"
+                               Foreground="{StaticResource SeverityHigh}" Margin="0,8,0,0"/>
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource StatCard}" Margin="4,0">
+                <StackPanel>
+                    <TextBlock Text="MOST FLAGGED CATEGORY" FontSize="10" Foreground="{StaticResource TextMuted}"/>
+                    <TextBlock Text="{Binding MostFlaggedCategory}" FontSize="16" FontWeight="SemiBold" Margin="0,12,0,0" TextWrapping="Wrap"/>
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource StatCard}" Margin="8,0,0,0">
+                <StackPanel>
+                    <TextBlock Text="AVG CLAUSES PER CONTRACT" FontSize="10" Foreground="{StaticResource TextMuted}"/>
+                    <TextBlock Text="{Binding AvgClauses}" FontSize="28" FontWeight="SemiBold" Margin="0,8,0,0"/>
+                </StackPanel>
+            </Border>
+        </UniformGrid>
+
+        <Grid Margin="0,0,0,16" Visibility="{Binding HasData, Converter={StaticResource BoolToVis}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.5*"/>
+                <ColumnDefinition Width="12"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" Style="{StaticResource Card}" Height="220">
+                <DockPanel>
+                    <TextBlock DockPanel.Dock="Top" Text="Reviews over time" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,12"/>
+                    <TextBlock Text="Chart data will appear after your first reviews" FontSize="12"
+                               Foreground="{StaticResource TextMuted}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DockPanel>
+            </Border>
+            <Border Grid.Column="2" Style="{StaticResource Card}" Height="220">
+                <DockPanel>
+                    <TextBlock DockPanel.Dock="Top" Text="Top flagged categories" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,12"/>
+                    <ItemsControl ItemsSource="{Binding CategoryBars}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,0,0,8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="110"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="28"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding Name}" FontSize="12" Foreground="{StaticResource TextSecondary}"
+                                               TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
+                                    <Border Grid.Column="1" Height="10" Width="{Binding Width}" Background="{StaticResource AccentColor}"
+                                            CornerRadius="2" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Column="2" Text="{Binding Count}" FontSize="12" HorizontalAlignment="Right"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </DockPanel>
+            </Border>
+        </Grid>
+
+        <Border Style="{StaticResource Card}" Padding="0" Visibility="{Binding HasData, Converter={StaticResource BoolToVis}}">
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Top" Text="Risk trends" FontSize="14" FontWeight="SemiBold" Margin="20,16,20,8"/>
+                <Grid DockPanel.Dock="Top" Margin="20,0" Height="32">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="80"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="MONTH" FontSize="10" FontWeight="SemiBold" Foreground="{StaticResource TextMuted}"/>
+                    <TextBlock Grid.Column="1" Text="REVIEWS" FontSize="10" FontWeight="SemiBold" Foreground="{StaticResource TextMuted}"/>
+                    <TextBlock Grid.Column="2" Text="HIGH" FontSize="10" FontWeight="SemiBold" Foreground="{StaticResource TextMuted}"/>
+                    <TextBlock Grid.Column="3" Text="MEDIUM" FontSize="10" FontWeight="SemiBold" Foreground="{StaticResource TextMuted}"/>
+                    <TextBlock Grid.Column="4" Text="LOW" FontSize="10" FontWeight="SemiBold" Foreground="{StaticResource TextMuted}"/>
+                    <TextBlock Grid.Column="5" Text="AVG SCORE" FontSize="10" FontWeight="SemiBold" Foreground="{StaticResource TextMuted}"/>
+                </Grid>
+                <ItemsControl ItemsSource="{Binding MonthTrends}" Margin="20,0,20,16">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Height="36">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="80"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding Month}" FontSize="13" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="1" Text="{Binding Reviews}" FontSize="13" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="2" Text="{Binding High}" FontSize="13" Foreground="{StaticResource SeverityHigh}" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="3" Text="{Binding Medium}" FontSize="13" Foreground="{StaticResource SeverityMedium}" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="4" Text="{Binding Low}" FontSize="13" Foreground="{StaticResource SeverityLow}" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="5" Text="{Binding AvgScore}" FontSize="13" VerticalAlignment="Center"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </DockPanel>
+        </Border>
+
+        <Border Style="{StaticResource Card}" Padding="48"
+                Visibility="{Binding HasData, Converter={StaticResource BoolToVis}, ConverterParameter=Invert}">
+            <StackPanel HorizontalAlignment="Center">
+                <TextBlock Text="&#xE9F6;" Style="{StaticResource Mdl2Icon}" FontSize="48"/>
+                <TextBlock Text="Not enough data" FontSize="16" FontWeight="SemiBold"
+                           Foreground="{StaticResource TextSecondary}" HorizontalAlignment="Center" Margin="0,12,0,0"/>
+                <TextBlock Text="Review a few contracts to see analytics" FontSize="13" Foreground="{StaticResource TextMuted}"
+                           HorizontalAlignment="Center" Margin="0,8,0,16"/>
+                <Button Content="Upload contract" Style="{StaticResource PrimaryButton}" Command="{Binding StartUploadCommand}"
+                        HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+    </StackPanel>
+</UserControl>

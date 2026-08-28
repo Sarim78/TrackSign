@@ -6,6 +6,16 @@
     <SolidColorBrush x:Key="CardBackground" Color="#1e1c18"/>
     <SolidColorBrush x:Key="PanelBackground" Color="#141210"/>
     <SolidColorBrush x:Key="InputBackground" Color="#0e0c0a"/>
+    <SolidColorBrush x:Key="TitleBarBackground" Color="#0e0c0a"/>
+    <SolidColorBrush x:Key="RibbonBackground" Color="#141210"/>
+    <SolidColorBrush x:Key="StatusBarBackground" Color="#0e0c0a"/>
+    <SolidColorBrush x:Key="CaptionCloseHover" Color="#E81123"/>
+    <SolidColorBrush x:Key="ChartTrack" Color="#2a2722"/>
+    <SolidColorBrush x:Key="AccentSubtle" Color="#08E8614D"/>
+    <SolidColorBrush x:Key="AccentFillSubtle" Color="#0AE8614D"/>
+    <SolidColorBrush x:Key="ShimmerMid" Color="#252220"/>
+    <SolidColorBrush x:Key="TableHeaderBackground" Color="#141210"/>
+    <SolidColorBrush x:Key="RowHover" Color="#1a1816"/>
     <SolidColorBrush x:Key="NavHover" Color="#1a1816"/>
     <SolidColorBrush x:Key="WhiteBrush" Color="#FFFFFF"/>
 
