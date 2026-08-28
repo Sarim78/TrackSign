@@ -1,28 +1,156 @@
 <UserControl x:Class="TrackSign.Views.SettingsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <ScrollViewer Padding="32">
-        <StackPanel MaxWidth="560" HorizontalAlignment="Left">
-            <TextBlock Text="Settings" Style="{StaticResource PageTitle}"/>
-            <TextBlock Text="Account details for this workstation."
-                       Style="{StaticResource MutedText}" Margin="0,6,0,24"/>
+    <StackPanel MaxWidth="640" HorizontalAlignment="Left">
+        <TextBlock Text="Settings" Style="{StaticResource PageTitle}" Margin="0,0,0,24"/>
 
-            <Border Style="{StaticResource CardBorder}" Margin="0,0,0,16">
-                <StackPanel>
-                    <TextBlock Text="Account" FontWeight="SemiBold" Margin="0,0,0,12"/>
-                    <TextBlock Text="{Binding UserName}" FontSize="16"/>
-                    <TextBlock Text="{Binding UserEmail}" Style="{StaticResource MutedText}" Margin="0,4,0,12"/>
-                    <TextBlock Text="{Binding Plan, StringFormat='Plan: {0}'}" Style="{StaticResource MutedText}"/>
-                </StackPanel>
-            </Border>
+        <Border Style="{StaticResource Card}" Margin="0,0,0,16">
+            <StackPanel>
+                <TextBlock Text="Account" Style="{StaticResource SectionHeading}"/>
+                <Grid Height="36">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Name" FontSize="12" Foreground="{StaticResource TextMuted}" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="1" Text="{Binding UserName}" FontSize="13" VerticalAlignment="Center"/>
+                </Grid>
+                <Border Height="1" Background="{StaticResource BorderLight}"/>
+                <Grid Height="36">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Email" FontSize="12" Foreground="{StaticResource TextMuted}" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="1" Text="{Binding UserEmail}" FontSize="13" VerticalAlignment="Center"/>
+                </Grid>
+                <Border Height="1" Background="{StaticResource BorderLight}"/>
+                <Grid Height="36">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Organization" FontSize="12" Foreground="{StaticResource TextMuted}" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="1" Text="{Binding CompanyName}" FontSize="13" VerticalAlignment="Center"/>
+                </Grid>
+                <Border Height="1" Background="{StaticResource BorderLight}"/>
+                <Grid Height="36">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Member since" FontSize="12" Foreground="{StaticResource TextMuted}" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="1" Text="{Binding MemberSince}" FontSize="13" VerticalAlignment="Center"/>
+                </Grid>
+            </StackPanel>
+        </Border>
 
-            <Border Style="{StaticResource CardBorder}">
-                <StackPanel>
-                    <TextBlock Text="Support" FontWeight="SemiBold" Margin="0,0,0,12"/>
-                    <TextBlock Text="{Binding CompanyName}"/>
-                    <TextBlock Text="{Binding SupportEmail}" Style="{StaticResource MutedText}" Margin="0,4,0,0"/>
-                </StackPanel>
-            </Border>
-        </StackPanel>
-    </ScrollViewer>
+        <Border Style="{StaticResource Card}" Margin="0,0,0,16">
+            <StackPanel>
+                <TextBlock Text="Subscription" Style="{StaticResource SectionHeading}"/>
+                <Grid Height="36">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Current plan" FontSize="12" Foreground="{StaticResource TextMuted}" VerticalAlignment="Center"/>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Ellipse Width="8" Height="8" Fill="{StaticResource SuccessColor}" Margin="0,0,8,0"/>
+                        <TextBlock Text="{Binding PlanDisplay}" FontSize="13" FontWeight="SemiBold"/>
+                    </StackPanel>
+                </Grid>
+                <Border Height="1" Background="{StaticResource BorderLight}"/>
+                <Grid Height="36">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Reviews used" FontSize="12" Foreground="{StaticResource TextMuted}" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="1" Text="{Binding ReviewsUsedDisplay}" FontSize="13" VerticalAlignment="Center"/>
+                </Grid>
+                <Border Height="1" Background="{StaticResource BorderLight}"/>
+                <Grid Height="36">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Billing" FontSize="12" Foreground="{StaticResource TextMuted}" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="1" Text="Managed by your organization" FontSize="13"
+                               Foreground="{StaticResource TextSecondary}" VerticalAlignment="Center"/>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <Border Style="{StaticResource Card}" Margin="0,0,0,16">
+            <StackPanel>
+                <TextBlock Text="Application" Style="{StaticResource SectionHeading}"/>
+                <Grid Height="36">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Version" FontSize="12" Foreground="{StaticResource TextMuted}" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="1" Text="{Binding AppVersion}" FontSize="13" VerticalAlignment="Center"/>
+                </Grid>
+                <Border Height="1" Background="{StaticResource BorderLight}"/>
+                <Grid Height="36">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Checklist version" FontSize="12" Foreground="{StaticResource TextMuted}" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="1" Text="{Binding ChecklistVersion}" FontSize="13" VerticalAlignment="Center"/>
+                </Grid>
+                <Border Height="1" Background="{StaticResource BorderLight}"/>
+                <Grid Height="36">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="API endpoint" FontSize="12" Foreground="{StaticResource TextMuted}" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="1" Text="{Binding ApiBaseUrl}" FontSize="13" FontFamily="Consolas"
+                               VerticalAlignment="Center"/>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <Border Style="{StaticResource Card}" Margin="0,0,0,16">
+            <StackPanel>
+                <TextBlock Text="Support" Style="{StaticResource SectionHeading}"/>
+                <Grid Height="36">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Email" FontSize="12" Foreground="{StaticResource TextMuted}" VerticalAlignment="Center"/>
+                    <Button Grid.Column="1" Content="{Binding SupportEmail}" Style="{StaticResource GhostButton}"
+                            Foreground="{StaticResource AccentColor}" HorizontalAlignment="Left"
+                            Command="{Binding OpenSupportEmailCommand}"/>
+                </Grid>
+                <Border Height="1" Background="{StaticResource BorderLight}"/>
+                <Grid Height="36">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Documentation" FontSize="12" Foreground="{StaticResource TextMuted}" VerticalAlignment="Center"/>
+                    <Button Grid.Column="1" Content="View docs →" Style="{StaticResource GhostButton}"
+                            Foreground="{StaticResource AccentColor}" HorizontalAlignment="Left"
+                            Command="{Binding OpenDocsCommand}"/>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <Border Style="{StaticResource Card}" BorderBrush="{StaticResource SeverityHigh}">
+            <StackPanel>
+                <TextBlock Text="Danger zone" FontSize="16" FontWeight="SemiBold"
+                           Foreground="{StaticResource SeverityHigh}" Margin="0,0,0,12"/>
+                <TextBlock Text="Sign out of this device" FontSize="13" Foreground="{StaticResource TextSecondary}"/>
+                <TextBlock Text="This will close the application and require you to sign in again."
+                           FontSize="11" Foreground="{StaticResource TextMuted}" Margin="0,4,0,12"/>
+                <Button Content="Sign out" Style="{StaticResource DangerButton}" HorizontalAlignment="Left"
+                        Command="{Binding DataContext.LogoutCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
+            </StackPanel>
+        </Border>
+    </StackPanel>
 </UserControl>

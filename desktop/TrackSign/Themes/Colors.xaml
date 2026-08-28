@@ -1,27 +1,49 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <Color x:Key="BackgroundColor">#171412</Color>
-    <Color x:Key="CardColor">#1e1c18</Color>
-    <Color x:Key="ChromeColor">#0e0c0a</Color>
-    <Color x:Key="BorderColor">#2a2722</Color>
-    <Color x:Key="TextColor">#EDEDED</Color>
-    <Color x:Key="TextSecondaryColor">#999999</Color>
-    <Color x:Key="TextMutedColor">#666666</Color>
-    <Color x:Key="AccentColor">#E8614D</Color>
-    <Color x:Key="HighSeverityColor">#EF4444</Color>
-    <Color x:Key="MediumSeverityColor">#F59E0B</Color>
-    <Color x:Key="LowSeverityColor">#22C55E</Color>
+    <!-- Page backgrounds -->
+    <SolidColorBrush x:Key="PageBackground" Color="#171412"/>
+    <SolidColorBrush x:Key="CardBackground" Color="#1e1c18"/>
+    <SolidColorBrush x:Key="PanelBackground" Color="#141210"/>
+    <SolidColorBrush x:Key="InputBackground" Color="#0e0c0a"/>
+    <SolidColorBrush x:Key="NavHover" Color="#1a1816"/>
+    <SolidColorBrush x:Key="WhiteBrush" Color="#FFFFFF"/>
 
-    <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}"/>
-    <SolidColorBrush x:Key="CardBrush" Color="{StaticResource CardColor}"/>
-    <SolidColorBrush x:Key="ChromeBrush" Color="{StaticResource ChromeColor}"/>
-    <SolidColorBrush x:Key="AppBorderBrush" Color="{StaticResource BorderColor}"/>
-    <SolidColorBrush x:Key="TextBrush" Color="{StaticResource TextColor}"/>
-    <SolidColorBrush x:Key="TextSecondaryBrush" Color="{StaticResource TextSecondaryColor}"/>
-    <SolidColorBrush x:Key="TextMutedBrush" Color="{StaticResource TextMutedColor}"/>
-    <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource AccentColor}"/>
-    <SolidColorBrush x:Key="HighSeverityBrush" Color="{StaticResource HighSeverityColor}"/>
-    <SolidColorBrush x:Key="MediumSeverityBrush" Color="{StaticResource MediumSeverityColor}"/>
-    <SolidColorBrush x:Key="LowSeverityBrush" Color="{StaticResource LowSeverityColor}"/>
+    <!-- Text -->
+    <SolidColorBrush x:Key="TextPrimary" Color="#EDEDED"/>
+    <SolidColorBrush x:Key="TextSecondary" Color="#999999"/>
+    <SolidColorBrush x:Key="TextMuted" Color="#666666"/>
+    <SolidColorBrush x:Key="TextDark" Color="#444444"/>
+
+    <!-- Accent -->
+    <SolidColorBrush x:Key="AccentColor" Color="#E8614D"/>
+    <SolidColorBrush x:Key="AccentHover" Color="#D4503E"/>
+    <SolidColorBrush x:Key="AccentPressed" Color="#C4402F"/>
+
+    <!-- Severity -->
+    <SolidColorBrush x:Key="SeverityHigh" Color="#EF4444"/>
+    <SolidColorBrush x:Key="SeverityHighBg" Color="#1a0e0e"/>
+    <SolidColorBrush x:Key="SeverityMedium" Color="#F59E0B"/>
+    <SolidColorBrush x:Key="SeverityMediumBg" Color="#1a1608"/>
+    <SolidColorBrush x:Key="SeverityLow" Color="#22C55E"/>
+    <SolidColorBrush x:Key="SeverityLowBg" Color="#0e1a12"/>
+
+    <!-- Borders -->
+    <SolidColorBrush x:Key="BorderDefault" Color="#2a2722"/>
+    <SolidColorBrush x:Key="BorderLight" Color="#1f1d1a"/>
+    <SolidColorBrush x:Key="BorderHover" Color="#3a3632"/>
+
+    <!-- Status -->
+    <SolidColorBrush x:Key="SuccessColor" Color="#22C55E"/>
+    <SolidColorBrush x:Key="WarningColor" Color="#F59E0B"/>
+    <SolidColorBrush x:Key="ErrorColor" Color="#EF4444"/>
+
+    <!-- Scrollbar -->
+    <SolidColorBrush x:Key="ScrollbarTrack" Color="#141210"/>
+    <SolidColorBrush x:Key="ScrollbarThumb" Color="#2a2722"/>
+    <SolidColorBrush x:Key="ScrollbarThumbHover" Color="#3a3632"/>
+
+    <!-- Effects -->
+    <Color x:Key="AccentGlowColor">#40E8614D</Color>
+    <Color x:Key="ShadowColor">#99000000</Color>
 </ResourceDictionary>

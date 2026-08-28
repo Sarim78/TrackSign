@@ -25,6 +25,8 @@ public partial class LoginViewModel : BaseViewModel
         }
     }
 
+    public bool HasLogo => File.Exists(LogoPath);
+
     public LoginViewModel(IAuthService auth, IBrandingService branding)
     {
         _auth = auth;

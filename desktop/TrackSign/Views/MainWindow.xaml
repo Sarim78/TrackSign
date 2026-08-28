@@ -4,10 +4,14 @@
         xmlns:views="clr-namespace:TrackSign.Views"
         xmlns:vm="clr-namespace:TrackSign.ViewModels"
         Title="{Binding AppTitle}"
-        Width="1200" Height="760"
-        MinWidth="960" MinHeight="640"
+        Width="1200" Height="800"
+        MinWidth="900" MinHeight="600"
         WindowStartupLocation="CenterScreen"
-        Background="{StaticResource BackgroundBrush}">
+        WindowStyle="SingleBorderWindow"
+        Style="{StaticResource DarkWindow}"
+        Background="{StaticResource PageBackground}"
+        Opacity="0"
+        Loaded="Window_Loaded">
     <Window.Resources>
         <DataTemplate DataType="{x:Type vm:DashboardViewModel}">
             <views:DashboardView/>
@@ -32,35 +36,162 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Border Grid.Column="0" Background="{StaticResource ChromeBrush}"
-                BorderBrush="{StaticResource AppBorderBrush}" BorderThickness="0,0,1,0">
+        <Border Grid.Column="0" Background="{StaticResource PanelBackground}"
+                BorderBrush="{StaticResource BorderDefault}" BorderThickness="0,0,1,0">
             <DockPanel>
-                <StackPanel DockPanel.Dock="Top" Margin="20,24,20,16">
-                    <Image Source="{Binding LogoPath}" Height="32" Stretch="Uniform" HorizontalAlignment="Left"/>
-                    <TextBlock Text="{Binding CompanyName}" FontWeight="SemiBold" Margin="0,12,0,0"/>
-                    <TextBlock Text="Enterprise" Style="{StaticResource MutedText}" FontSize="12"/>
+                <StackPanel DockPanel.Dock="Top" Margin="20,20,20,8">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{Binding LogoPath}" Width="20" Height="20" Stretch="Uniform"
+                               Visibility="{Binding HasLogo, Converter={StaticResource BoolToVis}}"/>
+                        <Border Width="20" Height="20" CornerRadius="4" Background="{StaticResource AccentColor}"
+                                Visibility="{Binding HasLogo, Converter={StaticResource BoolToVis}, ConverterParameter=Invert}">
+                            <TextBlock Text="TS" FontSize="8" FontWeight="SemiBold"
+                                       Foreground="{StaticResource WhiteBrush}"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <TextBlock Text="{Binding AppTitle}" FontSize="14" FontWeight="SemiBold"
+                                   VerticalAlignment="Center" Margin="8,0,0,0"/>
+                    </StackPanel>
+                    <TextBlock Text="{Binding CompanyName}" FontSize="10" Foreground="{StaticResource TextMuted}"
+                               Margin="0,6,0,0"
+                               Visibility="{Binding HasDistinctCompany, Converter={StaticResource BoolToVis}}"/>
                 </StackPanel>
 
-                <StackPanel DockPanel.Dock="Bottom" Margin="12,0,12,16">
-                    <TextBlock Text="{Binding UserName}" FontWeight="SemiBold" Margin="8,0,8,2"/>
-                    <TextBlock Text="{Binding UserEmail}" Style="{StaticResource MutedText}" FontSize="12" Margin="8,0,8,12"/>
-                    <Button Content="Sign out" Style="{StaticResource GhostButton}"
-                            Command="{Binding LogoutCommand}"/>
-                </StackPanel>
+                <Border DockPanel.Dock="Bottom" BorderBrush="{StaticResource BorderDefault}" BorderThickness="0,1,0,0" Padding="16">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="32" Height="32" CornerRadius="16" Background="{StaticResource AccentColor}">
+                                <TextBlock Text="{Binding UserInitials}" FontSize="11" FontWeight="SemiBold"
+                                           Foreground="{StaticResource WhiteBrush}"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding UserName}" FontSize="13" FontWeight="SemiBold"/>
+                                <TextBlock Text="{Binding UserEmail}" FontSize="11" Foreground="{StaticResource TextMuted}"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <Border BorderBrush="{StaticResource BorderDefault}" BorderThickness="1" CornerRadius="4"
+                                Padding="8,4" HorizontalAlignment="Left" Margin="0,8,0,0">
+                            <TextBlock Text="{Binding PlanDisplay}" FontSize="9" Foreground="{StaticResource TextMuted}"/>
+                        </Border>
+                        <Button Content="Sign out" Style="{StaticResource GhostButton}"
+                                FontSize="11" Foreground="{StaticResource TextMuted}"
+                                HorizontalAlignment="Left" Margin="0,8,0,0"
+                                Command="{Binding LogoutCommand}"/>
+                    </StackPanel>
+                </Border>
 
-                <StackPanel Margin="12,8">
-                    <Button Content="Dashboard" Style="{StaticResource NavButton}"
-                            Command="{Binding NavigateToCommand}" CommandParameter="Dashboard"/>
-                    <Button Content="Upload contract" Style="{StaticResource NavButton}"
-                            Command="{Binding NavigateToCommand}" CommandParameter="Upload"/>
-                    <Button Content="History" Style="{StaticResource NavButton}"
-                            Command="{Binding NavigateToCommand}" CommandParameter="History"/>
-                    <Button Content="Settings" Style="{StaticResource NavButton}"
-                            Command="{Binding NavigateToCommand}" CommandParameter="Settings"/>
-                </StackPanel>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,16,0,0">
+                    <StackPanel>
+                        <TextBlock Text="MAIN" Style="{StaticResource SectionLabel}"/>
+                        <Button Command="{Binding NavigateToCommand}" CommandParameter="Dashboard">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource NavItem}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsDashboardActive}" Value="True">
+                                            <Setter Property="Tag" Value="Active"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="▦" FontSize="14" Foreground="{StaticResource TextMuted}" Margin="0,0,10,0"/>
+                                <TextBlock Text="Dashboard" FontSize="13"/>
+                            </StackPanel>
+                        </Button>
+
+                        <TextBlock Text="CONTRACTS" Style="{StaticResource SectionLabel}" Margin="20,16,0,8"/>
+                        <Button Command="{Binding NavigateToCommand}" CommandParameter="Upload">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource NavItem}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsUploadActive}" Value="True">
+                                            <Setter Property="Tag" Value="Active"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="↑" FontSize="14" Foreground="{StaticResource TextMuted}" Margin="0,0,10,0"/>
+                                <TextBlock Grid.Column="1" Text="Upload contract" FontSize="13" VerticalAlignment="Center"/>
+                                <Border Grid.Column="2" Background="{StaticResource AccentColor}" CornerRadius="8" Padding="4,2">
+                                    <TextBlock Text="NEW" FontSize="9" FontWeight="SemiBold" Foreground="{StaticResource WhiteBrush}"/>
+                                </Border>
+                            </Grid>
+                        </Button>
+                        <Button Command="{Binding NavigateToCommand}" CommandParameter="History">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource NavItem}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsHistoryActive}" Value="True">
+                                            <Setter Property="Tag" Value="Active"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="☰" FontSize="14" Foreground="{StaticResource TextMuted}" Margin="0,0,10,0"/>
+                                <TextBlock Grid.Column="1" Text="Review history" FontSize="13" VerticalAlignment="Center"/>
+                                <Border Grid.Column="2" Background="{StaticResource BorderDefault}" CornerRadius="8" Padding="6,4">
+                                    <TextBlock Text="{Binding ReviewCount}" FontSize="10" Foreground="{StaticResource TextMuted}"/>
+                                </Border>
+                            </Grid>
+                        </Button>
+
+                        <TextBlock Text="ACCOUNT" Style="{StaticResource SectionLabel}" Margin="20,16,0,8"/>
+                        <Button Command="{Binding NavigateToCommand}" CommandParameter="Settings">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource NavItem}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsSettingsActive}" Value="True">
+                                            <Setter Property="Tag" Value="Active"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="⚙" FontSize="14" Foreground="{StaticResource TextMuted}" Margin="0,0,10,0"/>
+                                <TextBlock Text="Settings" FontSize="13"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </ScrollViewer>
             </DockPanel>
         </Border>
 
-        <ContentControl Grid.Column="1" Content="{Binding CurrentContent}" Margin="0"/>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="48"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0" Background="{StaticResource PageBackground}"
+                    BorderBrush="{StaticResource BorderDefault}" BorderThickness="0,0,0,1">
+                <DockPanel Margin="20,0">
+                    <Button DockPanel.Dock="Right" Content="Upload contract"
+                            Style="{StaticResource SmallPrimaryButton}"
+                            Command="{Binding NavigateToCommand}" CommandParameter="Upload"/>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="TrackSign" FontSize="12" Foreground="{StaticResource TextMuted}"/>
+                        <TextBlock Text=" / " FontSize="12" Foreground="{StaticResource TextDark}"/>
+                        <TextBlock Text="{Binding ActivePageName}" FontSize="12" FontWeight="SemiBold"/>
+                    </StackPanel>
+                </DockPanel>
+            </Border>
+
+            <ScrollViewer x:Name="ContentHost" Grid.Row="1" Padding="32" VerticalScrollBarVisibility="Auto">
+                <ContentControl Content="{Binding CurrentContent}"/>
+            </ScrollViewer>
+        </Grid>
     </Grid>
 </Window>

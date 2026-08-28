@@ -12,6 +12,11 @@
             <converters:BoolToVisibilityConverter x:Key="BoolToVis"/>
             <converters:SeverityToColorConverter x:Key="SeverityToColor"/>
             <converters:FileSizeConverter x:Key="FileSize"/>
+            <converters:NullOrEmptyToVisibilityConverter x:Key="NullOrEmptyToVis"/>
+            <converters:EqualityToVisibilityConverter x:Key="EqualsToVis"/>
+            <converters:GreaterThanToVisibilityConverter x:Key="GreaterThanToVis"/>
+            <converters:EqualsToVisibilityConverter x:Key="IntEqualsToVis"/>
+            <converters:LessThanToVisibilityConverter x:Key="LessThanToVis"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -1,5 +1,7 @@
 namespace TrackSign.ViewModels;
 
+using System.IO;
+using System.Windows.Media;
 using CommunityToolkit.Mvvm.Input;
 using TrackSign.Models;
 using TrackSign.Services;
@@ -14,6 +16,10 @@ public partial class ReportViewModel : BaseViewModel
 
     public Review? Report { get; private set; }
     public int RiskScore { get; private set; }
+    public int TotalFlags { get; private set; }
+    public List<FindingItem> Findings { get; private set; } = [];
+    public DoubleCollection RiskDashArray { get; private set; } = [0, 176];
+    public string RiskTone { get; private set; } = "low";
 
     public ReportViewModel(IApiClient api, INavigationService nav)
     {
@@ -32,9 +38,23 @@ public partial class ReportViewModel : BaseViewModel
 
             var score = 100 - (Report.FlagCounts.High * 15 + Report.FlagCounts.Medium * 8 + Report.FlagCounts.Low * 2);
             RiskScore = Math.Clamp(score, 0, 100);
+            TotalFlags = Report.FlagCounts.High + Report.FlagCounts.Medium + Report.FlagCounts.Low;
+            RiskTone = RiskScore >= 70 ? "low" : RiskScore >= 40 ? "medium" : "high";
+
+            const double circumference = 175.93;
+            var dash = RiskScore / 100.0 * circumference;
+            RiskDashArray = [dash, circumference];
+
+            Findings = Report.Findings
+                .Select((finding, index) => new FindingItem(finding, index == 0))
+                .ToList();
 
             OnPropertyChanged(nameof(Report));
             OnPropertyChanged(nameof(RiskScore));
+            OnPropertyChanged(nameof(TotalFlags));
+            OnPropertyChanged(nameof(Findings));
+            OnPropertyChanged(nameof(RiskDashArray));
+            OnPropertyChanged(nameof(RiskTone));
         }
         catch (Exception)
         {
@@ -60,7 +80,33 @@ public partial class ReportViewModel : BaseViewModel
             return;
         }
 
-        var text = $"TrackSign Report - {Report.Filename}\n\n";
+        System.Windows.Clipboard.SetText(BuildReportText());
+    }
+
+    [RelayCommand]
+    private void DownloadReport()
+    {
+        if (Report == null)
+        {
+            return;
+        }
+
+        var dialog = new Microsoft.Win32.SaveFileDialog
+        {
+            Filter = "Text files (*.txt)|*.txt",
+            FileName = Path.GetFileNameWithoutExtension(Report.Filename) + "-report.txt",
+            Title = "Download report"
+        };
+
+        if (dialog.ShowDialog() == true)
+        {
+            File.WriteAllText(dialog.FileName, BuildReportText());
+        }
+    }
+
+    private string BuildReportText()
+    {
+        var text = $"TrackSign Report - {Report!.Filename}\n\n";
         foreach (var f in Report.Findings)
         {
             text += $"[{f.Severity.ToUpperInvariant()}] {f.Category}\n";
@@ -68,8 +114,8 @@ public partial class ReportViewModel : BaseViewModel
             text += $"Why it matters: {f.Explanation}\n";
             text += $"Fairer version: {f.FairerVersion}\n\n";
         }
-        text += "This report does not constitute legal advice.";
 
-        System.Windows.Clipboard.SetText(text);
+        text += "TrackSign does not provide legal advice. This report flags terms worth reviewing with a qualified lawyer.";
+        return text;
     }
 }

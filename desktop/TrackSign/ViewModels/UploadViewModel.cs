@@ -21,12 +21,22 @@ public partial class UploadViewModel : BaseViewModel
             SetProperty(ref _selectedFilePath, value);
             OnPropertyChanged(nameof(SelectedFileName));
             OnPropertyChanged(nameof(HasSelectedFile));
+            OnPropertyChanged(nameof(SelectedFileSize));
+            OnPropertyChanged(nameof(ShowDropZone));
+            OnPropertyChanged(nameof(ShowFileCard));
             ReviewContractCommand.NotifyCanExecuteChanged();
         }
     }
 
     public string SelectedFileName => Path.GetFileName(_selectedFilePath ?? "");
     public bool HasSelectedFile => !string.IsNullOrEmpty(_selectedFilePath);
+    public long SelectedFileSize =>
+        string.IsNullOrEmpty(_selectedFilePath) || !File.Exists(_selectedFilePath)
+            ? 0
+            : new FileInfo(_selectedFilePath).Length;
+
+    public bool ShowDropZone => !IsScanning && !HasSelectedFile;
+    public bool ShowFileCard => HasSelectedFile && !IsScanning;
 
     private string _contractType = "Auto-detect (recommended)";
     public string ContractType
@@ -49,8 +59,24 @@ public partial class UploadViewModel : BaseViewModel
         set
         {
             SetProperty(ref _isScanning, value);
+            OnPropertyChanged(nameof(ShowDropZone));
+            OnPropertyChanged(nameof(ShowFileCard));
             ReviewContractCommand.NotifyCanExecuteChanged();
         }
+    }
+
+    private bool _isDragOver;
+    public bool IsDragOver
+    {
+        get => _isDragOver;
+        set => SetProperty(ref _isDragOver, value);
+    }
+
+    private int _scanStep;
+    public int ScanStep
+    {
+        get => _scanStep;
+        set => SetProperty(ref _scanStep, value);
     }
 
     /// <summary>Available contract types for the dropdown.</summary>
@@ -77,6 +103,23 @@ public partial class UploadViewModel : BaseViewModel
         _nav = nav;
     }
 
+    public void AcceptFile(string filePath)
+    {
+        if (string.IsNullOrWhiteSpace(filePath) || !File.Exists(filePath))
+        {
+            return;
+        }
+
+        if (!string.Equals(Path.GetExtension(filePath), ".pdf", StringComparison.OrdinalIgnoreCase))
+        {
+            ErrorMessage = "Only PDF files are supported.";
+            return;
+        }
+
+        ErrorMessage = null;
+        SelectedFilePath = filePath;
+    }
+
     [RelayCommand]
     private void BrowseFile()
     {
@@ -88,8 +131,15 @@ public partial class UploadViewModel : BaseViewModel
 
         if (dialog.ShowDialog() == true)
         {
-            SelectedFilePath = dialog.FileName;
+            AcceptFile(dialog.FileName);
         }
+    }
+
+    [RelayCommand]
+    private void RemoveFile()
+    {
+        SelectedFilePath = null;
+        ErrorMessage = null;
     }
 
     private bool CanReviewContract() => HasSelectedFile && !IsScanning;
@@ -107,19 +157,23 @@ public partial class UploadViewModel : BaseViewModel
 
         try
         {
+            ScanStep = 1;
             ScanningStatus = "Uploading file...";
             await Task.Delay(500);
 
+            ScanStep = 2;
             ScanningStatus = "Extracting text...";
-            await Task.Delay(300);
+            await Task.Delay(400);
 
+            ScanStep = 3;
             ScanningStatus = "Analyzing clauses...";
 
             var apiType = MapContractType(_contractType);
             var review = await _api.UploadAndReviewAsync(_selectedFilePath, apiType);
 
-            ScanningStatus = "Review complete.";
-            await Task.Delay(500);
+            ScanStep = 4;
+            ScanningStatus = "Generating report...";
+            await Task.Delay(400);
 
             ReviewCompleted?.Invoke(review.ReviewId);
             _nav.NavigateTo("Report", review.ReviewId);
@@ -139,6 +193,7 @@ public partial class UploadViewModel : BaseViewModel
         finally
         {
             IsScanning = false;
+            ScanStep = 0;
             ScanningStatus = "";
         }
     }

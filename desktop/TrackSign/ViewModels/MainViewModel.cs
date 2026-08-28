@@ -18,13 +18,74 @@ public partial class MainViewModel : BaseViewModel
     public string ActiveView
     {
         get => _activeView;
-        set => SetProperty(ref _activeView, value);
+        set
+        {
+            SetProperty(ref _activeView, value);
+            OnPropertyChanged(nameof(ActivePageName));
+            OnPropertyChanged(nameof(IsDashboardActive));
+            OnPropertyChanged(nameof(IsUploadActive));
+            OnPropertyChanged(nameof(IsHistoryActive));
+            OnPropertyChanged(nameof(IsSettingsActive));
+            OnPropertyChanged(nameof(IsReportActive));
+        }
     }
+
+    public string ActivePageName => ActiveView switch
+    {
+        "Upload" => "Upload contract",
+        "Report" => "Report",
+        "History" => "Review history",
+        "Settings" => "Settings",
+        _ => "Dashboard"
+    };
+
+    public bool IsDashboardActive => ActiveView is "Dashboard";
+    public bool IsUploadActive => ActiveView is "Upload";
+    public bool IsHistoryActive => ActiveView is "History";
+    public bool IsSettingsActive => ActiveView is "Settings";
+    public bool IsReportActive => ActiveView is "Report";
 
     public string UserName => _auth.CurrentUser?.Name ?? "User";
     public string UserEmail => _auth.CurrentUser?.Email ?? "";
     public string CompanyName => _branding.Config.CompanyName;
     public string AppTitle => _branding.Config.AppTitle;
+    public string PlanDisplay
+    {
+        get
+        {
+            var plan = _auth.CurrentUser?.Plan ?? "enterprise";
+            return string.IsNullOrWhiteSpace(plan)
+                ? "Enterprise"
+                : char.ToUpperInvariant(plan[0]) + plan[1..];
+        }
+    }
+
+    public string UserInitials
+    {
+        get
+        {
+            var name = UserName.Trim();
+            var parts = name.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length >= 2)
+            {
+                return $"{char.ToUpperInvariant(parts[0][0])}{char.ToUpperInvariant(parts[1][0])}";
+            }
+
+            return name.Length >= 2 ? name[..2].ToUpperInvariant() : name.ToUpperInvariant();
+        }
+    }
+
+    public bool HasDistinctCompany =>
+        !string.Equals(CompanyName, AppTitle, StringComparison.OrdinalIgnoreCase);
+
+    public bool HasLogo => File.Exists(LogoPath);
+
+    private int _reviewCount;
+    public int ReviewCount
+    {
+        get => _reviewCount;
+        private set => SetProperty(ref _reviewCount, value);
+    }
     public string LogoPath
     {
         get
@@ -101,10 +162,12 @@ public partial class MainViewModel : BaseViewModel
         if (viewName == "Dashboard")
         {
             await Dashboard.LoadDataAsync();
+            ReviewCount = Dashboard.TotalReviews;
         }
         else if (viewName == "History")
         {
             await History.LoadHistoryAsync();
+            ReviewCount = History.AllReviews.Count;
         }
         else if (viewName == "Report" && parameter is string reviewId && !string.IsNullOrWhiteSpace(reviewId))
         {

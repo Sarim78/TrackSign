@@ -1,36 +1,94 @@
 <UserControl x:Class="TrackSign.Views.HistoryView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <DockPanel Margin="32">
-        <StackPanel DockPanel.Dock="Top">
-            <TextBlock Text="Review history" Style="{StaticResource PageTitle}"/>
-            <TextBlock Text="Open a past review or filter by risk and date."
-                       Style="{StaticResource MutedText}" Margin="0,6,0,16"/>
+    <StackPanel>
+        <TextBlock Text="Review history" Style="{StaticResource PageTitle}"/>
+        <TextBlock Text="All your reviewed contracts in one place." Style="{StaticResource PageSubtitle}"/>
 
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
-                <Button Content="All" Style="{StaticResource GhostButton}" Margin="0,0,8,0"
-                        Command="{Binding SetFilterCommand}" CommandParameter="All"/>
-                <Button Content="High risk" Style="{StaticResource GhostButton}" Margin="0,0,8,0"
-                        Command="{Binding SetFilterCommand}" CommandParameter="High risk"/>
-                <Button Content="This month" Style="{StaticResource GhostButton}"
-                        Command="{Binding SetFilterCommand}" CommandParameter="This month"/>
+        <TextBlock Text="{Binding ErrorMessage}" FontSize="12" Foreground="{StaticResource ErrorColor}"
+                   Margin="0,0,0,16"
+                   Visibility="{Binding ErrorMessage, Converter={StaticResource NullOrEmptyToVis}}"/>
+
+        <DockPanel Margin="0,0,0,20">
+            <Grid DockPanel.Dock="Right" Width="280">
+                <TextBox Style="{StaticResource DarkTextBox}"
+                         Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock Text="Search contracts..." FontSize="13" Foreground="{StaticResource TextMuted}"
+                           Margin="12,8,0,0" IsHitTestVisible="False"
+                           Visibility="{Binding SearchQuery, Converter={StaticResource NullOrEmptyToVis}, ConverterParameter=Invert}"/>
+            </Grid>
+            <StackPanel Orientation="Horizontal">
+                <Button Content="All" Command="{Binding SetFilterCommand}" CommandParameter="All">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource FilterPill}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsAllFilter}" Value="True">
+                                    <Setter Property="Tag" Value="Active"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Content="High risk" Command="{Binding SetFilterCommand}" CommandParameter="High risk" Margin="4,0,0,0">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource FilterPill}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsHighFilter}" Value="True">
+                                    <Setter Property="Tag" Value="Active"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Content="This month" Command="{Binding SetFilterCommand}" CommandParameter="This month" Margin="4,0,0,0">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource FilterPill}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsMonthFilter}" Value="True">
+                                    <Setter Property="Tag" Value="Active"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
             </StackPanel>
+        </DockPanel>
 
-            <TextBlock Text="{Binding ErrorMessage}" Foreground="{StaticResource HighSeverityBrush}" Margin="0,0,0,12"/>
-        </StackPanel>
+        <ItemsControl ItemsSource="{Binding PagedReviews}"
+                      Visibility="{Binding HasPagedReviews, Converter={StaticResource BoolToVis}}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button Style="{StaticResource LinkCardButton}"
+                            Command="{Binding DataContext.OpenReviewCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            CommandParameter="{Binding ReviewId}">
+                        <ContentPresenter Content="{Binding}"/>
+                    </Button>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
 
-        <ScrollViewer>
-            <ItemsControl ItemsSource="{Binding FilteredReviews}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Button Style="{StaticResource LinkCardButton}"
-                                Command="{Binding DataContext.OpenReviewCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                CommandParameter="{Binding ReviewId}">
-                            <ContentPresenter Content="{Binding}"/>
-                        </Button>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
-    </DockPanel>
+        <Border Style="{StaticResource Card}" Padding="48"
+                Visibility="{Binding HasReviews, Converter={StaticResource BoolToVis}, ConverterParameter=Invert}">
+            <StackPanel HorizontalAlignment="Center">
+                <TextBlock Text="No contracts reviewed yet" FontSize="14" Foreground="{StaticResource TextSecondary}"
+                           HorizontalAlignment="Center"/>
+                <TextBlock Text="Upload your first contract to get started" FontSize="12"
+                           Foreground="{StaticResource TextMuted}" HorizontalAlignment="Center" Margin="0,8,0,16"/>
+                <Button Content="Upload contract" Style="{StaticResource PrimaryButton}"
+                        Command="{Binding StartUploadCommand}" HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+
+        <DockPanel Margin="0,16,0,0"
+                   Visibility="{Binding ShowPagination, Converter={StaticResource BoolToVis}}">
+            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                <Button Content="Previous" Style="{StaticResource GhostButton}" Command="{Binding PreviousPageCommand}"
+                        IsEnabled="{Binding CanGoPrevious}"/>
+                <Button Content="Next" Style="{StaticResource GhostButton}" Command="{Binding NextPageCommand}"
+                        IsEnabled="{Binding CanGoNext}"/>
+            </StackPanel>
+            <TextBlock Text="{Binding ShowingText}" FontSize="11" Foreground="{StaticResource TextMuted}"
+                       VerticalAlignment="Center"/>
+        </DockPanel>
+    </StackPanel>
 </UserControl>

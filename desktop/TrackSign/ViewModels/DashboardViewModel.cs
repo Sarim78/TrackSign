@@ -17,7 +17,10 @@ public partial class DashboardViewModel : BaseViewModel
     public int TotalReviews { get; private set; }
     public int HighRiskFlags { get; private set; }
     public int ContractsThisMonth { get; private set; }
+    public string AverageRiskDisplay { get; private set; } = "N/A";
+    public bool HasRiskScore { get; private set; }
     public List<Review> RecentReviews { get; private set; } = [];
+    public bool HasRecentReviews => RecentReviews.Count > 0;
 
     public DashboardViewModel(IApiClient api, IAuthService auth, INavigationService nav)
     {
@@ -40,12 +43,28 @@ public partial class DashboardViewModel : BaseViewModel
             var thisMonth = DateTime.UtcNow.ToString("yyyy-MM");
             ContractsThisMonth = reviews.Count(r => r.CreatedAt.StartsWith(thisMonth));
 
+            if (reviews.Count == 0)
+            {
+                AverageRiskDisplay = "N/A";
+                HasRiskScore = false;
+            }
+            else
+            {
+                var avg = (int)reviews.Average(r =>
+                    Math.Clamp(100 - (r.FlagCounts.High * 15 + r.FlagCounts.Medium * 8 + r.FlagCounts.Low * 2), 0, 100));
+                AverageRiskDisplay = avg.ToString();
+                HasRiskScore = true;
+            }
+
             RecentReviews = reviews.Take(5).ToList();
 
             OnPropertyChanged(nameof(TotalReviews));
             OnPropertyChanged(nameof(HighRiskFlags));
             OnPropertyChanged(nameof(ContractsThisMonth));
+            OnPropertyChanged(nameof(AverageRiskDisplay));
+            OnPropertyChanged(nameof(HasRiskScore));
             OnPropertyChanged(nameof(RecentReviews));
+            OnPropertyChanged(nameof(HasRecentReviews));
         }
         catch (Exception)
         {
@@ -67,5 +86,11 @@ public partial class DashboardViewModel : BaseViewModel
     private void StartUpload()
     {
         _nav.NavigateTo("Upload");
+    }
+
+    [RelayCommand]
+    private void ViewHistory()
+    {
+        _nav.NavigateTo("History");
     }
 }
